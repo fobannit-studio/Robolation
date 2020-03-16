@@ -1,5 +1,5 @@
 using System;
-namespace Simulation.Common{
+namespace Simulation.Utils{
  
     [Serializable()]
     public class ContainerIsFullException : System.Exception

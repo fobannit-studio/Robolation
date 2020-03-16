@@ -1,23 +1,27 @@
 using System.Collections.Generic;
 using System;
 using Simulation.Common;
+using UnityEngine;
 
 namespace Simulation.World
 {
     public class Medium
     {
-        private static int radioId = 0; 
-        private Dictionary<int, Action<Frame>> _registeredRadios = new Dictionary<int,Action<Frame>>();
+        private static int freeMac = 0; 
+        private Dictionary<int, (Action<Frame> radio, Func<Vector2> gps)> _macTable = new Dictionary<int,(Action<Frame>, Func<Vector2>)>();
 
-        public void Transmit(int radio, Frame message)
+        public void Transmit(int mac, Frame message)
         {
-            this._registeredRadios[radio](message);
+            this._macTable[mac].radio(message);
         }
 
-        public void RegisterRadio(Action<Frame> radio)
+        // Assigns MAC-address to radio and register it in mac table
+        public int RegisterRadio(Action<Frame> radio, Func<Vector2> gps)
         {   
-            _registeredRadios.Add(Medium.radioId, radio);
-            Medium.radioId += 1;
+            int macAddress = Medium.freeMac; 
+            Medium.freeMac += 1;
+            _macTable.Add(macAddress, (radio, gps));
+            return macAddress;
         }
         
     }
