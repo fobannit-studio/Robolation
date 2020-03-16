@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Simulation.Common
 {
     // Structures describes a material type. 
-    struct BuildingMaterial
+    public struct BuildingMaterial
     {
         public readonly string Type;
         public readonly (int x, int y, int z)  Dimensions;
