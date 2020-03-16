@@ -7,7 +7,7 @@ namespace Simulation.Roles
     {
         public override void ReceiveFrame(Frame message)
         {
-            bool isForMe = message.destinationRole is DestinationRole.Operator || message.destinationRole is DestinationRole.Broadcast;
+            bool isForMe = message.destinationRole is DestinationRole.Transporter || message.destinationRole is DestinationRole.Broadcast;
             if (isForMe)
             {
                 Debug.Log($"{this.GetType().Name} received message {message}");

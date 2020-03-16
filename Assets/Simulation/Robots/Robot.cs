@@ -12,7 +12,7 @@ namespace Simulation.Robots
         protected Vector2 position;
         protected readonly Action<int, Frame> SendFrame;
         // Array of subscribed MAC-addresses
-        protected int macAddress;
+        public int macAddress;
         protected int battery;
         protected float durability;
         protected int workingTime;
@@ -26,8 +26,9 @@ namespace Simulation.Robots
         public Robot(Vector2 position,ref Medium ether)
         {
             this.position = position; 
-            macAddress = ether.RegisterRadio(this.Role.ReceiveFrame, () => this.position);
+            macAddress = ether.RegisterRadio(this.Role.ReceiveFrame);
             SendFrame = ether.Transmit;
+            // this.FindOperator();
         }
                 
         public void NotifySubscribers(Frame message)
@@ -37,5 +38,17 @@ namespace Simulation.Robots
                 SendFrame(subscriber, message);   
             }
         }
+        // public void FindOperator()
+        // {
+        //     Frame findOperatorFrame = new Frame(
+        //         TransmissionType.Broadcast,
+        //         DestinationRole.Operator,
+        //         MessageType.Request,
+        //         Message.Subscribe,
+        //         this.macAddress,
+        //         this.position
+        //     );
+        //     SendFrame(-1, findOperatorFrame);
+        // }
     }
 }

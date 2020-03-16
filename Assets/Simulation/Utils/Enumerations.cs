@@ -30,7 +30,8 @@ namespace Simulation.Utils
     public enum Message
     {
         BringMaterial,
-        StopWork
+        StopWork,
+        Subscribe
     }
 
 }
