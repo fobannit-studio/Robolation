@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Text;
-
+using Simulation.Utils;
 namespace Simulation.Common
 {
     class Container
     {
         private ConcurrentDictionary<string, int> materialsInContainer = new ConcurrentDictionary<string, int>();
-        private int freeSpace;
-        public int FreeSpace
+        private float freeSpace;
+        public float Weight; 
+        public float FreeSpace
         {
             get
             {
@@ -33,7 +34,8 @@ namespace Simulation.Common
         // Throws exception if container is full
         public void put(BuildingMaterial material, int amount)
         {
-            FreeSpace -= material.Size * amount;
+            FreeSpace -= material.Volume * amount;
+            Weight += material.Weight * amount;
             if (!materialsInContainer.TryAdd(material.Type, amount))
             {
                 materialsInContainer[material.Type] += amount;
@@ -46,7 +48,8 @@ namespace Simulation.Common
             {
                 returnedAmount = amountInContainer > requestedAmount ? requestedAmount : amountInContainer;
                 materialsInContainer[material.Type] -= returnedAmount;
-                FreeSpace += material.Size * returnedAmount;
+                Weight -= material.Weight * returnedAmount;
+                FreeSpace += material.Volume * returnedAmount;
             }
             else
             {
@@ -60,8 +63,9 @@ namespace Simulation.Common
             StringBuilder sb = new StringBuilder();
             foreach (KeyValuePair<string, int> material in materialsInContainer)
             {
-                sb.AppendFormat(material.ToString());
+                sb.Append(material.ToString());
             }
+            sb.Append($"\nFree space: {FreeSpace}\nWeight: {Weight}\n");
             return sb.ToString();
         }
     }
