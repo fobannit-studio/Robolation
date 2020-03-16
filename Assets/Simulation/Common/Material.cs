@@ -1,24 +1,21 @@
+using System;
 using UnityEngine;
 namespace Simulation.Common
 {
-    struct Material{
-        public Vector3 Dimensions;
-        public int Weight;
-        public string Type;
-
-        Material(Vector3 dim, int weight, string type){
-            Weight = weight;
-            Dimensions = dim;
+    // Structures describes a material type. 
+    struct BuildingMaterial
+    {
+        public readonly string Type;
+        public readonly (int x, int y, int z)  Dimensions;
+        public readonly int Weight;
+        public readonly int Size;
+        public BuildingMaterial(string type, (int x, int y, int z) dimensions, int weight)
+        {
             Type = type;
-
+            Dimensions = dimensions;
+            Size = dimensions.x * dimensions.y * dimensions.z;
+            Weight = weight;
         }
-
-        public float Size{
-            get{
-                return Dimensions.x * Dimensions.y * Dimensions.z;
-            }
-        }
-
-
     }
+
 }

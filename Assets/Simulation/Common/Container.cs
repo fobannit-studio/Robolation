@@ -1,63 +1,69 @@
 using System.Collections.Generic;
-namespace Simulation.Common{
-    // class Container
-    // {
-    //     private Dictionary<string, int> _materials = new Dictionary<string, int>();
-    //     private int _freePlace;
+using System.Collections.Concurrent;
+using System.Text;
 
-    //     Container(int freePlace)
-    //     {
-    //         _freePlace = freePlace;
-    //     } 
-    //     public float FreePlace
-    //     {
-    //         get
-    //         {
-    //             return _freePlace;
-    //         }
-    //         set
-    //         {
-    //             if(value > 0){
-    //                 _freePlace = value;
-    //             }
-    //             else
-    //             {
-    //                 throw new ContainerIsFullException();
-    //             }
-    //         }
-    //     }
- 
-    //     public void putMaterial(Material material, int amount)
-    //     {
-    //         FreePlace -= material.Size * amount;
-    //         if(!_materials.TryAdd(material.type, amount)){
-    //             materials[material.type] += amount;
-    //         }
-    //     }
-        
-    //     // Will be improved.
-    //     public Material getMaterial(string type, int requestedAmount, out int returnedAmount)
-    //     {
-    //         int amountInContainer;
-    //         if(this._materials.TryGetValue(type, out amountInContainer))
-    //         {
-    //             if(amountInContainer > requestedAmount)
-    //             {
-    //                 this._materials[type] -= requestedAmount;
-    //                 returnedAmount = requestedAmount;
-    //             }
-    //             else
-    //             {
-    //                 returnedAmount = this._materials[type];  
-    //                 this._materials[type] = 0;
-    //             }
-    //             // Will be replaced
-    //             Vector3 dim = new Vector3(1,1,1);
-    //             Material returnedMaterial = new Material(type, dim,requestedAmount);
-    //             FreePlace += dim * returnedAmount;
-    //             return returnedMaterial;
-    //         }
-    //         return null;
-    //     }
-    // }
+namespace Simulation.Common
+{
+    class Container
+    {
+        private ConcurrentDictionary<string, int> materialsInContainer = new ConcurrentDictionary<string, int>();
+        private int freeSpace;
+        public int FreeSpace
+        {
+            get
+            {
+                return freeSpace;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    freeSpace = value;
+                }
+                else
+                {
+                    throw new ContainerIsFullException();
+                }
+            }
+        }
+        public Container(int freeSpace)
+        {
+            this.freeSpace = freeSpace;
+        }
+        // Throws exception if container is full
+        public void put(BuildingMaterial material, int amount)
+        {
+            FreeSpace -= material.Size * amount;
+            if (!materialsInContainer.TryAdd(material.Type, amount))
+            {
+                materialsInContainer[material.Type] += amount;
+            }
+        }
+        public int get(BuildingMaterial material, int requestedAmount)
+        {
+            int returnedAmount = 0;
+            if (materialsInContainer.TryGetValue(material.Type, out int amountInContainer))
+            {
+                returnedAmount = amountInContainer > requestedAmount ? requestedAmount : amountInContainer;
+                materialsInContainer[material.Type] -= returnedAmount;
+                FreeSpace += material.Size * returnedAmount;
+            }
+            else
+            {
+                throw new NoMaterialInContainerException();
+            }
+            return returnedAmount;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (KeyValuePair<string, int> material in materialsInContainer)
+            {
+                sb.AppendFormat(material.ToString());
+            }
+            return sb.ToString();
+        }
+    }
+
 }
