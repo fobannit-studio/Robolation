@@ -28,7 +28,7 @@ namespace Simulation.World
         {
             foreach (KeyValuePair<int, Action<Frame, Vector2>> receiver in macTable)
             {
-                if (receiver.Key != message.destMac)
+                if (receiver.Key != message.srcMac)
                 {
                     receiver.Value(message, senderPosition);
 
