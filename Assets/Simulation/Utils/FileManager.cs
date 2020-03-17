@@ -20,10 +20,10 @@ namespace Simulation.Utils
                     var mat = File.ReadAllText(file);
                     var separated = mat.Split(',');
                     var type = Path.GetFileName(file) ;
-                    var x = int.Parse(separated[0]);
-                    var y = int.Parse(separated[1]);
-                    var z = int.Parse(separated[2]);
-                    var weight = int.Parse(separated[3]);
+                    var x = float.Parse(separated[0]);
+                    var y = float.Parse(separated[1]);
+                    var z = float.Parse(separated[2]);
+                    var weight = float.Parse(separated[3]);
 
                     materials.Add(new BuildingMaterial(type, (x, y, z), weight));
                 }

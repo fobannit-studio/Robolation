@@ -74,17 +74,17 @@ namespace Simulation.UI
             buttons = new List<GameObject>();
             AddAviableMats();
         }
-        public void ResizeCube((int x,int y,int z) Dimensions)
+        public void ResizeCube((float x, float y, float z) Dimensions)
         {
             SampleCube.transform.localScale = new Vector3(Dimensions.x, Dimensions.y, Dimensions.z);
         }
-        bool Parsed(out  (int x,int y,int z) Dimensions,out int Oweight)
+        bool Parsed(out  (float x, float y, float z) Dimensions,out float Oweight)
         {
             string type = Type.text;
-            int x, y, z, weight;
+            float x, y, z, weight;
             Dimensions = (0, 0, 0);
             Oweight = 0;
-            bool success= int.TryParse(X.text, out x);
+            bool success= float.TryParse(X.text, out x);
 
             if (!success)
             {
@@ -92,21 +92,21 @@ namespace Simulation.UI
                 return false;
             }
 
-            success = int.TryParse(Y.text, out y);
+            success = float.TryParse(Y.text, out y);
 
             if (!success)
             {
                 Y.text = "";
                 return false;
             }
-            success = int.TryParse(Z.text, out z);
+            success = float.TryParse(Z.text, out z);
 
             if (!success)
             {
                 Z.text = "";
                 return false;
             }
-            success = int.TryParse(Weight.text, out weight);
+            success = float.TryParse(Weight.text, out weight);
 
             if (!success)
             {
@@ -122,9 +122,9 @@ namespace Simulation.UI
         }
         public void SaveClicked()
         {
-           
-            int weight;
-            var Dimensions = (0, 0, 0);
+
+            float weight;
+            var Dimensions = (0f, 0f, 0f);
             if (Parsed(out Dimensions,out weight))
             {
                 materials[editing] = new BuildingMaterial(Type.text, Dimensions, weight);
@@ -157,8 +157,8 @@ namespace Simulation.UI
         }
         void Update()
         {
-            var Dimensions = (0, 0, 0);
-            int weight = 0;
+            var Dimensions = (0f, 0f, 0f);
+            float weight = 0;
             if (Parsed(out Dimensions, out weight))
                 ResizeCube(Dimensions);
         }
