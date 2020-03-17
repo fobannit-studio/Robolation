@@ -12,6 +12,7 @@ namespace Simulation.Roles
         public Role(Robot robot)
         {
             attributedRobot = robot;
+            attributedRobot.role = this;
         }
         protected abstract DestinationRole IReceive
         {

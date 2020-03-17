@@ -7,6 +7,8 @@ using Simulation.Roles;
 using Simulation.Utils;
 namespace Simulation.Robots
 {
+    // Physical description of robot, that have params
+    // such as workingArea, battery, etc.
     abstract class Robot
     {
         protected float radioRange;
@@ -21,26 +23,35 @@ namespace Simulation.Robots
         // Array of subscribed MAC-addresses
         public List<int> Subscribers = new List<int>();
 
-        public abstract Role role{
-            get; 
+        public Role role{
+            get;
+            set;
         }
         // Every robot on creation should register himself 
         // in ether.
         public Robot(Vector2 positionInWorld, float radioRange, ref Medium ether)
         {
-            this.radioRange = radioRange;
-            maxSubscribersNumber = 1;
             batteryLevel = 1.0F;
             position = positionInWorld; 
+
+            // Move to radio class definition.
+            maxSubscribersNumber = 1;
+            this.radioRange = radioRange;
             macAddress = ether.RegisterRadio(ReceiveFrame);
             SendFrame = ether.Transmit;
         }
-        
+        // Move to radio 
+        // Answer the question if this robot's radio can receive a 
+        // message at this moment
+        protected bool couldReceive()
+        {
+            return !System.Object.ReferenceEquals(role,null) && batteryLevel > 0.1; 
+        }
         // In this method will be handled such conditions as robot battery level, 
         // radio condition, etc/
         public void ReceiveFrame(Frame frame)
         {
-            if(batteryLevel > 0.1 && frame.srcMac != macAddress)
+            if(couldReceive() && frame.srcMac != this.macAddress)
             {
                 Debug.Log($"{this.GetType().Name} radio received Frame.");
                 role.ReceiveFrame(frame);
