@@ -23,15 +23,19 @@ namespace Simulation.World
             }
         }
 
-        public void Broadcast(Frame message)
+        private void Broadcast(Frame message)
         {
             foreach (KeyValuePair<int, Action<Frame>> receiver in macTable)
             {
-                receiver.Value(message);
+                if (receiver.Key != message.destMac)
+                {
+                    receiver.Value(message);
+
+                }
             }
 
         }
-        
+
         // Assigns MAC-address to radio and register it in mac table
         public int RegisterRadio(Action<Frame> radio)
         {

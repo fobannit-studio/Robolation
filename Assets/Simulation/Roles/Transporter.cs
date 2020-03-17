@@ -6,7 +6,7 @@ namespace Simulation.Roles
 {
     class Transporter : Role
     {
-        public Transporter(Robot robot): base(robot)
+        public Transporter(Robot robot): base(ref robot)
         {
             robot.FindOperator();
         }

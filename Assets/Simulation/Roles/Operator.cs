@@ -4,13 +4,13 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Roles{
     class Operator: Role{
-        public Operator(int maxSubscribersNumber, Robot robot): base(robot)
+        public Operator(int maxListenersNumber,Robot robot): base( ref robot)
         {
-            robot.maxSubscribersNumber = maxSubscribersNumber;
+            robot.radio.maxListenersNumber = maxListenersNumber;
         }    
-        public Operator(Robot robot): base(robot)
+        public Operator(Robot robot): base(ref robot)
         {
-            robot.maxSubscribersNumber = 5;
+            robot.radio.maxListenersNumber = 5;
         }    
         protected override DestinationRole IReceive
         {
@@ -27,7 +27,7 @@ namespace Simulation.Roles{
         {
             if (message.message is Message.Subscribe)
             {
-                attributedRobot.addSubscriber(message.srcMac, message.payload.Item1, message.payload.Item2);
+                attributedRobot.radio.AddListener(message.srcMac);
             }
         }
         public void SendAllTransportToPosition((float x, float y) position)
@@ -37,10 +37,10 @@ namespace Simulation.Roles{
                 DestinationRole.Transporter,
                 MessageType.Service,
                 Message.MoveTo,
-                attributedRobot.macAddress,
+                attributedRobot.radio.macAddress,
                 position
             );
-            attributedRobot.NotifySubscribers(toSend);
+            attributedRobot.radio.NotifySubscribers(toSend);
         }
     }
 }

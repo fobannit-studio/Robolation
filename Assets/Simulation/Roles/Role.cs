@@ -4,15 +4,22 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Roles
 {
-    abstract class Role
+    abstract class Role: IReceiver
     {
         // Robot to which this role is assigned.
         protected Robot attributedRobot;
+        public Vector2 Position
+        {
+            get
+            {
+                return attributedRobot.Position;
+            }
+        }
 
-        public Role(Robot robot)
+        public Role(ref Robot robot)
         {
             attributedRobot = robot;
-            attributedRobot.role = this;
+            attributedRobot.radio.controller = this;
         }
         protected abstract DestinationRole IReceive
         {
@@ -23,7 +30,7 @@ namespace Simulation.Roles
             return message.destinationRole == IReceive || message.destinationRole is DestinationRole.NoMatter;
         }
 
-        public void ReceiveFrame(Frame message)
+        public void HandleFrame(Frame message)
         {
             if (isForMe(message))
             {

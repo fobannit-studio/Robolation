@@ -74,6 +74,31 @@ namespace Simulation.Common
             : this(transmissionType, destinationRole, messageType, message, srcMac, -1, (payload, 0, 0))
         { }
 
+        // Constructors with -1 srcMac. 
+        public Frame(TransmissionType transmissionType,
+            DestinationRole destinationRole,
+            MessageType messageType,
+            Message message,
+            float payload)
+            : this(transmissionType, destinationRole, messageType, message, -1, -1, (payload, 0, 0))
+        { }
+
+        public Frame(TransmissionType transmissionType,
+        DestinationRole destinationRole,
+        MessageType messageType,
+        Message message,
+        (float first, float second) payload)
+        : this(transmissionType, destinationRole, messageType, message, -1, -1, (payload.first, payload.second, 0))
+        { }
+        public Frame(TransmissionType transmissionType,
+             DestinationRole destinationRole,
+             MessageType messageType,
+             Message message,
+             (float, float, float) payload)
+             //  -1 passed as dest MAC because MAC assigment in ether starts from 0, so -1 is impossible value
+             : this(transmissionType, destinationRole, messageType, message, -1, -1, payload)
+        { }
+
 
         public override string ToString()
         {

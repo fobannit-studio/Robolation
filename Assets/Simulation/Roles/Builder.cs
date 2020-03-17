@@ -6,7 +6,7 @@ namespace Simulation.Roles
 {
     class Builder : Role
     {
-        public Builder(Robot robot): base(robot)
+        public Builder(Robot robot): base(ref robot)
         {
             robot.FindOperator();
         }
