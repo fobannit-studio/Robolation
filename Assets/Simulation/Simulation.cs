@@ -26,12 +26,12 @@ namespace Simulation
             Spot r3 = new Spot(veryClose, ref ether);
             Frame message = new Frame(
                 TransmissionType.Unicast,
-                DestinationRole.Broadcast,
+                DestinationRole.NoMatter,
                 MessageType.Request,
                 Message.StopWork,
                 1, 1, 1);
-            ether.Transmit(1, message);
-            ether.Transmit(0, message);
+            ether.Transmit(message);
+            ether.Transmit(message);
             Debug.Log("Done ");
 
             // Create test later

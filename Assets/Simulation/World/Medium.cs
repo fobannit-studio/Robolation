@@ -11,26 +11,27 @@ namespace Simulation.World
         private static int freeMac = 0;
         private Dictionary<int, Action<Frame>> macTable = new Dictionary<int, Action<Frame>>();
 
-        public void Transmit(int mac, Frame message)
+        public void Transmit(Frame message)
         {
             if (message.transmissionType is TransmissionType.Unicast)
             {
-                this.macTable[mac](message);
+                macTable[message.destMac](message);
             }
             else if (message.transmissionType is TransmissionType.Broadcast)
             {
-                this.broadcast(message);
+                Broadcast(message);
             }
         }
 
-        public void broadcast(Frame message)
+        public void Broadcast(Frame message)
         {
-            foreach (var radio in macTable)
+            foreach (KeyValuePair<int, Action<Frame>> receiver in macTable)
             {
-                radio.Value(message);
+                receiver.Value(message);
             }
 
         }
+        
         // Assigns MAC-address to radio and register it in mac table
         public int RegisterRadio(Action<Frame> radio)
         {

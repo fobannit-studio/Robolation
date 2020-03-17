@@ -6,7 +6,7 @@ namespace Simulation.Common
     {
         // Check Utils.Enumerations for enum meaning
         public int srcMac, destMac;
-        public dynamic payload;
+        public (float, float, float) payload;
         public TransmissionType transmissionType;
         public DestinationRole destinationRole;
         public MessageType messageType;
@@ -18,7 +18,7 @@ namespace Simulation.Common
                      Message message,
                      int srcMac,
                      int destMac,
-                     int payload)
+                     (float, float, float) payload)
         {
 
             this.transmissionType = transmissionType;
@@ -35,28 +35,45 @@ namespace Simulation.Common
                      MessageType messageType,
                      Message message,
                      int srcMac,
-                     int payload)
+                     (float, float, float) payload)
                      //  -1 passed as dest MAC because MAC assigment in ether starts from 0, so -1 is impossible value
                      : this(transmissionType, destinationRole, messageType, message, srcMac, -1, payload)
         { }
-
         public Frame(TransmissionType transmissionType,
-                     DestinationRole destinationRole,
-                     MessageType messageType,
-                     Message message,
-                     int srcMac,
-                     Vector2 payload)
-        {
-            this.payload = payload;
-            this.transmissionType = transmissionType;
-            this.destinationRole = destinationRole;
-            this.messageType = messageType;
-            this.message = message;
-            this.srcMac = srcMac;
-            // to fix
-            this.destMac = -1;
-            this.payload = payload;
-        }
+                    DestinationRole destinationRole,
+                    MessageType messageType,
+                    Message message,
+                    int srcMac,
+                    int destMac,
+                    (float first, float second) payload)
+                    : this(transmissionType, destinationRole, messageType, message, srcMac, destMac, (payload.first, payload.second, 0))
+        { }
+        public Frame(TransmissionType transmissionType,
+                DestinationRole destinationRole,
+                MessageType messageType,
+                Message message,
+                int srcMac,
+                (float first, float second) payload)
+                : this(transmissionType, destinationRole, messageType, message, srcMac, -1, (payload.first, payload.second, 0))
+        { }
+        public Frame(TransmissionType transmissionType,
+                    DestinationRole destinationRole,
+                    MessageType messageType,
+                    Message message,
+                    int srcMac,
+                    int destMac,
+                    float payload)
+                    : this(transmissionType, destinationRole, messageType, message, srcMac, destMac, (payload, 0, 0))
+        { }
+        public Frame(TransmissionType transmissionType,
+            DestinationRole destinationRole,
+            MessageType messageType,
+            Message message,
+            int srcMac,
+            float payload)
+            : this(transmissionType, destinationRole, messageType, message, srcMac, -1, (payload, 0, 0))
+        { }
+
 
         public override string ToString()
         {

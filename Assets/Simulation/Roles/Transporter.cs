@@ -5,13 +5,20 @@ namespace Simulation.Roles
 {
     class Transporter : Role
     {
-        public override void ReceiveFrame(Frame message)
+        protected override DestinationRole IReceive
         {
-            bool isForMe = message.destinationRole is DestinationRole.Transporter || message.destinationRole is DestinationRole.Broadcast;
-            if (isForMe)
+            get
             {
-                Debug.Log($"{this.GetType().Name} received message {message}");
+                return DestinationRole.Transporter;
             }
+        }
+        protected override void handleRequest(Frame message)
+        {
+
+        }
+        protected override void handleService(Frame message)
+        {
+
         }
     }
 }

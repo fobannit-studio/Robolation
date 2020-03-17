@@ -10,7 +10,7 @@ namespace Simulation.Robots
     abstract class Robot
     {
         protected Vector2 position;
-        protected readonly Action<int, Frame> SendFrame;
+        protected readonly Action<Frame> SendFrame;
         // Array of subscribed MAC-addresses
         public int macAddress;
         protected int battery;
@@ -28,27 +28,27 @@ namespace Simulation.Robots
             this.position = position; 
             macAddress = ether.RegisterRadio(this.Role.ReceiveFrame);
             SendFrame = ether.Transmit;
-            // this.FindOperator();
+            this.FindOperator();
         }
                 
         public void NotifySubscribers(Frame message)
         {
             foreach (int subscriber in Subscribers)
             {
-                SendFrame(subscriber, message);   
+                SendFrame(message);   
             }
         }
-        // public void FindOperator()
-        // {
-        //     Frame findOperatorFrame = new Frame(
-        //         TransmissionType.Broadcast,
-        //         DestinationRole.Operator,
-        //         MessageType.Request,
-        //         Message.Subscribe,
-        //         this.macAddress,
-        //         this.position
-        //     );
-        //     SendFrame(-1, findOperatorFrame);
-        // }
+        public void FindOperator()
+        {
+            Frame findOperatorFrame = new Frame(
+                TransmissionType.Broadcast,
+                DestinationRole.Operator,
+                MessageType.Service,
+                Message.Subscribe,
+                this.macAddress,
+                (position.x, position.y) 
+            );
+            SendFrame(findOperatorFrame);
+        }
     }
 }

@@ -1,3 +1,4 @@
+using Simulation.Roles;
 namespace Simulation.Utils
 {
     // Enum describes transmission types.
@@ -16,15 +17,17 @@ namespace Simulation.Utils
         Operator,
         Builder,
         Transporter,
-        Broadcast
+        NoMatter
     }
-    // Service - message type that require some action from receiver
-    // Request - message type that require some information from receiver
+    // Service - message type that require some action from receiver.
+    // On complete should notify operator about success with ack.
+    // Request - message type that require some information from receiver.
     public enum MessageType
     {
         Service,
-        Request
-
+        Request,
+        ACK,
+        NACK
     }
     // Messages, that could be received by robots
     public enum Message
@@ -33,5 +36,6 @@ namespace Simulation.Utils
         StopWork,
         Subscribe
     }
+    
 
 }
