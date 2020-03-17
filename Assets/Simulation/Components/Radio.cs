@@ -9,9 +9,9 @@ namespace Simulation.Components
 
     class Radio
     {
-        // Method provides to Medium, where message 
-        // is transmitted.
-        private readonly Action<Frame> Gateaway;
+        // Method serves as a Gateaway to Medium.
+        // Sends frame that shoud be transmitted and radio position.
+        private readonly Action<Frame, Vector2> Gateaway;
         public int maxListenersNumber;
         public readonly int macAddress;
         protected float range;
@@ -51,23 +51,25 @@ namespace Simulation.Components
         public void SendFrame(Frame frame)
         {
             frame.srcMac = macAddress;
-            Gateaway(frame);
+            Gateaway(frame, controller.Position);
         }
-        public void ReceiveFrame(Frame frame)
+        public void ReceiveFrame(Frame frame, Vector2 senderPosition)
         {
-            if(isAbleToReceive(frame))
+            if(isAbleToReceive(frame, senderPosition))
             {
                 Debug.Log($"{this.controller.GetType().Name}'s radio received frame");
                 controller.HandleFrame(frame);
             }
         }
-        protected bool isAbleToReceive(Frame frame)
+        protected bool isAbleToReceive(Frame frame, Vector2 senderPosition)
         {
-            if(!System.Object.ReferenceEquals(controller, null))
-            {
-                return true;
-            }
-            return false;
+            bool isControlerExists = !System.Object.ReferenceEquals(controller, null);
+            // If radio controller doesn't exists, than later checks have no sense,
+            // because they based on controller characterisitcs
+            if(!isControlerExists) return false;
+            // Environment.checkRange()
+            bool isSenderInRange = Vector2.Distance(controller.Position, senderPosition) < range; 
+            return isSenderInRange;
         }
     }
 }
