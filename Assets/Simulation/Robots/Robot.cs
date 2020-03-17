@@ -1,21 +1,41 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Simulation.Common;
 using Simulation.World;
 using Simulation.Roles;
+using Simulation.Utils;
 namespace Simulation.Robots
 {
-    class Robot
+    abstract class Robot
     {
-        private string _id;
-        public Robot(string id, ref Medium ether)
-        {
-            this._id = id;
-            ether.RegisterRadio(this.Receive);
+        protected Vector2 position;
+        protected readonly Action<int, Frame> SendFrame;
+        // Array of subscribed MAC-addresses
+        protected int macAddress;
+        protected int battery;
+        protected float durability;
+        protected int workingTime;
+        public List<int> Subscribers = new List<int>();
+
+        protected abstract Role Role{
+            get;
         }
-        public void Receive(Frame message)
+        // Every robot on creation should register himself 
+        // in ether.
+        public Robot(Vector2 position,ref Medium ether)
         {
-            Debug.Log($"{_id} received message {message}");
+            this.position = position; 
+            macAddress = ether.RegisterRadio(this.Role.ReceiveFrame, () => this.position);
+            SendFrame = ether.Transmit;
+        }
+                
+        public void NotifySubscribers(Frame message)
+        {
+            foreach (int subscriber in Subscribers)
+            {
+                SendFrame(subscriber, message);   
+            }
         }
     }
 }
