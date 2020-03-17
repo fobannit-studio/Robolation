@@ -1,17 +1,30 @@
 using Simulation.Common;
 using Simulation.Utils;
+using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Roles
 {
     class Builder : Role
     {
-        public override void ReceiveFrame(Frame message)
+        public Builder(Robot robot): base(ref robot)
         {
-            bool isForMe = message.destinationRole is DestinationRole.Builder || message.destinationRole is DestinationRole.Broadcast;
-            if (isForMe)
+            robot.FindOperator();
+        }
+        protected override DestinationRole IReceive
+        {
+            get
             {
-                Debug.Log($"{this.GetType().Name} received message {message}");
+                return DestinationRole.Builder;
             }
         }
+        protected override void handleRequest(Frame message)
+        {
+
+        }
+        protected override void handleService(Frame message)
+        {
+
+        }
+
     }
 }

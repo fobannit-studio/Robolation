@@ -161,6 +161,8 @@ namespace Simulation.UI
             float weight = 0;
             if (Parsed(out Dimensions, out weight))
                 ResizeCube(Dimensions);
+            
         }
+        
     }
 }

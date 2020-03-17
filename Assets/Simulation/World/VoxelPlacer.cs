@@ -67,7 +67,7 @@ namespace Simulation.World
                         break;
                 }
             }
-            Debug.Log(TilePrefabs.Count);
+            // Debug.Log(TilePrefabs.Count);
 
             StartCoroutine(Generate());
 
@@ -111,11 +111,11 @@ namespace Simulation.World
 
             if (aviableTiles.Count == 0)
             {
-                Debug.Log("no aviable");
+                // Debug.Log("no aviable");
                 return;
             }
             VoxelTile selectedTile = GetRandomTile(aviableTiles);
-            Debug.Log(aviableTiles);
+            // Debug.Log(aviableTiles);
             Vector3 position = selectedTile.Voxels * selectedTile.VoxelSize * new Vector3(x, 0, y);
             spawnedTiles[x, y] = Instantiate(selectedTile, position, selectedTile.transform.rotation);
 
@@ -137,31 +137,31 @@ namespace Simulation.World
         private bool CandAppendTile(VoxelTile existingTile, VoxelTile tileToAppend, Direction direction)
         {
             if (existingTile == null) return true;
-            Debug.Log("not null");
+            // Debug.Log("not null");
 
 
             if (direction == Direction.Right)
             {
-                Debug.Log("right direction");
+                // Debug.Log("right direction");
                 return Enumerable.SequenceEqual(existingTile.ColorsRight, tileToAppend.ColorsLeft);
 
             }
 
             else if (direction == Direction.Left)
             {
-                Debug.Log("left direction");
+                // Debug.Log("left direction");
                 return Enumerable.SequenceEqual(existingTile.ColorsLeft, tileToAppend.ColorsRight);
             }
 
             else if (direction == Direction.Forward)
             {
-                Debug.Log("forward direction");
+                // Debug.Log("forward direction");
                 return Enumerable.SequenceEqual(existingTile.ColorsForward, tileToAppend.ColorsBack);
             }
 
             else if (direction == Direction.Back)
             {
-                Debug.Log("back direction");
+                // Debug.Log("back direction");
                 return Enumerable.SequenceEqual(existingTile.ColorsBack, tileToAppend.ColorsForward);
             }
 

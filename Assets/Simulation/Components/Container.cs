@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Text;
 using Simulation.Utils;
-namespace Simulation.Common
+using Simulation.Common;
+namespace Simulation.Components
 {
-    class Container
+    public class Container
     {
         private ConcurrentDictionary<string, int> materialsInContainer = new ConcurrentDictionary<string, int>();
         private float freeSpace;

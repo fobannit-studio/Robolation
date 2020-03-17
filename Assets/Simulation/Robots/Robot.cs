@@ -5,37 +5,48 @@ using Simulation.Common;
 using Simulation.World;
 using Simulation.Roles;
 using Simulation.Utils;
+using Simulation.Components;
 namespace Simulation.Robots
 {
+    // Physical description of robot, that have params
+    // such as workingArea, battery, etc.
     abstract class Robot
     {
-        protected Vector2 position;
-        protected readonly Action<int, Frame> SendFrame;
-        // Array of subscribed MAC-addresses
-        protected int macAddress;
-        protected int battery;
-        protected float durability;
-        protected int workingTime;
-        public List<int> Subscribers = new List<int>();
-
-        protected abstract Role Role{
+        // protected float radioRange;
+        // Describes how many subscribers robot's radio can handle.
+        // public int maxSubscribersNumber; 
+        public Vector3 Position
+        {
             get;
         }
+        protected float batteryLevel;
+        protected float durability;
+        protected int workingTime;
+        public Radio radio;
+        public IReceiver controller;
         // Every robot on creation should register himself 
         // in ether.
-        public Robot(Vector2 position,ref Medium ether)
+        public Robot(Vector3 positionInWorld, float radioRange, ref Medium ether)
         {
-            this.position = position; 
-            macAddress = ether.RegisterRadio(this.Role.ReceiveFrame, () => this.position);
-            SendFrame = ether.Transmit;
+            batteryLevel = 1.0F;
+            Position = positionInWorld;
+            // Every robot by default could listen only 
+            // for one other robot 
+            radio = new Radio(radioRange, 1, ref ether); 
+
         }
-                
-        public void NotifySubscribers(Frame message)
+
+        // Method that each robot perform, but which invoked by his roles.
+        public void FindOperator()
         {
-            foreach (int subscriber in Subscribers)
-            {
-                SendFrame(subscriber, message);   
-            }
+            Frame findOperatorFrame = new Frame(
+                TransmissionType.Broadcast,
+                DestinationRole.Operator,
+                MessageType.Service,
+                Message.Subscribe,
+                (0, 0, 0) 
+            );
+            radio.SendFrame(findOperatorFrame);
         }
     }
 }
