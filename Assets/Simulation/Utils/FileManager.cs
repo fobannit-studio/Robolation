@@ -10,6 +10,7 @@ namespace Simulation.Utils
         private const string MaterialsDir = "BuildingMaterials";
         public static List<BuildingMaterial> ReadMaterials()
         {
+            BuildingMaterial.existingMaterials = new System.Collections.Concurrent.ConcurrentDictionary<string, BuildingMaterial>();
             List<BuildingMaterial> materials = new List<BuildingMaterial>();
             if (Directory.Exists(MaterialsDir))
             {
@@ -24,8 +25,9 @@ namespace Simulation.Utils
                     var y = float.Parse(separated[1]);
                     var z = float.Parse(separated[2]);
                     var weight = float.Parse(separated[3]);
-
-                    materials.Add(new BuildingMaterial(type, (x, y, z), weight));
+                    var material = new BuildingMaterial(type, (x, y, z), weight);
+                    materials.Add(material);
+                    BuildingMaterial.existingMaterials.TryAdd(material.Type, material);
                 }
                 
             }
@@ -37,6 +39,7 @@ namespace Simulation.Utils
         }
         public static void SaveMaterials(List<BuildingMaterial> materials)
         {
+            BuildingMaterial.existingMaterials = new System.Collections.Concurrent.ConcurrentDictionary<string, BuildingMaterial>();
             if (!Directory.Exists(MaterialsDir))
             {
                 Directory.CreateDirectory(MaterialsDir);
@@ -44,7 +47,10 @@ namespace Simulation.Utils
             foreach (var mat in materials)
             {
                 File.WriteAllText(MaterialsDir+@"/"+mat.Type, mat.Dimensions.x + "," + mat.Dimensions.y + "," + mat.Dimensions.z + "," + mat.Weight);
+                BuildingMaterial.existingMaterials.TryAdd(mat.Type, mat);
             }
+
+
         }
 
     }

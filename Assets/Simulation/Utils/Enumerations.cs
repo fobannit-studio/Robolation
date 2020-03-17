@@ -32,5 +32,13 @@ namespace Simulation.Utils
         BringMaterial,
         StopWork
     }
+    public enum BuildingStatus
+    {
+        Planned,
+        WorkInProgress,
+        Paused,
+        Finished
+
+    }
 
 }

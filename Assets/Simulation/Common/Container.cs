@@ -4,7 +4,7 @@ using System.Text;
 using Simulation.Utils;
 namespace Simulation.Common
 {
-    class Container
+    public class Container
     {
         private ConcurrentDictionary<string, int> materialsInContainer = new ConcurrentDictionary<string, int>();
         private float freeSpace;
