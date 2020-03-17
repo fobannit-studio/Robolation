@@ -11,7 +11,7 @@ namespace Simulation.Components
     {
         // Method serves as a Gateaway to Medium.
         // Sends frame that shoud be transmitted and radio position.
-        private readonly Action<Frame, Vector2> Gateaway;
+        private readonly Action<Frame, Vector3, float> Gateaway;
         public int maxListenersNumber;
         public readonly int macAddress;
         protected float range;
@@ -29,10 +29,11 @@ namespace Simulation.Components
             this.maxListenersNumber = maxListenersNumber;
             this.Gateaway = ether.Transmit;
         }
+        // Send's frame as unicast message to each subscriber of type given in frame
         public void NotifySubscribers(Frame frame)
         {
             frame.srcMac = macAddress;
-            frame.destinationRole = DestinationRole.NoMatter;
+            frame.transmissionType = TransmissionType.Unicast;
             foreach (int macAddress in macTable)
             {
                 frame.destMac = macAddress;
@@ -51,24 +52,24 @@ namespace Simulation.Components
         public void SendFrame(Frame frame)
         {
             frame.srcMac = macAddress;
-            Gateaway(frame, controller.Position);
+            Gateaway(frame, controller.Position, this.range);
         }
-        public void ReceiveFrame(Frame frame, Vector2 senderPosition)
+        public void ReceiveFrame(Frame frame, Vector3 senderPosition, float senderRange)
         {
-            if(isAbleToReceive(frame, senderPosition))
+            if(isAbleToReceive(frame, senderPosition, senderRange))
             {
                 Debug.Log($"{this.controller.GetType().Name}'s radio received frame");
                 controller.HandleFrame(frame);
             }
         }
-        protected bool isAbleToReceive(Frame frame, Vector2 senderPosition)
+        protected bool isAbleToReceive(Frame frame, Vector3 senderPosition, float senderRange)
         {
             bool isControlerExists = !System.Object.ReferenceEquals(controller, null);
             // If radio controller doesn't exists, than later checks have no sense,
             // because they based on controller characterisitcs
             if(!isControlerExists) return false;
             // Environment.checkRange()
-            bool isSenderInRange = Vector2.Distance(controller.Position, senderPosition) < range; 
+            bool isSenderInRange = Vector3.Distance(controller.Position, senderPosition) < senderRange; 
             return isSenderInRange;
         }
     }

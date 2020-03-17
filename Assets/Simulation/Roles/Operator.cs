@@ -30,14 +30,13 @@ namespace Simulation.Roles{
                 attributedRobot.radio.AddListener(message.srcMac);
             }
         }
-        public void SendAllTransportToPosition((float x, float y) position)
-        {
-            Frame toSend = new Frame(
-                TransmissionType.Broadcast,
+        public void SendAllTransportToPosition((float x, float y, float z) position)
+        {   
+            Frame toSend = new Frame
+            (
                 DestinationRole.Transporter,
                 MessageType.Service,
                 Message.MoveTo,
-                attributedRobot.radio.macAddress,
                 position
             );
             attributedRobot.radio.NotifySubscribers(toSend);

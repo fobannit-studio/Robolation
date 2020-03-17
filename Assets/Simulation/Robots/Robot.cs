@@ -15,7 +15,7 @@ namespace Simulation.Robots
         // protected float radioRange;
         // Describes how many subscribers robot's radio can handle.
         // public int maxSubscribersNumber; 
-        public Vector2 Position
+        public Vector3 Position
         {
             get;
         }
@@ -26,7 +26,7 @@ namespace Simulation.Robots
         public IReceiver controller;
         // Every robot on creation should register himself 
         // in ether.
-        public Robot(Vector2 positionInWorld, float radioRange, ref Medium ether)
+        public Robot(Vector3 positionInWorld, float radioRange, ref Medium ether)
         {
             batteryLevel = 1.0F;
             Position = positionInWorld;
@@ -44,7 +44,7 @@ namespace Simulation.Robots
                 DestinationRole.Operator,
                 MessageType.Service,
                 Message.Subscribe,
-                (Position.x, Position.y) 
+                (Position.x, Position.y, Position.z) 
             );
             radio.SendFrame(findOperatorFrame);
         }

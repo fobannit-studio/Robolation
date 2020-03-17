@@ -12,6 +12,7 @@ namespace Simulation.Common
         public MessageType messageType;
         public Message message;
 
+
         public Frame(TransmissionType transmissionType,
                      DestinationRole destinationRole,
                      MessageType messageType,
@@ -29,6 +30,14 @@ namespace Simulation.Common
             this.destMac = destMac;
             this.payload = payload;
         }
+
+        public Frame(
+            DestinationRole destinationRole,
+            MessageType messageType,
+            Message message,
+            (float, float, float) payload
+        ):this(TransmissionType.Broadcast, destinationRole, messageType,message,-1,-1,payload)
+        {}
 
         public Frame(TransmissionType transmissionType,
                      DestinationRole destinationRole,

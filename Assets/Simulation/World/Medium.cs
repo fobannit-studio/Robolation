@@ -10,27 +10,27 @@ namespace Simulation.World
     public class Medium
     {
         private static int freeMac = 0;
-        private Dictionary<int, Action<Frame, Vector2>> macTable = new Dictionary<int, Action<Frame, Vector2>>();
+        private Dictionary<int, Action<Frame, Vector3, float>> macTable = new Dictionary<int, Action<Frame, Vector3, float>>();
 
-        public void Transmit(Frame message, Vector2 senderPosition)
+        public void Transmit(Frame message, Vector3 senderPosition, float senderRange)
         {
             if (message.transmissionType is TransmissionType.Unicast)
             {
-                macTable[message.destMac](message, senderPosition);
+                macTable[message.destMac](message, senderPosition, senderRange);
             }
             else if (message.transmissionType is TransmissionType.Broadcast)
             {
-                Broadcast(message, senderPosition);
+                Broadcast(message, senderPosition, senderRange);
             }
         }
 
-        private void Broadcast(Frame message, Vector2 senderPosition)
+        private void Broadcast(Frame message, Vector3 senderPosition, float senderRange)
         {
-            foreach (KeyValuePair<int, Action<Frame, Vector2>> receiver in macTable)
+            foreach (KeyValuePair<int, Action<Frame, Vector3, float>> receiver in macTable)
             {
                 if (receiver.Key != message.srcMac)
                 {
-                    receiver.Value(message, senderPosition);
+                    receiver.Value(message, senderPosition, senderRange);
 
                 }
             }
@@ -41,7 +41,7 @@ namespace Simulation.World
         // this radios call method.
         // Position is added because, while receiving each radio should check by itself,
         // (based on it technical characteristics) is this radio able to receive that frame or not
-        public int RegisterRadio(Action<Frame, Vector2> radio)
+        public int RegisterRadio(Action<Frame, Vector3, float> radio)
         {
             int macAddress = Medium.freeMac;
             Medium.freeMac += 1;
