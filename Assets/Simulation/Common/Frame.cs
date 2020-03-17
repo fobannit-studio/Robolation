@@ -111,7 +111,7 @@ namespace Simulation.Common
 
         public override string ToString()
         {
-            return $"From {this.srcMac} to {this.destMac}. Action: {this.message.ToString("d")} Payload: {this.payload}";
+            return $"From {this.srcMac} to {this.destMac}. Action: {this.message.ToString("F")}\n Payload: {this.payload}";
         }
     }
 }

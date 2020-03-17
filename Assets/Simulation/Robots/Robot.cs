@@ -44,7 +44,7 @@ namespace Simulation.Robots
                 DestinationRole.Operator,
                 MessageType.Service,
                 Message.Subscribe,
-                (Position.x, Position.y, Position.z) 
+                (0, 0, 0) 
             );
             radio.SendFrame(findOperatorFrame);
         }
