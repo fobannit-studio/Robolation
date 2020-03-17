@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Simulation.Utils;
+using Simulation.Components;
 using Simulation.Common;
 using System.Collections.Concurrent;
 public class Building : MonoBehaviour

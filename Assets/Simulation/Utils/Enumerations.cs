@@ -35,9 +35,6 @@ namespace Simulation.Utils
         Subscribe,
         MoveTo
     }
-<<<<<<< HEAD
-    
-=======
     public enum BuildingStatus
     {
         Planned,
@@ -46,6 +43,5 @@ namespace Simulation.Utils
         Finished
 
     }
->>>>>>> gui
 
 }

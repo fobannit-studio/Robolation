@@ -30,7 +30,7 @@ namespace Simulation
           1,
           (1, 2)
       );
-            
+
             Parrot r1 = new Parrot(center, 50, ref ether);
             IRB1100 r2 = new IRB1100(veryFar, 10, ref ether);
             Spot r3 = new Spot(veryClose, 10, ref ether);
