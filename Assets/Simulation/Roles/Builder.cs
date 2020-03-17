@@ -1,10 +1,15 @@
 using Simulation.Common;
 using Simulation.Utils;
+using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Roles
 {
     class Builder : Role
     {
+        public Builder(Robot robot): base(robot)
+        {
+            robot.FindOperator();
+        }
         protected override DestinationRole IReceive
         {
             get

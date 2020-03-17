@@ -1,5 +1,5 @@
 using Simulation.Utils;
-using UnityEngine;
+using System;
 namespace Simulation.Common
 {
     public struct Frame
@@ -77,7 +77,7 @@ namespace Simulation.Common
 
         public override string ToString()
         {
-            return $"From {this.srcMac} to {this.destMac}. Payload {this.payload}";
+            return $"From {this.srcMac} to {this.destMac}. Action: {this.message.ToString("d")} Payload: {this.payload}";
         }
     }
 }

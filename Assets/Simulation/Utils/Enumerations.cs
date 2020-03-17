@@ -32,9 +32,8 @@ namespace Simulation.Utils
     // Messages, that could be received by robots
     public enum Message
     {
-        BringMaterial,
-        StopWork,
-        Subscribe
+        Subscribe,
+        MoveTo
     }
     
 

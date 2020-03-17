@@ -3,7 +3,15 @@ using Simulation.Utils;
 using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Roles{
-    class Operator: Role{        
+    class Operator: Role{
+        public Operator(int maxSubscribersNumber, Robot robot): base(robot)
+        {
+            robot.maxSubscribersNumber = maxSubscribersNumber;
+        }    
+        public Operator(Robot robot): base(robot)
+        {
+            robot.maxSubscribersNumber = 5;
+        }    
         protected override DestinationRole IReceive
         {
             get
@@ -17,29 +25,22 @@ namespace Simulation.Roles{
         }
         protected override void handleService(Frame message)
         {
-
+            if (message.message is Message.Subscribe)
+            {
+                attributedRobot.addSubscriber(message.srcMac, message.payload.Item1, message.payload.Item2);
+            }
         }
-        // protected void handleService(Frame frame)
-        // {
-        //     if( frame.message is Message.Subscribe)
-        //     {
-        //         this.registerSubscriber(frame.srcId);
-        //     }
-        // }
-        // protected void handleRequest()
-        // public void registerSubscriber(int subscriberId)
-        // {
-        //     this.robot.Subscribers.Add(subscriberId);
-        //     Frame notifyAboutSuccess = new Frame(
-        //         TransmissionType.Unicast,
-        //         DestinationRole.Broadcast,
-        //         MessageType.Service,
-        //         Message.Subscribe,
-        //         this.robot.macAddress,
-        //         subscriberId,
-        //         0
-        //     );
-        //     this.robot.NotifySubscribers(notifyAboutSuccess);
-        // }
+        public void SendAllTransportToPosition((float x, float y) position)
+        {
+            Frame toSend = new Frame(
+                TransmissionType.Broadcast,
+                DestinationRole.Transporter,
+                MessageType.Service,
+                Message.MoveTo,
+                attributedRobot.macAddress,
+                position
+            );
+            attributedRobot.NotifySubscribers(toSend);
+        }
     }
 }

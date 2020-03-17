@@ -6,17 +6,18 @@ namespace Simulation.Robots
 {
     class Parrot : Robot
     {
-        private Role _role = new Operator();
-        protected override Role Role
+        private Operator _role;
+        public override Role role
         {
             get
             {
                 return _role;
             }
         }
-        public Parrot(Vector2 position, ref Medium ether): base(position, ref ether)
+        public Parrot(Vector2 position, float radioRange, ref Medium ether): base(position,
+        radioRange, ref ether)
         {
-            Debug.Log("In Parrot");
+            _role = new Operator(this);
         }
     }
 }

@@ -1,10 +1,18 @@
 using Simulation.Common;
 using Simulation.Utils;
+using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Roles
 {
     abstract class Role
     {
+        // Robot to which this role is assigned.
+        protected Robot attributedRobot;
+
+        public Role(Robot robot)
+        {
+            attributedRobot = robot;
+        }
         protected abstract DestinationRole IReceive
         {
             get;
@@ -18,7 +26,7 @@ namespace Simulation.Roles
         {
             if (isForMe(message))
             {
-                Debug.Log($"{this.GetType().Name} received message {message}");
+                Debug.Log($"{this.GetType().Name} recognized itself and start parsing message: {message}");
                 parseMessageType(message);
             }
         }
