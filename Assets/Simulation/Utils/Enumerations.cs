@@ -35,6 +35,17 @@ namespace Simulation.Utils
         Subscribe,
         MoveTo
     }
+<<<<<<< HEAD
     
+=======
+    public enum BuildingStatus
+    {
+        Planned,
+        WorkInProgress,
+        Paused,
+        Finished
+
+    }
+>>>>>>> gui
 
 }
