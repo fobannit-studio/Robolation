@@ -10,4 +10,9 @@ namespace Simulation.Utils
         }
         void HandleFrame(Frame frame);
     }
+    public interface IAction
+    {
+        void DoAction();
+    }
+    
 }
