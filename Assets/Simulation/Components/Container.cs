@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Text;
 using Simulation.Utils;
-namespace Simulation.Common
+using Simulation.Common;
+namespace Simulation.Components
 {
     public class Container
     {
