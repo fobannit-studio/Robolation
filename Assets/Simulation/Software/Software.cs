@@ -4,7 +4,7 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    abstract class Software: IReceiver
+    abstract class Software: ICommunicator
     {
         // Robot to which this role is assigned.
         protected Robot attributedRobot;
@@ -55,26 +55,11 @@ namespace Simulation.Software
             {
                 handleRequest(message);
             }
+            else if (message.messageType is MessageType.ACK)
+            {
+                handleAcknowledge(message);
+            }
         }
-        // Method that each robot perform, but which invoked by his roles.
-        protected void FindOperator()
-        {
-            Frame findOperatorFrame = new Frame(
-                TransmissionType.Broadcast,
-                DestinationRole.Operator,
-                MessageType.Service,
-                Message.Subscribe
-            );
-            // Frame findOperatorFrame = new Frame(
-            //     TransmissionType.Broadcast,
-            //     DestinationRole.Operator,
-            //     MessageType.Service,
-            //     Message.Subscribe,
-            //     (0, 0, 0) 
-            // );
-            attributedRobot.radio.SendFrame(findOperatorFrame);
-        }
-
         // Implementation defines service messages, that could be received by this Role.
         // After message handling creates a new frame with ACK in case of success or NACK in case of failure.
         // Sends created frame back to author.
@@ -83,5 +68,7 @@ namespace Simulation.Software
         // After message receiving creates a new Frame with data.
         // Sends created frame back to author.
         protected abstract void handleRequest(Frame message);
+        // Implementation defines how robot should react on received ack Frame
+        protected abstract void handleAcknowledge(Frame message);
     }
 }

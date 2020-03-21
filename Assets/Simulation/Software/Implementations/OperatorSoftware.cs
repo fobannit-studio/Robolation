@@ -32,6 +32,11 @@ namespace Simulation.Software
                 attributedRobot.radio.AddListener(message.srcMac);
             }
         }
+
+        protected override void handleAcknowledge(Frame message)
+        {
+
+        }
         public void SendAllTransportToPosition(float x, float y, float z)
         {   
             Frame moveTo = new Frame

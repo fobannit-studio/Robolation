@@ -4,11 +4,20 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Builder : Software
+    class Builder : Software, IOperated
     {
+        IAction subscribeAction;
         public Builder(Robot robot): base(ref robot)
         {
-            FindOperator();
+            subscribeAction = new SubscribeToOperatorAction(robot.radio);
+            SubscribeToOperator();
+        }
+        public void SubscribeToOperator(){
+            subscribeAction.DoAction();
+        }
+        public void SendAck()
+        {
+
         }
         protected override DestinationRole IReceive
         {
@@ -24,6 +33,10 @@ namespace Simulation.Software
         protected override void handleService(Frame message)
         {
 
+        }
+        protected override void handleAcknowledge(Frame message)
+        {
+            
         }
 
     }
