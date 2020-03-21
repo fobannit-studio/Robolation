@@ -2,8 +2,10 @@ using Simulation.Common;
 using Simulation.Utils;
 using Simulation.Robots;
 using UnityEngine;
-namespace Simulation.Roles{
-    class Operator: Role{
+namespace Simulation.Software
+{
+    class Operator: Software
+    {
         public Operator(int maxListenersNumber,Robot robot): base( ref robot)
         {
             robot.radio.maxListenersNumber = maxListenersNumber;

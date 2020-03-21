@@ -2,13 +2,13 @@ using Simulation.Common;
 using Simulation.Utils;
 using Simulation.Robots;
 using UnityEngine;
-namespace Simulation.Roles
+namespace Simulation.Software
 {
-    class Transporter : Role
+    class Transporter : Software
     {
         public Transporter(Robot robot): base(ref robot)
         {
-            robot.FindOperator();
+            FindOperator();
         }
         protected override DestinationRole IReceive
         {

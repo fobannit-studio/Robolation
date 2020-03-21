@@ -17,7 +17,6 @@ namespace Assets.Simulation.Robots.Transporters
 
         public Walle(Vector3 positionInWorld, float radioRange, ref Medium ether) : base(positionInWorld, radioRange, ref ether)
         {
-
         }
 
         // Start is called before the first frame update

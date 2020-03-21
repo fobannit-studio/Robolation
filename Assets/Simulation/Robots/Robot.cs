@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Simulation.Common;
 using Simulation.World;
-using Simulation.Roles;
+using Simulation.Software;
 using Simulation.Utils;
 using Simulation.Components;
 using UnityEngine.AI;
@@ -24,7 +24,7 @@ namespace Simulation.Robots
         protected float durability;
         protected int workingTime;
         public Radio radio;
-        public IReceiver controller;
+        // public IReceiver controller;
 
         protected NavMeshAgent agent;
 
@@ -36,19 +36,6 @@ namespace Simulation.Robots
             Position = positionInWorld;    
             radio = new Radio(radioRange, 1, ref ether); 
 
-        }
-
-        // Method that each robot perform, but which invoked by his roles.
-        public void FindOperator()
-        {
-            Frame findOperatorFrame = new Frame(
-                TransmissionType.Broadcast,
-                DestinationRole.Operator,
-                MessageType.Service,
-                Message.Subscribe,
-                (0, 0, 0) 
-            );
-            radio.SendFrame(findOperatorFrame);
         }
         virtual public void MoveOrder(Vector3 destination)
         {

@@ -9,25 +9,25 @@ namespace Simulation.Components
 
     public class Radio
     {
-        // Method serves as a Gateaway to Medium.
+        // Method serves as a Gateway to Medium.
         // Sends frame that shoud be transmitted and radio position.
-        private readonly Action<Frame, Vector3, float> Gateaway;
+        private readonly Action<Frame, Vector3, float> Gateway;
         public int maxListenersNumber;
         public readonly int macAddress;
         protected float range;
         // Receiver, that will handle messages sent by this radio.
-        public IReceiver controller;
+        public IReceiver software;
         private List<int> macTable = new List<int>();
 
         public Radio(float range, int maxListenersNumber, ref Medium ether):this(range, maxListenersNumber, null,ref ether)
         {}
-        public Radio(float range, int maxListenersNumber, IReceiver controller, ref Medium ether)
+        public Radio(float range, int maxListenersNumber, IReceiver software, ref Medium ether)
         {
-            this.controller = controller;
+            this.software = software;
             this.range = range;
             this.macAddress = ether.RegisterRadio(ReceiveFrame);
             this.maxListenersNumber = maxListenersNumber;
-            this.Gateaway = ether.Transmit;
+            this.Gateway = ether.Transmit;
         }
         // Send's frame as unicast message to each subscriber of type given in frame
         public void NotifySubscribers(Frame frame)
@@ -52,24 +52,23 @@ namespace Simulation.Components
         public void SendFrame(Frame frame)
         {
             frame.srcMac = macAddress;
-            Gateaway(frame, controller.Position, this.range);
+            Gateway(frame, software.Position, this.range);
         }
         public void ReceiveFrame(Frame frame, Vector3 senderPosition, float senderRange)
         {
             if(isAbleToReceive(frame, senderPosition, senderRange))
             {
-                Debug.Log($"{this.controller.GetType().Name}'s radio received frame");
-                controller.HandleFrame(frame);
+                Debug.Log($"{this.software.GetType().Name}'s radio received frame");
+                software.HandleFrame(frame);
             }
         }
         protected bool isAbleToReceive(Frame frame, Vector3 senderPosition, float senderRange)
         {
-            bool isControlerExists = !System.Object.ReferenceEquals(controller, null);
-            // If radio controller doesn't exists, than later checks have no sense,
-            // because they based on controller characterisitcs
+            bool isControlerExists = !System.Object.ReferenceEquals(software, null);
+            // If radio software doesn't exists, than later checks have no sense,
+            // because they based on software characterisitcs
             if(!isControlerExists) return false;
-            // Environment.checkRange()
-            bool isSenderInRange = Vector3.Distance(controller.Position, senderPosition) < senderRange; 
+            bool isSenderInRange = Vector3.Distance(software.Position, senderPosition) < senderRange; 
             return isSenderInRange;
         }
     }

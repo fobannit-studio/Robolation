@@ -1,4 +1,3 @@
-using Simulation.Roles;
 namespace Simulation.Utils
 {
     // Enum describes transmission types.
