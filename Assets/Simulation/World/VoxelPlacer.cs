@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using UnityEngine.AI;
 
 using Simulation.Common;
 
@@ -16,7 +16,7 @@ namespace Simulation.World
 
         private VoxelTile[,] spawnedTiles;
         public Vector2Int Mapsize = new Vector2Int(5, 5);
-
+        public NavMeshSurface surface;
         private void Start()
         {
             spawnedTiles = new VoxelTile[Mapsize.x, Mapsize.y];
@@ -69,7 +69,8 @@ namespace Simulation.World
             }
             // Debug.Log(TilePrefabs.Count);
 
-            StartCoroutine(Generate());
+            Generate();
+            surface.BuildNavMesh();
 
         }
         private VoxelTile GetRandomTile(List<VoxelTile> aviableTiles)
@@ -117,17 +118,17 @@ namespace Simulation.World
             VoxelTile selectedTile = GetRandomTile(aviableTiles);
             // Debug.Log(aviableTiles);
             Vector3 position = selectedTile.Voxels * selectedTile.VoxelSize * new Vector3(x, 0, y);
-            spawnedTiles[x, y] = Instantiate(selectedTile, position, selectedTile.transform.rotation);
+            spawnedTiles[x, y] = Instantiate(selectedTile, position, selectedTile.transform.rotation,this.transform);
 
 
         }
-        private IEnumerator Generate()
+        private void Generate()
         {
             for (int i = 1; i < Mapsize.x - 1; i++)
             {
                 for (int j = 1; j < Mapsize.y - 1; j++)
                 {
-                    yield return new WaitForSeconds(0.0001f);
+                    
                     PlaceTile(i, j);
                 }
             }

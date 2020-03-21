@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Simulation.Components
 {
 
-    class Radio
+    public class Radio
     {
         // Method serves as a Gateaway to Medium.
         // Sends frame that shoud be transmitted and radio position.

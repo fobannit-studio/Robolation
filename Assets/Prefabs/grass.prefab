@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2905352596666368473}
   - component: {fileID: 3762980602758438506}
   - component: {fileID: 6228348880735165827}
+  - component: {fileID: 8172581427751547401}
   m_Layer: 0
   m_Name: grass
   m_TagString: Untagged
@@ -67,6 +68,35 @@ MonoBehaviour:
   ColorsForward: 
   ColorsBack: 
   Rotation: 0
+--- !u!114 &8172581427751547401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2164748265211835338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df27b9289d1e8c4fb82e0df4f4673ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.023333333
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 027852bdb3543af418a6a059cee27f4a, type: 2}
 --- !u!1 &5622446975784900183
 GameObject:
   m_ObjectHideFlags: 0
