@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
 using Simulation.Robots;
@@ -6,6 +7,12 @@ namespace Simulation.Software
 {
     class Operator: Software
     {
+        private Dictionary<Message, FrameAction> myFrameActions = new Dictionary<Message, FrameAction>{
+        };
+        protected override Dictionary<Message, FrameAction> MyFrameActions
+        {
+            get => myFrameActions;
+        }
         public Operator(int maxListenersNumber,Robot robot): base( ref robot)
         {
             robot.radio.maxListenersNumber = maxListenersNumber;
@@ -30,6 +37,15 @@ namespace Simulation.Software
             if (message.message is Message.Subscribe)
             {
                 attributedRobot.radio.AddListener(message.srcMac);
+                Frame identifyMe = new Frame
+                (
+                    TransmissionType.Unicast,
+                    DestinationRole.NoMatter,
+                    MessageType.ACK,
+                    Message.Subscribe,
+                    destMac: message.srcMac
+                );
+                attributedRobot.radio.SendFrame(identifyMe);
             }
         }
 

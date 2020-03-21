@@ -16,7 +16,7 @@ namespace Simulation.Common
         }
         public Payload(string textPayload, float[] floatPayload = null) : this(floatPayload, textPayload)
         { }
-        public String ToString()
+        public override String ToString()
         {
             StringBuilder sb = new StringBuilder();
             if(floatPayload != null){
@@ -55,8 +55,8 @@ namespace Simulation.Common
             this.destinationRole = destinationRole;
             this.messageType = messageType;
             this.message = message;
-            this.srcMac = destMac;
-            this.destMac = srcMac;
+            this.srcMac = srcMac;
+            this.destMac = destMac;
             this.payload = payload ?? new Payload();
         }
 

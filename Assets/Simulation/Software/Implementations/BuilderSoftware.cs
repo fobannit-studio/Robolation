@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
 using Simulation.Robots;
@@ -6,14 +7,22 @@ namespace Simulation.Software
 {
     class Builder : Software, IOperated
     {
-        IAction subscribeAction;
+        // IAction subscribeAction;
+        // FrameAction subscribeAction;
+        private Dictionary<Message, FrameAction> myFrameActions = new Dictionary<Message, FrameAction>{
+            {Message.Subscribe, new SubscribeToOperatorAction()}
+        };
+        protected override Dictionary<Message, FrameAction> MyFrameActions
+        {
+            get => myFrameActions;
+        }
+
         public Builder(Robot robot): base(ref robot)
         {
-            subscribeAction = new SubscribeToOperatorAction(robot.radio);
             SubscribeToOperator();
         }
         public void SubscribeToOperator(){
-            subscribeAction.DoAction();
+            MyFrameActions[Message.Subscribe].Send();
         }
         public void SendAck()
         {
@@ -36,7 +45,7 @@ namespace Simulation.Software
         }
         protected override void handleAcknowledge(Frame message)
         {
-            
+
         }
 
     }

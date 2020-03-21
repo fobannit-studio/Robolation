@@ -14,7 +14,7 @@ namespace Simulation.Utils
         }
         void HandleFrame(Frame frame);
     }
-    
+
     public interface IContainer
     {
         /// <summary>
@@ -34,9 +34,9 @@ namespace Simulation.Utils
 
 
 
-        
+
 
 
     }
-    
+
 }

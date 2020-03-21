@@ -45,15 +45,6 @@ namespace Simulation.Components
             if(macTable.Count < maxListenersNumber)
             {
                 macTable.Add(macAddress);
-                Frame identifyMe = new Frame
-                (
-                    TransmissionType.Unicast,
-                    DestinationRole.NoMatter,
-                    MessageType.ACK,
-                    Message.Subscribe,
-                    destMac: macAddress
-                );
-                SendFrame(identifyMe);
                 return true;
             }
             return false;

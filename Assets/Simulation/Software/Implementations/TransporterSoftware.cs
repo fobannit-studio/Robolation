@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
 using Simulation.Robots;
@@ -6,15 +7,24 @@ namespace Simulation.Software
 {
     class Transporter : Software, IOperated
     {
-        IAction subscribeAction;
-        public Transporter(Robot robot): base(ref robot)
+        FrameAction subscribeAction;
+
+        private Dictionary<Message, FrameAction> myFrameActions = new Dictionary<Message, FrameAction>{
+            {Message.Subscribe, new SubscribeToOperatorAction()}
+        };
+        protected override Dictionary<Message, FrameAction> MyFrameActions
         {
-            subscribeAction = new SubscribeToOperatorAction(robot.radio);
+            get => myFrameActions;
+        }
+
+        public Transporter(Robot robot) : base(ref robot)
+        {
             SubscribeToOperator();
 
         }
-        public void SubscribeToOperator(){
-            subscribeAction.DoAction();
+        public void SubscribeToOperator()
+        {
+            MyFrameActions[Message.Subscribe].Send();
         }
         public void SendAck()
         {
@@ -28,17 +38,18 @@ namespace Simulation.Software
                 return DestinationRole.Transporter;
             }
         }
-        protected override void handleRequest(Frame message)
-        {
+        // protected override void handleRequest(Frame message)
+        // {
 
-        }
-        protected override void handleService(Frame message)
-        {
-
-        }
-        protected override void handleAcknowledge(Frame message)
-        {
+        // }
+        // protected override void handleService(Frame message)
+        // {
             
-        }
+
+        // }
+        // protected override void handleAcknowledge(Frame message)
+        // {
+
+        // }
     }
 }
