@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2001384838808907368}
   - component: {fileID: 4164403828804740757}
   - component: {fileID: 9048200871770433275}
+  - component: {fileID: 5242342154082886726}
   m_Layer: 0
   m_Name: beach
   m_TagString: Untagged
@@ -67,6 +68,35 @@ MonoBehaviour:
   ColorsForward: 
   ColorsBack: 
   Rotation: 2
+--- !u!114 &5242342154082886726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3286784612337474683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df27b9289d1e8c4fb82e0df4f4673ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.023333333
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 953bd7d41fd209e4388e6b07f1fc7098, type: 2}
 --- !u!1 &9048096274508724710
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +113,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 40
   m_IsActive: 1
 --- !u!4 &8334059710588976464
 Transform:
