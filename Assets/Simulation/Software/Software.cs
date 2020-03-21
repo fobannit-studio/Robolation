@@ -63,9 +63,15 @@ namespace Simulation.Software
                 TransmissionType.Broadcast,
                 DestinationRole.Operator,
                 MessageType.Service,
-                Message.Subscribe,
-                (0, 0, 0) 
+                Message.Subscribe
             );
+            // Frame findOperatorFrame = new Frame(
+            //     TransmissionType.Broadcast,
+            //     DestinationRole.Operator,
+            //     MessageType.Service,
+            //     Message.Subscribe,
+            //     (0, 0, 0) 
+            // );
             attributedRobot.radio.SendFrame(findOperatorFrame);
         }
 

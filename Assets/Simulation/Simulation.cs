@@ -30,7 +30,7 @@ namespace Simulation
             Operator oper = new Operator(r1);
             Builder builder = new Builder(r2);
             Transporter transporter = new Transporter(r3);
-            oper.SendAllTransportToPosition((10.0F, 10.0F, 10.0F));
+            oper.SendAllTransportToPosition(10.0F, 10.0F, 10.0F);
             // 
             // r1.NotifySubscribers(message);
             // r1.role.SendAllTransportToPosition((10.0,10.0));

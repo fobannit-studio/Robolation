@@ -32,16 +32,17 @@ namespace Simulation.Software
                 attributedRobot.radio.AddListener(message.srcMac);
             }
         }
-        public void SendAllTransportToPosition((float x, float y, float z) position)
+        public void SendAllTransportToPosition(float x, float y, float z)
         {   
-            Frame toSend = new Frame
+            Frame moveTo = new Frame
             (
+                TransmissionType.Unicast,
                 DestinationRole.Transporter,
                 MessageType.Service,
                 Message.MoveTo,
-                position
+                payload: new Payload(new float[]{x,y,z})
             );
-            attributedRobot.radio.NotifySubscribers(toSend);
+            attributedRobot.radio.NotifySubscribers(moveTo);
         }
     }
 }

@@ -26,7 +26,8 @@ namespace Simulation.Utils
         Service,
         Request,
         ACK,
-        NACK
+        NACK,
+        Heartbeat
     }
     // Messages, that could be received by robots
     public enum Message
