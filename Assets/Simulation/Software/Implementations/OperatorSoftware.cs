@@ -5,9 +5,18 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Operator: Software
+    class Operator: OperatingSystem
     {
-        private Dictionary<Message, FrameAction> myFrameActions = new Dictionary<Message, FrameAction>{
+        protected override DestinationRole IReceive
+        {
+            get
+            {
+                return DestinationRole.Operator;
+            }
+        }
+        private Dictionary<Message, FrameAction> myFrameActions = new Dictionary<Message, FrameAction>
+        {
+            {Message.Subscribe, new RegisterSubscriberAction()}
         };
         protected override Dictionary<Message, FrameAction> MyFrameActions
         {
@@ -21,38 +30,32 @@ namespace Simulation.Software
         {
             robot.radio.maxListenersNumber = 5;
         }    
-        protected override DestinationRole IReceive
-        {
-            get
-            {
-                return DestinationRole.Operator;
-            }
-        }
-        protected override void handleRequest(Frame message)
-        {
+        
+        // protected override void handleRequest(Frame message)
+        // {
 
-        }
-        protected override void handleService(Frame message)
-        {
-            if (message.message is Message.Subscribe)
-            {
-                attributedRobot.radio.AddListener(message.srcMac);
-                Frame identifyMe = new Frame
-                (
-                    TransmissionType.Unicast,
-                    DestinationRole.NoMatter,
-                    MessageType.ACK,
-                    Message.Subscribe,
-                    destMac: message.srcMac
-                );
-                attributedRobot.radio.SendFrame(identifyMe);
-            }
-        }
+        // }
+        // protected override void handleService(Frame message)
+        // {
+        //     // if (message.message is Message.Subscribe)
+        //     // {
+        //     //     attributedRobot.radio.AddListener(message.srcMac);
+        //     //     Frame identifyMe = new Frame
+        //     //     (
+        //     //         TransmissionType.Unicast,
+        //     //         DestinationRole.NoMatter,
+        //     //         MessageType.ACK,
+        //     //         Message.Subscribe,
+        //     //         destMac: message.srcMac
+        //     //     );
+        //     //     attributedRobot.radio.SendFrame(identifyMe);
+        //     // }
+        // }
 
-        protected override void handleAcknowledge(Frame message)
-        {
+        // protected override void handleAcknowledge(Frame message)
+        // {
 
-        }
+        // }
         public void SendAllTransportToPosition(float x, float y, float z)
         {   
             Frame moveTo = new Frame

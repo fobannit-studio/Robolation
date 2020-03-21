@@ -16,7 +16,7 @@ namespace Simulation.Software
         {
             get => Message.Subscribe;
         }
-        public override void Send()
+        public override void Call()
         {
             Frame findOperatorFrame = new Frame(
                 TransmissionType.Broadcast,
@@ -24,32 +24,16 @@ namespace Simulation.Software
                 MessageType.Service,
                 this.myMessage
             );
-            radio.SendFrame(findOperatorFrame);
+            attributedSoftware.radio.SendFrame(findOperatorFrame);
         }
-        public override void Receive(Frame frame)
+        protected override void handleFrame(Frame frame)
         {
-            radio.AddListener(frame.srcMac);
+            attributedSoftware.radio.AddListener(frame.srcMac);
+            frame.destMac = frame.srcMac;
+            frame.messageType = MessageType.ACK;
+            attributedSoftware.radio.SendFrame(frame);
         }
     }
-
-    // class SubscribeToOperatorAction : IAction
-    // {
-    //     private readonly Radio radio;
-    //     public SubscribeToOperatorAction(Radio radio)
-    //     {
-    //         this.radio = radio;
-    //     }
-    //     public void DoAction()
-    //     {
-    //         Frame findOperatorFrame = new Frame(
-    //            TransmissionType.Broadcast,
-    //            DestinationRole.Operator,
-    //            MessageType.Service,
-    //            Message.Subscribe
-    //        );
-    //         radio.SendFrame(findOperatorFrame);
-    //     }
-    // }
 
     class SendAckAction : IAction
     {

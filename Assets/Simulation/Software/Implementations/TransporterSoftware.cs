@@ -5,7 +5,7 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Transporter : Software, IOperated
+    class Transporter : OperatingSystem, IOperated
     {
         FrameAction subscribeAction;
 
@@ -24,7 +24,7 @@ namespace Simulation.Software
         }
         public void SubscribeToOperator()
         {
-            MyFrameActions[Message.Subscribe].Send();
+            MyFrameActions[Message.Subscribe].Call();
         }
         public void SendAck()
         {
