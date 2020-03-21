@@ -5,7 +5,7 @@ using Simulation.Utils;
 using Simulation.Common;
 namespace Simulation.Components
 {
-    public class Container
+    public class Container :IContainer
     {
         private ConcurrentDictionary<string, int> materialsInContainer = new ConcurrentDictionary<string, int>();
         private float freeSpace;
@@ -33,7 +33,7 @@ namespace Simulation.Components
             this.freeSpace = freeSpace;
         }
         // Throws exception if container is full
-        public void put(BuildingMaterial material, int amount)
+        public void Put(BuildingMaterial material, int amount)
         {
             FreeSpace -= material.Volume * amount;
             Weight += material.Weight * amount;
@@ -41,8 +41,11 @@ namespace Simulation.Components
             {
                 materialsInContainer[material.Type] += amount;
             }
+            else
+                throw new ContainerIsFullException();
+
         }
-        public int get(BuildingMaterial material, int requestedAmount)
+        public int Take(BuildingMaterial material, int requestedAmount)
         {
             int returnedAmount = 0;
             if (materialsInContainer.TryGetValue(material.Type, out int amountInContainer))
