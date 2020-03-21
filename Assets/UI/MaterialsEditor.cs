@@ -34,6 +34,7 @@ namespace Simulation.UI
         [SerializeField]
         private InputField Weight;
 
+        
 
         private int editing;
 
@@ -43,7 +44,7 @@ namespace Simulation.UI
             editing = 0;
             materials = FileManager.ReadMaterials();
             buttons = new List<GameObject>();
-
+            SampleCube.SetActive(true);
             AddAviableMats();
 
         }
@@ -132,11 +133,13 @@ namespace Simulation.UI
                 FileManager.SaveMaterials(materials);
             }
         }
-        public void Back()
+        public void Close()
         {
-
-            manager.ShowMainMenu();
             SampleCube.SetActive(false);
+            this.gameObject.SetActive(false);
+            
+            manager.ShowMainMenu();
+            
             
 
         }
