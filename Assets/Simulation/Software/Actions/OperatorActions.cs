@@ -3,6 +3,20 @@ using Simulation.Utils;
 using UnityEngine;
 namespace Simulation.Software
 {
+    class TrackSubscriberAction : FrameAction
+    {
+        protected override Message myMessage
+        {
+            get => Message.Notify;
+        }
+        public override void Call() { }
+        protected override void handleFrame(Frame frame)
+        {
+            Debug.Log("Received heartbeat from subscriber");
+        }
+
+
+    }
     class RegisterSubscriberAction : FrameAction
     {
         protected override Message myMessage

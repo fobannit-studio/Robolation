@@ -1,36 +1,26 @@
 using System.Collections.Generic;
+using System.Collections;
 using Simulation.Common;
 using Simulation.Utils;
 using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Transporter : OperatingSystem, IOperated
+    class Transporter : OperatingSystem
     {
         FrameAction subscribeAction;
-
-        private Dictionary<Message, FrameAction> myFrameActions = new Dictionary<Message, FrameAction>{
-            {Message.Subscribe, new SubscribeToOperatorAction()}
-        };
-        protected override Dictionary<Message, FrameAction> MyFrameActions
+        private List<Application> reqiuredSoft = new List<Application>
         {
-            get => myFrameActions;
+            new OperatorTracking()
+        };
+        protected override List<Application> ReqiuredSoft
+        {
+            get => reqiuredSoft;
         }
 
         public Transporter(Robot robot) : base(ref robot)
-        {
-            SubscribeToOperator();
-
-        }
-        public void SubscribeToOperator()
-        {
-            MyFrameActions[Message.Subscribe].Call();
-        }
-        public void SendAck()
-        {
-
-        }
-
+        { }
+        
         protected override DestinationRole IReceive
         {
             get
@@ -38,18 +28,5 @@ namespace Simulation.Software
                 return DestinationRole.Transporter;
             }
         }
-        // protected override void handleRequest(Frame message)
-        // {
-
-        // }
-        // protected override void handleService(Frame message)
-        // {
-            
-
-        // }
-        // protected override void handleAcknowledge(Frame message)
-        // {
-
-        // }
     }
 }

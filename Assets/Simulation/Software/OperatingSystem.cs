@@ -8,9 +8,13 @@ namespace Simulation.Software
 {
     abstract class OperatingSystem : ICommunicator
     {
-        // Robot to which this role is assigned.
         public readonly Radio radio;
         protected Robot attributedRobot;
+        protected int operatorMac;
+        public int OperatorMac{
+            set => value = operatorMac;
+            get => operatorMac;
+        }
         public Vector2 Position
         {
             get
@@ -18,7 +22,7 @@ namespace Simulation.Software
                 return attributedRobot.Position;
             }
         }
-        protected abstract Dictionary<Message, FrameAction> MyFrameActions
+        protected abstract List<Application> ReqiuredSoft
         {
             get;
         }
@@ -27,11 +31,9 @@ namespace Simulation.Software
             attributedRobot = robot;
             attributedRobot.radio.software = this;
             radio = attributedRobot.radio;
-
-            foreach (KeyValuePair<Message, FrameAction> action in MyFrameActions)
+            foreach (var application in ReqiuredSoft)
             {
-                // Install each action on this software
-                action.Value.installOn(this);
+                application.installOn(this);
             }
         }
         protected abstract DestinationRole IReceive
@@ -47,10 +49,9 @@ namespace Simulation.Software
             if (isForMe(frame))
             {
                 Debug.Log($"{this.GetType().Name} recognized itself and start parsing message: {frame}");
-                foreach (KeyValuePair<Message, FrameAction> action in MyFrameActions)
+                foreach (var application in ReqiuredSoft)
                 {
-                    if(action.Value.isMyFrame(frame))
-                        action.Value.Receive(frame);
+                    application.ReceiveFrame(frame);
                 }
             }
         }

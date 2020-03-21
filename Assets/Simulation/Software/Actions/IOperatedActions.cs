@@ -1,13 +1,15 @@
 using Simulation.Utils;
 using Simulation.Common;
 using Simulation.Components;
+using System.Timers;
+using System.Collections;
+using UnityEngine;
 namespace Simulation.Software
 {
     public interface IOperated
     {
         void SubscribeToOperator();
-        void SendAck();
-
+        // IEnumerator Heartbeat(float waitTime);
     }
 
     class SubscribeToOperatorAction : FrameAction
@@ -29,18 +31,38 @@ namespace Simulation.Software
         protected override void handleFrame(Frame frame)
         {
             attributedSoftware.radio.AddListener(frame.srcMac);
-            frame.destMac = frame.srcMac;
+            attributedSoftware.OperatorMac = frame.srcMac; 
+            frame.destMac = attributedSoftware.OperatorMac;
             frame.messageType = MessageType.ACK;
             attributedSoftware.radio.SendFrame(frame);
         }
     }
 
-    class SendAckAction : IAction
+    class HeartbeatAction: FrameAction
     {
-        Radio radio;
-        public void DoAction()
+        protected override Message myMessage
+        {
+            get => Message.Notify;
+        }
+        public override void Call()
+        {
+            Debug.Log("Here");
+            if(attributedSoftware == null) return;
+            Frame heartbeatFrame = new Frame(
+                TransmissionType.Unicast,
+                DestinationRole.Operator,
+                MessageType.Heartbeat,
+                this.myMessage,
+                srcMac: this.attributedSoftware.OperatorMac
+            );
+            Debug.Log("Here 2");
+            attributedSoftware.radio.SendFrame(heartbeatFrame);
+            Debug.Log("But not here");
+        }
+        protected override void handleFrame(Frame frame)
         {
 
         }
+        
     }
 }

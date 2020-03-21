@@ -1,14 +1,14 @@
 using System.Collections.Generic;
+using System.Collections;
 using Simulation.Common;
 using Simulation.Utils;
 using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Builder : OperatingSystem, IOperated
+    class Builder : OperatingSystem
     {
-        // IAction subscribeAction;
-        // FrameAction subscribeAction;
+        private IEnumerator courutine;
         protected override DestinationRole IReceive
         {
             get
@@ -16,26 +16,15 @@ namespace Simulation.Software
                 return DestinationRole.Builder;
             }
         }
-        private Dictionary<Message, FrameAction> myFrameActions = new Dictionary<Message, FrameAction>{
-            {Message.Subscribe, new SubscribeToOperatorAction()}
+        private List<Application> reqiuredSoft = new List<Application>
+        {
+            new OperatorTracking()
         };
-        protected override Dictionary<Message, FrameAction> MyFrameActions
+        protected override List<Application> ReqiuredSoft
         {
-            get => myFrameActions;
+            get => reqiuredSoft;
         }
-
         public Builder(Robot robot) : base(ref robot)
-        {
-            SubscribeToOperator();
-        }
-        public void SubscribeToOperator()
-        {
-            MyFrameActions[Message.Subscribe].Call();
-        }
-        public void SendAck()
-        {
-
-        }
-
+        { }
     }
 }
