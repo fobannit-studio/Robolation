@@ -3,6 +3,8 @@ using System.Collections.Concurrent;
 using System.Text;
 using Simulation.Utils;
 using Simulation.Common;
+
+using UnityEngine;
 namespace Simulation.Components
 {
     public class Container :IContainer
@@ -41,8 +43,6 @@ namespace Simulation.Components
             {
                 materialsInContainer[material.Type] += amount;
             }
-            else
-                throw new ContainerIsFullException();
 
         }
         public int Take(BuildingMaterial material, int requestedAmount)
@@ -50,7 +50,7 @@ namespace Simulation.Components
             int returnedAmount = 0;
             if (materialsInContainer.TryGetValue(material.Type, out int amountInContainer))
             {
-                returnedAmount = amountInContainer > requestedAmount ? requestedAmount : amountInContainer;
+                returnedAmount = Mathf.Min(amountInContainer, requestedAmount);
                 materialsInContainer[material.Type] -= returnedAmount;
                 Weight -= material.Weight * returnedAmount;
                 FreeSpace += material.Volume * returnedAmount;

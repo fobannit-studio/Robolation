@@ -160,9 +160,8 @@ namespace Simulation.UI
         }
         void Update()
         {
-            var Dimensions = (0f, 0f, 0f);
-            float weight = 0;
-            if (Parsed(out Dimensions, out weight))
+            var Dimensions = (0f, 0f, 0f);     
+            if (Parsed(out Dimensions, out _))
                 ResizeCube(Dimensions);
             
         }

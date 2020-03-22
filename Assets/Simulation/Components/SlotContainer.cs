@@ -23,6 +23,21 @@ public class SlotContainer : IContainer
 
 
     }
+    public void AddSlot(BuildingMaterial mat, int maxAmount)
+    {
+        this.MaxMaterials.TryAdd(mat, maxAmount);
+        this.currentMaterials.TryAdd(mat, 0);
+
+    }
+    public SlotContainer()
+    {
+        MaxMaterials = new ConcurrentDictionary<BuildingMaterial, int>();
+        currentMaterials = new ConcurrentDictionary<BuildingMaterial, int>();
+    }
+    public ConcurrentDictionary<BuildingMaterial, int> GetMax()
+    {
+        return MaxMaterials;
+    }
 
     public ConcurrentDictionary<BuildingMaterial, int> FreeSpace()
     {
@@ -37,12 +52,30 @@ public class SlotContainer : IContainer
 
     public int Take(BuildingMaterial material, int requestedAmount)
     {
-        throw new System.NotImplementedException();
+        
+        if (currentMaterials.TryGetValue(material, out int incontainer))
+        {
+            int taken = Mathf.Min(incontainer, requestedAmount);
+            currentMaterials[material] -= taken;
+            return taken;
+        }
+
+        throw new NoMaterialInContainerException();
 
     }
 
     public void Put(BuildingMaterial material, int amount)
     {
-        
+        if (currentMaterials.TryGetValue(material, out int incontainer))
+        {
+            if (incontainer+amount>MaxMaterials[material])
+            {
+                throw new ContainerIsFullException();
+            }
+            currentMaterials[material] += amount;
+          
+        }
+
+        throw new NoMaterialInContainerException();
     }
 }

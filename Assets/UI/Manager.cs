@@ -10,6 +10,7 @@ namespace Simulation.UI
     {
         public MaterialsEditor materialsEditor;
         public Canvas MainMenu;
+        public BuildingsEditor buildingsEditor;
 
         private void Start()
         {
@@ -25,11 +26,20 @@ namespace Simulation.UI
         {
             MainMenu.enabled = true;
             materialsEditor.gameObject.SetActive(false);
+            buildingsEditor.gameObject.SetActive(false);
+            buildingsEditor.testGameObject.SetActive(false);
         }
         public void ShowMaterialsMenu()
         {
             MainMenu.enabled = false;
             materialsEditor.OpenEditor();
+            buildingsEditor.gameObject.SetActive(false);
+        }
+        public void ShowBuildingsMenu()
+        {
+            MainMenu.enabled = false;
+            buildingsEditor.OpenEditor();
+
         }
 
         public void Quit()
