@@ -33,7 +33,8 @@ namespace Simulation.Utils
     public enum Message
     {
         Subscribe,
-        MoveTo
+        MoveTo,
+        Notify
     }
     public enum BuildingStatus
     {

@@ -2,17 +2,17 @@ using Simulation.Common;
 using UnityEngine;
 namespace Simulation.Utils
 {
-    public interface IReceiver
+    public interface IAction
+    {
+        void DoAction();
+    }
+    public interface ICommunicator
     {
         Vector2 Position
         {
             get;
         }
         void HandleFrame(Frame frame);
-    }
-    public interface IAction
-    {
-        void DoAction();
     }
 
     public interface IContainer
@@ -34,9 +34,9 @@ namespace Simulation.Utils
 
 
 
-        
+
 
 
     }
-    
+
 }

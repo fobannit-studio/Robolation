@@ -16,12 +16,12 @@ namespace Simulation.Components
         public readonly int macAddress;
         protected float range;
         // Receiver, that will handle messages sent by this radio.
-        public IReceiver software;
+        public ICommunicator software;
         private List<int> macTable = new List<int>();
 
         public Radio(float range, int maxListenersNumber, ref Medium ether):this(range, maxListenersNumber, null,ref ether)
         {}
-        public Radio(float range, int maxListenersNumber, IReceiver software, ref Medium ether)
+        public Radio(float range, int maxListenersNumber, ICommunicator software, ref Medium ether)
         {
             this.software = software;
             this.range = range;

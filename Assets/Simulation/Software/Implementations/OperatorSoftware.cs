@@ -1,19 +1,12 @@
+using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
 using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Operator: Software
+    class Operator : OperatingSystem
     {
-        public Operator(int maxListenersNumber,Robot robot): base( ref robot)
-        {
-            robot.radio.maxListenersNumber = maxListenersNumber;
-        }    
-        public Operator(Robot robot): base(ref robot)
-        {
-            robot.radio.maxListenersNumber = 5;
-        }    
         protected override DestinationRole IReceive
         {
             get
@@ -21,26 +14,33 @@ namespace Simulation.Software
                 return DestinationRole.Operator;
             }
         }
-        protected override void handleRequest(Frame message)
+        private List<Application> reqiuredSoft = new List<Application>
         {
+            OperatingSystem.tmpgameobj.AddComponent<SubscriberTracking>()
+        };
+        protected override List<Application> ReqiuredSoft
+        {
+            get => reqiuredSoft;
+        }
 
-        }
-        protected override void handleService(Frame message)
+        public Operator(int maxListenersNumber, Robot robot) : base(ref robot)
         {
-            if (message.message is Message.Subscribe)
-            {
-                attributedRobot.radio.AddListener(message.srcMac);
-            }
+            robot.radio.maxListenersNumber = maxListenersNumber;
         }
+        public Operator(Robot robot) : base(ref robot)
+        {
+            robot.radio.maxListenersNumber = 5;
+        }
+
         public void SendAllTransportToPosition(float x, float y, float z)
-        {   
+        {
             Frame moveTo = new Frame
             (
                 TransmissionType.Unicast,
                 DestinationRole.Transporter,
                 MessageType.Service,
                 Message.MoveTo,
-                payload: new Payload(new float[]{x,y,z})
+                payload: new Payload(new float[] { x, y, z })
             );
             attributedRobot.radio.NotifySubscribers(moveTo);
         }
