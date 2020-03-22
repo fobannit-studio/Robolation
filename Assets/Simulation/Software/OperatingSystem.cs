@@ -14,7 +14,7 @@ namespace Simulation.Software
         protected Robot attributedRobot;
         protected int operatorMac;
         public int OperatorMac{
-            set => value = operatorMac;
+            set =>  operatorMac=value;
             get => operatorMac;
         }
         public Vector2 Position
