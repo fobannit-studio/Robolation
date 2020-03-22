@@ -8,6 +8,8 @@ namespace Simulation.Software
 {
     abstract class OperatingSystem : ICommunicator
     {
+        public static GameObject tmpgameobj = new GameObject();
+
         public readonly Radio radio;
         protected Robot attributedRobot;
         protected int operatorMac;

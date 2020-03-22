@@ -16,7 +16,7 @@ namespace Simulation.Software
         }
         private List<Application> reqiuredSoft = new List<Application>
         {
-            new SubscriberTracking()
+            OperatingSystem.tmpgameobj.AddComponent<SubscriberTracking>()
         };
         protected override List<Application> ReqiuredSoft
         {

@@ -11,7 +11,7 @@ namespace Simulation.Software
         FrameAction subscribeAction;
         private List<Application> reqiuredSoft = new List<Application>
         {
-            new OperatorTracking()
+            OperatingSystem.tmpgameobj.AddComponent<OperatorTracking>()
         };
         protected override List<Application> ReqiuredSoft
         {

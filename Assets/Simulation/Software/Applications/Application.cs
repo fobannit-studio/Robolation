@@ -1,10 +1,15 @@
 using System.Collections.Generic;
 using Simulation.Utils;
 using Simulation.Common;
+using UnityEngine;
 namespace Simulation.Software
 {
-    abstract class Application
+    abstract class Application: MonoBehaviour
     {
+        protected GameObject application;
+        
+        public Application()
+        {}
         protected abstract Dictionary<Message, FrameAction> Actions
         {
             get;

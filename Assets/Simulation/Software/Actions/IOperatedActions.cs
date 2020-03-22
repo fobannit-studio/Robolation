@@ -9,7 +9,7 @@ namespace Simulation.Software
     public interface IOperated
     {
         void SubscribeToOperator();
-        // IEnumerator Heartbeat(float waitTime);
+        IEnumerator Heartbeat(float waitTime);
     }
 
     class SubscribeToOperatorAction : FrameAction
@@ -46,18 +46,15 @@ namespace Simulation.Software
         }
         public override void Call()
         {
-            Debug.Log("Here");
             if(attributedSoftware == null) return;
             Frame heartbeatFrame = new Frame(
                 TransmissionType.Unicast,
                 DestinationRole.Operator,
                 MessageType.Heartbeat,
                 this.myMessage,
-                srcMac: this.attributedSoftware.OperatorMac
+                destMac: this.attributedSoftware.OperatorMac
             );
-            Debug.Log("Here 2");
             attributedSoftware.radio.SendFrame(heartbeatFrame);
-            Debug.Log("But not here");
         }
         protected override void handleFrame(Frame frame)
         {
