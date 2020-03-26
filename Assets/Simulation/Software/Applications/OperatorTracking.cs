@@ -2,36 +2,78 @@ using Simulation.Utils;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using Simulation.Common;
+using System;
+
 namespace Simulation.Software
 {
-    class OperatorTracking: Application, IOperated
+    class OperatorTracking : Application
     {
         private IEnumerator coroutine;
-        private Dictionary<Message, FrameAction> actions = new Dictionary<Message, FrameAction>
-        {
-            {Message.Subscribe, new SubscribeToOperatorAction()},
-            {Message.Notify, new HeartbeatAction()}
-        };
-        protected override Dictionary<Message, FrameAction> Actions
-        {
-            get => actions;
-        }
 
-        protected override void Run() {
-            SubscribeToOperator();
+        public OperatorTracking()
+
+        {
+
+            ActionsOnRecive = new Dictionary<Message, Action<Frame>>
+            {
+
+                {Message.Subscribe, registerOperator},
+                {Message.Notify, recieveHeartbeatResponse}
+            };
+        }
+        protected override void Run()
+        {
+            FindOperator();
+
             coroutine = Heartbeat(2.0f);
             StartCoroutine(coroutine);
         }
-        public void SubscribeToOperator()
+
+        private void FindOperator()
         {
-            Actions[Message.Subscribe].Call();
+            Frame findOperatorFrame = new Frame(
+                TransmissionType.Broadcast,
+                DestinationRole.Operator,
+                MessageType.Service,
+                Message.Subscribe
+            );
+            software.radio.SendFrame(findOperatorFrame);
         }
-        public IEnumerator Heartbeat(float waitTime)
+
+        private void heartbeat()
         {
-            while(true)
+            if (software == null) return;
+            Frame heartbeatFrame = new Frame(
+                TransmissionType.Unicast,
+                DestinationRole.Operator,
+                MessageType.Heartbeat,
+                Message.Notify,
+                destMac: software.OperatorMac
+            );
+            software.radio.SendFrame(heartbeatFrame);
+        }
+
+        private void recieveHeartbeatResponse(Frame frame)
+        {
+            Debug.Log("Operator answered");
+        }
+        private void registerOperator(Frame frame)
+        {
+            software.radio.AddListener(frame.srcMac);
+            software.OperatorMac = frame.srcMac;
+            frame.destMac = software.OperatorMac;
+            frame.messageType = MessageType.ACK;
+            software.radio.SendFrame(frame);
+
+        }
+
+        private IEnumerator Heartbeat(float waitTime)
+        {
+            while (true)
             {
-                yield return new WaitForSeconds(waitTime);
-                Actions[Message.Notify].Call();
+                yield return new WaitForSeconds(waitTime * Time.timeScale);
+                heartbeat();
             }
 
         }

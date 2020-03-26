@@ -7,24 +7,28 @@ namespace Simulation.Utils
     {
         protected Frame lastReceivedFrame;
         protected OperatingSystem attributedSoftware;
-        protected abstract Message myMessage
-        {
-            get;   
-        }
+        protected  bool ignoreListenersAmount=false;
+     
         public void installOn(OperatingSystem attributedSoftware)
         {
             this.attributedSoftware = attributedSoftware;
         }
-        public bool isMyFrame(Frame frame)
-        {
-            return frame.message == myMessage;
-        }
+
         public void Receive(Frame frame){
             lastReceivedFrame = frame;
             handleFrame(frame);
+   
         }
+        public void Call()
+        {
+            if (ignoreListenersAmount || attributedSoftware.attributedRobot.radio.ListenerAmount>0)   
+                Execute();
+            
+        }
+        public virtual void Execute()
+        {
 
-        public abstract void Call();
+        }
         protected abstract void handleFrame(Frame frame);
 
     }

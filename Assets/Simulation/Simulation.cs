@@ -1,10 +1,10 @@
-using System;
+
 using UnityEngine;
 using Simulation.Robots;
 using Simulation.World;
-using Simulation.Common;
-using Simulation.Utils;
+using System.Collections.Generic;
 using Simulation.Software;
+
 namespace Simulation
 {
 
@@ -12,25 +12,47 @@ namespace Simulation
 
     public class Simulation : MonoBehaviour
     {
+
+        public  List<Robot> robots;
+        public List<Building> buildings;
+
         void Start()
         {
             // Steps:
             // 1. Create Medium an Robots
             // 2. Initialize all buildings (create materials there)
             // 3. Start operator lookup.
-            Medium ether = new Medium();
-            Vector2 center = new Vector2(0, 0);
-            Vector2 veryFar = new Vector2(100, 100);
-            Vector2 veryClose = new Vector2(5, 5);
-            Parrot r1 = new Parrot(center, 50, ref ether);
-            IRB1100 r2 = new IRB1100(veryFar, 10, ref ether);
-            Spot r3 = new Spot(veryClose, 10, ref ether);
+
             
-            // Should be so
-            Operator oper = new Operator(r1);
-            Builder builder = new Builder(r2);
-            Transporter transporter = new Transporter(r3);
-            oper.SendAllTransportToPosition(10.0F, 10.0F, 10.0F);
+
+            Medium ether = new Medium();
+
+            foreach (var robot in robots)
+            {
+                robot.Init(1000, ref ether);
+            }
+
+
+            var a= new OperatorSoftware(robots[1]);
+           var b= new TransporterSoftware(robots[0]);
+
+   
+
+    
+
+
+            //Vector2 center = new Vector2(0, 0);
+            //Vector2 veryFar = new Vector2(100, 100);
+            //Vector2 veryClose = new Vector2(5, 5);
+            //Parrot r1 = new Parrot(center, 50, ref ether);
+            //IRB1100 r2 = new IRB1100(veryFar, 10, ref ether);
+            //Spot r3 = new Spot(veryClose, 10, ref ether);
+
+            //// Should be so
+            //Operator oper = new Operator(r1);
+            //Builder builder = new Builder(r2);
+            //Transporter transporter = new Transporter(r3);
+            //oper.SendAllTransportToPosition(10.0F, 10.0F, 10.0F);
             // 
             // r1.NotifySubscribers(message);
             // r1.role.SendAllTransportToPosition((10.0,10.0));

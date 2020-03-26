@@ -8,23 +8,26 @@ namespace Simulation.Software
 {
     abstract class OperatingSystem : ICommunicator
     {
-        public static GameObject tmpgameobj = new GameObject();
+       
 
         public readonly Radio radio;
-        protected Robot attributedRobot;
+        public Robot attributedRobot;
         protected int operatorMac;
+        
         public int OperatorMac{
             set =>  operatorMac=value;
             get => operatorMac;
+            
         }
-        public Vector2 Position
+        public Vector3 Position
         {
+            
             get
             {
                 return attributedRobot.Position;
             }
         }
-        protected abstract List<Application> ReqiuredSoft
+        public abstract List<Application> ReqiuredSoft
         {
             get;
         }
@@ -33,6 +36,12 @@ namespace Simulation.Software
             attributedRobot = robot;
             attributedRobot.radio.software = this;
             radio = attributedRobot.radio;
+            operatorMac = -1;
+
+            
+        }
+        protected void InstallSoft()
+        {
             foreach (var application in ReqiuredSoft)
             {
                 application.installOn(this);
@@ -54,7 +63,7 @@ namespace Simulation.Software
                 foreach (var application in ReqiuredSoft)
                 {
                     application.ReceiveFrame(frame);
-                }
+                }               
             }
         }
     }

@@ -19,15 +19,19 @@ namespace Simulation.Components
         public ICommunicator software;
         private List<int> macTable = new List<int>();
 
-        public Radio(float range, int maxListenersNumber, ref Medium ether):this(range, maxListenersNumber, null,ref ether)
+        public Radio(float range, ref Medium ether, int maxListenersNumber=1) :this(range,  null,ref ether, maxListenersNumber)
         {}
-        public Radio(float range, int maxListenersNumber, ICommunicator software, ref Medium ether)
+        public Radio(float range, ICommunicator software, ref Medium ether, int maxListenersNumber=1)
         {
             this.software = software;
             this.range = range;
             this.macAddress = ether.RegisterRadio(ReceiveFrame);
             this.maxListenersNumber = maxListenersNumber;
             this.Gateway = ether.Transmit;
+        }
+        public int ListenerAmount
+        {
+            get => macTable.Count;
         }
         // Send's frame as unicast message to each subscriber of type given in frame
         public void NotifySubscribers(Frame frame)
@@ -52,7 +56,9 @@ namespace Simulation.Components
         public void SendFrame(Frame frame)
         {
             frame.srcMac = macAddress;
+            Debug.Log($"{this.software.GetType().Name}'s radio sent frame");
             Gateway(frame, software.Position, this.range);
+         
         }
         public void ReceiveFrame(Frame frame, Vector3 senderPosition, float senderRange)
         {

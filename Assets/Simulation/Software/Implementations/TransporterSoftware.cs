@@ -6,20 +6,25 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Transporter : OperatingSystem
+    class TransporterSoftware : OperatingSystem
     {
-        FrameAction subscribeAction;
-        private List<Application> reqiuredSoft = new List<Application>
-        {
-            OperatingSystem.tmpgameobj.AddComponent<OperatorTracking>()
-        };
-        protected override List<Application> ReqiuredSoft
+        private readonly List<Application> reqiuredSoft;
+        public override List<Application> ReqiuredSoft
         {
             get => reqiuredSoft;
         }
 
-        public Transporter(Robot robot) : base(ref robot)
-        { }
+        public TransporterSoftware(Robot robot) : base(ref robot)
+        { 
+           reqiuredSoft = new List<Application>
+            {
+                 attributedRobot.gameObject.AddComponent<Movement>(),
+                attributedRobot.gameObject.AddComponent<OperatorTracking>()
+              
+            };
+            InstallSoft();
+
+        }
         
         protected override DestinationRole IReceive
         {

@@ -8,7 +8,7 @@ namespace Simulation.Utils
     }
     public interface ICommunicator
     {
-        Vector2 Position
+        Vector3 Position
         {
             get;
         }

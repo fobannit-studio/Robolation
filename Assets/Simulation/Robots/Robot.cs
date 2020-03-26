@@ -18,32 +18,30 @@ namespace Simulation.Robots
         // public int maxSubscribersNumber; 
         public Vector3 Position
         {
-            get;
+            get => transform.position;
         }
         protected float batteryLevel;
         protected float durability;
         protected int workingTime;
         public Radio radio;
         // public IReceiver controller;
-
+        [SerializeField]
         protected NavMeshAgent agent;
 
         // Every robot on creation should register himself 
         // in ether.
-        public Robot(Vector3 positionInWorld, float radioRange, ref Medium ether)
+       
+        public void Init(float radioRange, ref Medium ether)
         {
             batteryLevel = 1.0F;
-            Position = positionInWorld;    
-            radio = new Radio(radioRange, 1, ref ether); 
+            radio = new Radio(radioRange, ref ether);
+            
 
         }
         virtual public void MoveOrder(Vector3 destination)
         {
             agent.SetDestination(destination);
         }
-        public virtual void Start()
-        {
-            agent = GetComponent<NavMeshAgent>();
-        }
+       
     }
 }

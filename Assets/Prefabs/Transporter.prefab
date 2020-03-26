@@ -410,10 +410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287520f14c26ce148967eea7edc08120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 3677427710113425696}
   LeftArm: {fileID: 7438248451886409788}
   RightArm: {fileID: 3958980139097263762}
   Plate: {fileID: 8280103655277443578}
-  camera: {fileID: 0}
 --- !u!195 &3677427710113425696
 NavMeshAgent:
   m_ObjectHideFlags: 0
