@@ -11,7 +11,7 @@ public class SlotContainer : IContainer
     private ConcurrentDictionary<BuildingMaterial, int> MaxMaterials;
 
 
-    public SlotContainer(ConcurrentDictionary<BuildingMaterial, int> Max)
+    public SlotContainer(ConcurrentDictionary<BuildingMaterial, int> Max,bool full=false)
     {
         MaxMaterials = Max;
         currentMaterials = new ConcurrentDictionary<BuildingMaterial, int>();
@@ -19,6 +19,10 @@ public class SlotContainer : IContainer
         foreach (var item in MaxMaterials.Keys)
         {
             currentMaterials.TryAdd(item, 0);
+        }
+        if (full)
+        {
+            currentMaterials = Max;
         }
 
 
@@ -38,7 +42,10 @@ public class SlotContainer : IContainer
     {
         return MaxMaterials;
     }
-
+    public ConcurrentDictionary<BuildingMaterial,int> GetContent()
+    {
+        return currentMaterials;
+    }
     public ConcurrentDictionary<BuildingMaterial, int> FreeSpace()
     {
         var result = new ConcurrentDictionary<BuildingMaterial, int>();
@@ -75,7 +82,10 @@ public class SlotContainer : IContainer
             currentMaterials[material] += amount;
           
         }
-
-        throw new NoMaterialInContainerException();
+        else
+        {
+            throw new NoMaterialInContainerException();
+        }
+       
     }
 }

@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using Simulation.Common;
 using Simulation.World;
-using Simulation.Software;
-using Simulation.Utils;
 using Simulation.Components;
 using UnityEngine.AI;
+using System.Collections;
 namespace Simulation.Robots
 {
     // Physical description of robot, that have params
@@ -35,9 +31,13 @@ namespace Simulation.Robots
         {
             batteryLevel = 1.0F;
             radio = new Radio(radioRange, ref ether);
+           
             
-
         }
+
+   
+
+
         virtual public void MoveOrder(Vector3 destination)
         {
             agent.SetDestination(destination);

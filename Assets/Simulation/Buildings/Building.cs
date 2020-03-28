@@ -10,26 +10,40 @@ namespace Simulation.World
 
     public class Building : MonoBehaviour
     {
+        [SerializeField]
+        private MeshCollider collider;
+        [SerializeField]
+        private MeshFilter meshFilter;
+
 
         public int stage;  // finished paused planned in progress
         private List<Mesh> frames;
         private int frame_iterator;
         private SlotContainer container;
-        private MeshFilter meshFilter;
+       
         public string Name;
 
-
-
-
-
-        public Building(string Name, SlotContainer materials,List<Mesh> frames)
+        public void Init(string Name, SlotContainer materials,List<Mesh> frames)
         {
+
             container = materials;   
             this.frames = frames;
             stage = 0;
             frame_iterator = 0;
             this.Name = Name;
 
+        }
+        public  Building(string Name, SlotContainer materials, List<Mesh> frames)
+        {
+            container = materials;
+            this.frames = frames;
+            stage = 0;
+            frame_iterator = 0;
+            this.Name = Name;
+        }
+        public SlotContainer GetSlotContainer()
+        {
+            return container;
         }
         public Mesh GetPreview()
         {
@@ -41,10 +55,22 @@ namespace Simulation.World
         }
         private void Start()
         {
-            meshFilter = GetComponent<MeshFilter>();
+            //meshFilter = GetComponent<MeshFilter>();
             //Animate();
         }
-
+        public List<Mesh> GetFrames()
+        {
+            return this.frames;
+        }
+        public void RecalculateCollider(Mesh mesh)
+        {
+            collider.sharedMesh = mesh;
+        }
+        public void SetPreview()
+        {
+            meshFilter.mesh = frames[frames.Count - 1];
+            collider.enabled = false;
+        }
         public ConcurrentDictionary<BuildingMaterial, int> GetRemaining()
         {
             return container.FreeSpace();
