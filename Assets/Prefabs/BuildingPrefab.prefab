@@ -96,7 +96,7 @@ MonoBehaviour:
   collider: {fileID: 2410423837395364354}
   meshFilter: {fileID: 1010280272951838090}
   stage: 0
-  Name: Small House
+  Name: test
 --- !u!64 &2410423837395364354
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -3,6 +3,8 @@ using Simulation.World;
 using Simulation.Components;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
+
 namespace Simulation.Robots
 {
     // Physical description of robot, that have params
@@ -24,6 +26,8 @@ namespace Simulation.Robots
         [SerializeField]
         protected NavMeshAgent agent;
 
+        public static int created=0;
+
         // Every robot on creation should register himself 
         // in ether.
        
@@ -31,12 +35,20 @@ namespace Simulation.Robots
         {
             batteryLevel = 1.0F;
             radio = new Radio(radioRange, ref ether);
-           
-            
         }
+        public Robot()
+        {
 
-   
+            created++;
+            Debug.Log("ja");
 
+        }
+        private void Update()
+        {
+           
+
+
+        }
 
         virtual public void MoveOrder(Vector3 destination)
         {

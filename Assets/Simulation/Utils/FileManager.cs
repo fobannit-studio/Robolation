@@ -4,6 +4,7 @@ using UnityEngine;
 using Simulation.Common;
 using System.IO;
 using Simulation.World;
+using Simulation.Robots;
 
 namespace Simulation.Utils
 {
@@ -16,6 +17,11 @@ namespace Simulation.Utils
         private const string MaterialsFile = "materials";
 
         private const string ExampleMesh = "Assets\\Models\\Small House\\house_3.obj";
+
+        private const string RobotPrefabsDir = "Robot_Prefabs";
+
+        public static Robot[] Robots = Resources.LoadAll<Robot>(RobotPrefabsDir);
+
 
 
         public static List<BuildingMaterial> ReadMaterials()
@@ -62,6 +68,8 @@ namespace Simulation.Utils
 
 
         }
+        
+     
         private static SlotContainer ParseBuildingMaterials(string filename)
         {
             var result = new SlotContainer();

@@ -14,7 +14,7 @@ namespace Simulation.UI
         }
         public void ClearList()
         {
-         
+        
             foreach (var item in elements)
             {
                 Destroy(item.gameObject);
