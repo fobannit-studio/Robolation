@@ -21,7 +21,7 @@ namespace Simulation.UI
         public GameObject SampleCube;
 
 
-        private List<GameObject> buttons;
+        private ScrollViewManager<MaterialButton> aviable_mats;
 
         [SerializeField]
         private InputField Type;
@@ -43,7 +43,7 @@ namespace Simulation.UI
             gameObject.SetActive(true);
             editing = 0;
             materials = FileManager.ReadMaterials();
-            buttons = new List<GameObject>();
+            aviable_mats = new ScrollViewManager<MaterialButton>();
             SampleCube.SetActive(true);
             AddAviableMats();
 
@@ -63,18 +63,9 @@ namespace Simulation.UI
         public void AddMaterial()
         {
             this.materials.Add(new BuildingMaterial("New Material", (1, 1, 1), 1));
-            RefreshMats();
-
-        }
-        void RefreshMats()
-        {
-            foreach (var item in buttons)
-            {
-                Destroy(item);
-            }
-            buttons = new List<GameObject>();
             AddAviableMats();
         }
+       
         public void ResizeCube((float x, float y, float z) Dimensions)
         {
             SampleCube.transform.localScale = new Vector3(Dimensions.x, Dimensions.y, Dimensions.z);
@@ -129,7 +120,7 @@ namespace Simulation.UI
             if (Parsed(out Dimensions,out weight))
             {
                 materials[editing] = new BuildingMaterial(Type.text, Dimensions, weight);
-                RefreshMats();
+                AddAviableMats();
                 FileManager.SaveMaterials(materials);
             }
         }
@@ -145,16 +136,11 @@ namespace Simulation.UI
         }
         public void AddAviableMats()
         {
+            aviable_mats.ClearList();
             for (int i = 0; i < materials.Count; i++)
-            {
-
-                GameObject button = Instantiate(MaterialButtonTemplate) as GameObject;
-                button.SetActive(true);
-                var tmp = button.GetComponent<MaterialButton>();
-                tmp.init(materials[i].Type, this, materials[i],i);
-                
-                button.transform.SetParent(MaterialButtonTemplate.transform.parent, false);
-                buttons.Add(button);
+            {             
+                var materialButton = aviable_mats.GenerateList(this.MaterialButtonTemplate);
+                materialButton.init(materials[i].Type, this, materials[i], i);
             }
             
         }

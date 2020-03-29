@@ -15,7 +15,7 @@ namespace Simulation.UI
         public void onClick()
         {
             if (editor != null)
-                editor.OpenBuildingAttributes(building, id);
+                editor.OpenBuildingMaterials(building, id);
         }
         public void SetText(string text)
         {

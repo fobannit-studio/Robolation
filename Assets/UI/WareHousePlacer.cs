@@ -33,8 +33,9 @@ namespace Simulation.UI
      
 
         private Placer placer;
-        private List<MaterialAmount> materialAmounts;
-        private List<MaterialAmount> needed;
+        private ScrollViewManager<MaterialAmount> materials_in_warehouse;
+
+        private ScrollViewManager<MaterialAmount> needed;
         private ConcurrentDictionary<BuildingMaterial, int> MaterialsNeeded;
         private Warehouse current_warehouse;
         private Camera cam;
@@ -48,8 +49,12 @@ namespace Simulation.UI
         {
             placedBuildings = BuildingPlacer.placedBuildings;
             spawned_warehouses = new List<Warehouse>();
-            materialAmounts = new List<MaterialAmount>();
-            needed = new List<MaterialAmount>();
+
+            materials_in_warehouse = new ScrollViewManager<MaterialAmount>();
+            needed = new ScrollViewManager<MaterialAmount>();
+
+
+
             placer = gameObject.AddComponent<Placer>();
             placer.Init(onPlaced);
             MaterialsNeeded = new ConcurrentDictionary<BuildingMaterial, int>();
@@ -77,12 +82,9 @@ namespace Simulation.UI
 
             foreach (var item in MaterialsNeeded)
             {
-                GameObject button = Instantiate(material_need_example);
-                button.SetActive(true);
-                var amount_button = button.GetComponent<MaterialAmount>();
+        
+                var amount_button = needed.GenerateList(material_need_example);
                 amount_button.Init(item.Key, item.Value);
-                button.transform.SetParent(material_need_example.transform.parent, false);
-                needed.Add(amount_button);
             }
 
 
@@ -91,25 +93,20 @@ namespace Simulation.UI
 
         private void AddButtons(Warehouse warehouse)
         {
-            foreach (var item in materialAmounts)
-            {
-                Destroy(item.gameObject);
-            }
-            materialAmounts.Clear();
+           
             if (warehouse.container==null ||warehouse.container.GetContent().IsEmpty)
             {
                 SlotContainer new_container = new SlotContainer(MaterialsNeeded);
                 warehouse.container = new_container;
             }
 
+            materials_in_warehouse.ClearList();
+
             foreach (var material in warehouse.container.GetContent())
             {
-                GameObject button = Instantiate(material_amount_example);
-                button.SetActive(true);
-                var amount_button = button.GetComponent<MaterialAmount>();
+                var amount_button= materials_in_warehouse.GenerateList(material_amount_example);
                 amount_button.Init(material.Key,material.Value);
-                button.transform.SetParent(material_amount_example.transform.parent, false);
-                materialAmounts.Add(amount_button);
+                
             }
 
            
@@ -164,7 +161,7 @@ namespace Simulation.UI
             {
                 var new_container = new ConcurrentDictionary<BuildingMaterial,int>();
 
-                foreach (var item in materialAmounts)
+                foreach (var item in materials_in_warehouse.elements)
                 {
                     new_container.TryAdd(item.assigned_material, item.Amount());
                 }

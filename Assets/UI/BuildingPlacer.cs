@@ -73,9 +73,12 @@ namespace Simulation.UI
                 GameObject button = Instantiate(ExampleButton) as GameObject;
                 button.SetActive(true);
                 var placebutton = button.GetComponent<PlaceButton>();
-                placebutton.Init(buildings[i], this, i);
                 button.transform.SetParent(ExampleButton.transform.parent, false);
                 buttons.Add(button);
+
+
+                placebutton.Init(buildings[i], this, i);
+               
             }
         }
 
