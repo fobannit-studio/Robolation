@@ -2,36 +2,46 @@ using System.Collections.Generic;
 using Simulation.Utils;
 using Simulation.Common;
 using UnityEngine;
+using System;
+
 namespace Simulation.Software
 {
     abstract class Application: MonoBehaviour
     {
-        protected GameObject application;
-        
+       
+     
+        protected Dictionary<Message, Action<Frame>> ActionsOnRecive;
+
+        protected OperatingSystem software;
+
         public Application()
-        {}
-        protected abstract Dictionary<Message, FrameAction> Actions
-        {
-            get;
-        }
-        protected virtual void Run()
         { }
-        public void ReceiveFrame(Frame frame)
+        // protected Dictionary<Message, FrameAction> actions;
+
+
+        public virtual void ReceiveFrame(Frame frame)
         {
-            foreach (KeyValuePair<Message, FrameAction> action in Actions)
+            if (ActionsOnRecive.ContainsKey(frame.message))
             {
-                if (action.Value.isMyFrame(frame))
-                    action.Value.Receive(frame);
+                Action<Frame> action = ActionsOnRecive[frame.message];
+                action(frame);
             }
+
+         
         }
+
+        protected virtual void Run()
+        {
+
+        }
+
+        
         public void installOn(OperatingSystem system)
         {
-            foreach (KeyValuePair<Message, FrameAction> action in Actions)
-            {
-                // Install each action on reqired software
-                action.Value.installOn(system);
-            }
+            this.software = system;
             Run();
+            
         }
     }
+
 }

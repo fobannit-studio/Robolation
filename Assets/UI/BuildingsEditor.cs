@@ -18,13 +18,11 @@ namespace Simulation.UI
         private int editing;
 
         private List<Building> buildings;
-        private List<GameObject> buttons;
-
-        private List<GameObject> attributes;
+        private ScrollViewManager<BuildingButton> building_buttons;
+        private ScrollViewManager<MaterialDropDown> material_dropdowns;
 
         [SerializeField]
         private Mesh ExampleMesh;
-
         [SerializeField]
         private MeshFilter testFilter;
         [SerializeField]
@@ -34,7 +32,6 @@ namespace Simulation.UI
 
         public void AddNewBuilding()
         {
-
             SlotContainer slotContainer = new SlotContainer();
             var tmp = new List<Mesh>();
             tmp.Add(ExampleMesh);
@@ -45,7 +42,7 @@ namespace Simulation.UI
         {
             buildings[editing].Name = BuildingName.text;
             var container = new SlotContainer();
-            foreach (var mat in attributes)
+            foreach (var mat in material_dropdowns.elements)
             {   var drop = mat.GetComponent<MaterialDropDown>();
                 int amount;
                 if (!drop.GetAmount(out amount))
@@ -67,24 +64,18 @@ namespace Simulation.UI
             AddMaterial(all, 0, 0);
         }
         public MaterialDropDown AddMaterial(List<string> options,int amount,int index)
-        {
-          
-            GameObject button = Instantiate(MaterialDropdownTemplate) as GameObject;
-            button.SetActive(true);
-            var tmp = button.GetComponent<MaterialDropDown>();
-            tmp.Init(options, amount, index);
-            button.transform.SetParent(MaterialDropdownTemplate.transform.parent, false);
-            attributes.Add(button);
-
-            return tmp;
+        { 
+            var dropdown = material_dropdowns.GenerateList(MaterialDropdownTemplate);
+            dropdown.Init(options, amount, index);
+            return dropdown;
         }
         public  void OpenEditor()
         {
             this.gameObject.SetActive(true);
             FileManager.ReadMaterials();
             buildings = FileManager.ReadBuildings();
-            buttons = new List<GameObject>();
-            attributes = new List<GameObject>();
+            building_buttons = new ScrollViewManager<BuildingButton>();
+            material_dropdowns = new ScrollViewManager<MaterialDropDown>();
             this.testGameObject.SetActive(true);
             Refresh();
             
@@ -94,50 +85,31 @@ namespace Simulation.UI
         {
             for (int i = 0; i < buildings.Count; i++)
             {
-
-                GameObject button = Instantiate(BuildingButtonTemplate) as GameObject;
-                button.SetActive(true);
-                var tmp = button.GetComponent<BuildingButton>();
-                tmp.init(buildings[i].Name, this, buildings[i], i);
-                button.transform.SetParent(BuildingButtonTemplate.transform.parent, false);
-                buttons.Add(button);
+                var building_button = building_buttons.GenerateList(BuildingButtonTemplate);
+                building_button.init(buildings[i].Name, this, buildings[i], i);
             }
         }
         void Refresh()
         {
-            foreach (var item in buttons)
-            {
-                Destroy(item);
-            }
-            foreach (var item in attributes)
-            {
-                Destroy(item);
-            }
-            buttons = new List<GameObject>();
-        
-            attributes = new List<GameObject>();
+            building_buttons.ClearList();
+            material_dropdowns.ClearList();
             AddBuildings();
 
 
         }
-        public void OpenBuildingAttributes(Building building, int id)
+        public void OpenBuildingMaterials(Building building, int id)
         {
 
             Refresh();
             BuildingName.text = building.Name;
-
             var all = new List<string>(BuildingMaterial.existingMaterials.Keys);
             foreach (var item in building.GetFull())
             {
                 AddMaterial(all, item.Value, all.IndexOf(item.Key.Type));
             }
-
             testFilter.mesh = building.GetPreview();
             editing = id;
 
         }
-
-   
-
     }
 }

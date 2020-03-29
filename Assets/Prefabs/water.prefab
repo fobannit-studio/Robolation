@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1405533379972544302}
   - component: {fileID: 3106921357302235060}
   - component: {fileID: 684267140620977150}
-  - component: {fileID: 8966028088836250944}
   m_Layer: 0
   m_Name: water
   m_TagString: Untagged
@@ -62,41 +61,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VoxelSize: 0.1
   Voxels: 8
-  Weight: 24
+  Weight: 50
   ColorsRight: 
   ColorsLeft: 
   ColorsForward: 
   ColorsBack: 
   Rotation: 0
---- !u!114 &8966028088836250944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2727541939646842173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df27b9289d1e8c4fb82e0df4f4673ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
-  m_CollectObjects: 2
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.023333333
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 365f1a735ea656647a184bd59dc7aa82, type: 2}
 --- !u!1 &8491086705101217952
 GameObject:
   m_ObjectHideFlags: 0

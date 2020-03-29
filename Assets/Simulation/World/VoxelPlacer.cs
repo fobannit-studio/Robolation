@@ -14,17 +14,34 @@ namespace Simulation.World
     {
         public List<VoxelTile> TilePrefabs;
 
+        private List<VoxelTile> originalprefabs;
+
         private VoxelTile[,] spawnedTiles;
         public Vector2Int Mapsize = new Vector2Int(5, 5);
-        public NavMeshSurface surface;
+        public NavMeshSurface[] surfaces;
         private void Start()
         {
+
+            Preparation();
+            Generate();
+           
+
+        }
+        private void Preparation()
+        {
+            surfaces = GetComponents<NavMeshSurface>();
+
             spawnedTiles = new VoxelTile[Mapsize.x, Mapsize.y];
             foreach (VoxelTile tile in TilePrefabs)
             {
                 tile.CalculateColors();
             }
-            int offset = 8;
+            GenerateRotations();
+            
+        }
+        private void GenerateRotations()
+        {
+            int offset = 8; //used for placing new prefabs
             int countBeforeAdding = TilePrefabs.Count;
             for (int i = 0; i < countBeforeAdding; i++)
             {
@@ -67,11 +84,6 @@ namespace Simulation.World
                         break;
                 }
             }
-            // Debug.Log(TilePrefabs.Count);
-
-            Generate();
-            surface.BuildNavMesh();
-
         }
         private VoxelTile GetRandomTile(List<VoxelTile> aviableTiles)
         {
@@ -117,13 +129,23 @@ namespace Simulation.World
             }
             VoxelTile selectedTile = GetRandomTile(aviableTiles);
             // Debug.Log(aviableTiles);
-            Vector3 position = selectedTile.Voxels * selectedTile.VoxelSize * new Vector3(x, 0, y);
+            Vector3 position = transform.position+ selectedTile.Voxels * selectedTile.VoxelSize * new Vector3(x, 0, y);
             spawnedTiles[x, y] = Instantiate(selectedTile, position, selectedTile.transform.rotation,this.transform);
 
 
         }
-        private void Generate()
+        private void Clear()
         {
+            foreach (var tile in spawnedTiles)
+            {
+                if (tile!=null)
+                  Destroy(tile.gameObject);
+            }
+            spawnedTiles = new VoxelTile[Mapsize.x, Mapsize.y];
+        }
+        public void Generate()
+        {
+            Clear();
             for (int i = 1; i < Mapsize.x - 1; i++)
             {
                 for (int j = 1; j < Mapsize.y - 1; j++)
@@ -133,7 +155,13 @@ namespace Simulation.World
                 }
             }
 
-
+        }
+        public void RebuildNavmesh()
+        {
+            foreach (var item in surfaces)
+            {
+                item.BuildNavMesh();
+            }
         }
         private bool CandAppendTile(VoxelTile existingTile, VoxelTile tileToAppend, Direction direction)
         {

@@ -6,7 +6,7 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Builder : OperatingSystem
+    class BuilderSoftware : OperatingSystem
     {
         private IEnumerator courutine;
         protected override DestinationRole IReceive
@@ -16,15 +16,21 @@ namespace Simulation.Software
                 return DestinationRole.Builder;
             }
         }
-        private List<Application> reqiuredSoft = new List<Application>
-        {
-            OperatingSystem.tmpgameobj.AddComponent<OperatorTracking>()
-        };
-        protected override List<Application> ReqiuredSoft
+        private readonly List<Application> reqiuredSoft;
+        public override List<Application> ReqiuredSoft
         {
             get => reqiuredSoft;
         }
-        public Builder(Robot robot) : base(ref robot)
-        { }
+        public BuilderSoftware(Robot robot) : base(ref robot)
+        {
+
+            reqiuredSoft = new List<Application>
+            {
+               attributedRobot.gameObject.AddComponent<OperatorTracking>()
+            };
+            InstallSoft();
+
+
+        }
     }
 }

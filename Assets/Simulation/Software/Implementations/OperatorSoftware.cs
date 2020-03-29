@@ -5,7 +5,7 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class Operator : OperatingSystem
+    class OperatorSoftware : OperatingSystem
     {
         protected override DestinationRole IReceive
         {
@@ -14,22 +14,32 @@ namespace Simulation.Software
                 return DestinationRole.Operator;
             }
         }
-        private List<Application> reqiuredSoft = new List<Application>
-        {
-            OperatingSystem.tmpgameobj.AddComponent<SubscriberTracking>()
-        };
-        protected override List<Application> ReqiuredSoft
+
+
+        private readonly List<Application> reqiuredSoft;
+        public override List<Application> ReqiuredSoft
         {
             get => reqiuredSoft;
         }
 
-        public Operator(int maxListenersNumber, Robot robot) : base(ref robot)
+        public OperatorSoftware(int maxListenersNumber, Robot robot) : base(ref robot)
         {
             robot.radio.maxListenersNumber = maxListenersNumber;
+
+            reqiuredSoft = new List<Application>
+            {
+               attributedRobot.gameObject.AddComponent<SubscriberTracking>(),
+               attributedRobot.gameObject.AddComponent<MoveOrder>()
+
+            };
+            InstallSoft();
+
+
+
         }
-        public Operator(Robot robot) : base(ref robot)
+        public OperatorSoftware(Robot robot) : this(5, robot)
         {
-            robot.radio.maxListenersNumber = 5;
+
         }
 
         public void SendAllTransportToPosition(float x, float y, float z)
@@ -44,5 +54,8 @@ namespace Simulation.Software
             );
             attributedRobot.radio.NotifySubscribers(moveTo);
         }
+
+
+
     }
 }

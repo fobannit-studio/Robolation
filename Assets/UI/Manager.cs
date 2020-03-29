@@ -18,7 +18,7 @@ namespace Simulation.UI
         }
         public void StartSimulation()
         {
-            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+            SceneManager.LoadScene("Main", LoadSceneMode.Single);
 
         }
 
