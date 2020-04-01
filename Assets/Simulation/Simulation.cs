@@ -9,12 +9,18 @@ namespace Simulation
 {
 
 
-
     public class Simulation : MonoBehaviour
     {
 
         public  List<Robot> robots;
         public List<Building> buildings;
+
+        public void Init()
+        {
+
+        }
+
+
 
         void Start()
         {

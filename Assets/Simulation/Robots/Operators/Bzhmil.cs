@@ -28,7 +28,6 @@ namespace Simulation.Robots
 
         private void Start()
         {
-            Debug.Log("Start bzhmil");
             StartCoroutine(AnimateRotors());
             StartCoroutine(startmove());
             

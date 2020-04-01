@@ -12,9 +12,13 @@ namespace Simulation.UI
         {
             elements = new List<T>();
         }
+        public void Delete(T element)
+        {
+            elements.Remove(element);
+            Destroy(element.gameObject);
+        }
         public void ClearList()
         {
-        
             foreach (var item in elements)
             {
                 Destroy(item.gameObject);

@@ -25,7 +25,8 @@ namespace Simulation.UI
         [SerializeField]
         private Canvas RobotPlacementCanvas;
 
-
+        [SerializeField]
+        private Simulation simulation;
         public void GenerateLandscape()
         {
             voxelPlacer.Generate();
@@ -53,8 +54,21 @@ namespace Simulation.UI
         }
         public void BeginRobotPlacement()
         {
-            RobotSelectionCanvas.gameObject.SetActive(false);
-            RobotPlacementCanvas.gameObject.SetActive(true);
+            var selector = RobotSelectionCanvas.GetComponent<RobotSelector>();
+            if (selector.Proceed())
+            {
+                RobotSelectionCanvas.gameObject.SetActive(false);
+
+                RobotPlacementCanvas.GetComponent<RobotPlacer>().Init(selector.GetSelectedRobots());
+                RobotPlacementCanvas.gameObject.SetActive(true);
+            }
+            
+        }
+        public void StartSimulation()
+        {
+            
+            RobotPlacementCanvas.GetComponent<RobotPlacer>().GetResult();
+            
         }
     }
 }
