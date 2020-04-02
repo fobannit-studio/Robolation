@@ -11,24 +11,23 @@ namespace Simulation.Software
     {
         private IEnumerator coroutine;
 
-        public OperatorTracking()
+        public override void Activate()
 
         {
-
+            Debug.Log("started");
             ActionsOnRecive = new Dictionary<Message, Action<Frame>>
             {
 
                 {Message.Subscribe, registerOperator},
                 {Message.Notify, recieveHeartbeatResponse}
             };
-        }
-        protected override void Run()
-        {
-            FindOperator();
 
+            FindOperator();
+            Debug.Log(this.gameObject);
             coroutine = Heartbeat(2.0f);
             StartCoroutine(coroutine);
         }
+       
 
         private void FindOperator()
         {
@@ -43,6 +42,7 @@ namespace Simulation.Software
 
         private void heartbeat()
         {
+           
             if (software == null) return;
             Frame heartbeatFrame = new Frame(
                 TransmissionType.Unicast,

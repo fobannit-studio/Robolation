@@ -14,8 +14,7 @@ namespace Simulation.Software
 
         protected OperatingSystem software;
 
-        public Application()
-        { }
+      
         // protected Dictionary<Message, FrameAction> actions;
 
 
@@ -29,17 +28,12 @@ namespace Simulation.Software
 
          
         }
-
-        protected virtual void Run()
-        {
-
-        }
-
+        public virtual void Activate() { }
         
         public void installOn(OperatingSystem system)
         {
             this.software = system;
-            Run();
+
             
         }
     }

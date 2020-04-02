@@ -8,29 +8,17 @@ namespace Simulation.Software
 {
     class BuilderSoftware : OperatingSystem
     {
-        private IEnumerator courutine;
-        protected override DestinationRole IReceive
+        protected override DestinationRole IReceive  => DestinationRole.Builder; 
+        protected  override void LoadSoft() 
         {
-            get
-            {
-                return DestinationRole.Builder;
-            }
-        }
-        private readonly List<Application> reqiuredSoft;
-        public override List<Application> ReqiuredSoft
-        {
-            get => reqiuredSoft;
-        }
-        public BuilderSoftware(Robot robot) : base(ref robot)
-        {
-
-            reqiuredSoft = new List<Application>
+            requiredSoft = new List<Application>
             {
                attributedRobot.gameObject.AddComponent<OperatorTracking>()
             };
-            InstallSoft();
 
 
         }
+
+     
     }
 }

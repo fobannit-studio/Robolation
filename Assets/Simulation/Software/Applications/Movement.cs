@@ -10,7 +10,7 @@ namespace Simulation.Software
     class Movement : Application
     {
 
-        public Movement()
+        public override void Activate()
         {
             ActionsOnRecive = new Dictionary<Message, Action<Frame>>
             {
@@ -34,8 +34,6 @@ namespace Simulation.Software
         private void ReceiveMoveOrder(Frame frame)
         {
             var coords = frame.payload.floatPayload;
-
-            Debug.Log("call");
             Debug.Log(software.attributedRobot.transform.position);
             software.attributedRobot.MoveOrder(new Vector3(coords[0], coords[1], coords[2]));
             SendACK(frame);

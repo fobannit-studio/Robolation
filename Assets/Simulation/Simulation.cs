@@ -4,6 +4,7 @@ using Simulation.Robots;
 using Simulation.World;
 using System.Collections.Generic;
 using Simulation.Software;
+using System;
 
 namespace Simulation
 {
@@ -15,36 +16,43 @@ namespace Simulation
         public  List<Robot> robots;
         public List<Building> buildings;
 
-        public void Init()
+        public void Init(List<(Type soft, Robot robot)> robots, List<Building> buildings, List<Warehouse> warehouses)
         {
 
-        }
-
-
-
-        void Start()
-        {
             // Steps:
             // 1. Create Medium an Robots
             // 2. Initialize all buildings (create materials there)
             // 3. Start operator lookup.
 
-            
+
 
             Medium ether = new Medium();
 
-            foreach (var robot in robots)
+           
+
+            foreach (var item in robots)
             {
-                robot.Init(1000, ref ether);
+                item.robot.Init(1000, ref ether);
+                var soft = Activator.CreateInstance(item.soft)as Software.OperatingSystem;
+                soft.Init(item.robot);
+                this.robots.Add(item.robot);
+                Debug.Log(string.Format("Installed {0} on {1}", item.soft.Name,item.robot.GetType().Name));
             }
 
+            
 
-            var a= new OperatorSoftware(robots[1]);
-           var b= new TransporterSoftware(robots[0]);
+            //foreach (var robot in robots)
+            //{
+            //    robot.Init(1000, ref ether);
+            //}
 
-   
 
-    
+            //var a = new OperatorSoftware(robots[1]);
+            //var b = new TransporterSoftware(robots[0]);
+
+
+
+
 
 
             //Vector2 center = new Vector2(0, 0);
@@ -84,5 +92,7 @@ namespace Simulation
             // cont.get(steel, 12);
             // Debug.Log(cont);
         }
+
+
     }
 }

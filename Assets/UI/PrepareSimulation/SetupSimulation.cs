@@ -33,6 +33,7 @@ namespace Simulation.UI
         }
         public void BeginBuildingPlacement()
         {
+            voxelPlacer.RebuildNavmesh();
             PlacementCanvas.gameObject.SetActive(true);
             LandscapeCanvas.gameObject.SetActive(false);
 
@@ -67,8 +68,11 @@ namespace Simulation.UI
         public void StartSimulation()
         {
             
-            RobotPlacementCanvas.GetComponent<RobotPlacer>().GetResult();
-            
+           var  robots= RobotPlacementCanvas.GetComponent<RobotPlacer>().GetResult();
+           var warehouses = WarehousePlacerCanvas.GetComponent<WareHousePlacer>().GetWarehouses();
+           var buildings = PlacementCanvas.GetComponent<BuildingPlacer>().GetBuildings();
+           simulation.Init(robots, buildings, warehouses);
+
         }
     }
 }

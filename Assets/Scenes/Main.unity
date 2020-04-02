@@ -1786,6 +1786,7 @@ MonoBehaviour:
   Landscape: {fileID: 1339609036}
   warehouse_prefab: {fileID: 5331612828616566520, guid: 49983a079f5377f4aaad58f329b5a1c0,
     type: 3}
+  nextButton: {fileID: 1896842204}
 --- !u!114 &582324019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2319,7 +2320,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 670461400}
   m_OnClick:
     m_PersistentCalls:
@@ -3172,7 +3173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &911141628
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4870,7 +4871,7 @@ MonoBehaviour:
   WarehousePlacerCanvas: {fileID: 582324021}
   RobotSelectionCanvas: {fileID: 1940493283}
   RobotPlacementCanvas: {fileID: 2035812987}
-  simulation: {fileID: 0}
+  simulation: {fileID: 943453780}
 --- !u!1 &1435067552
 GameObject:
   m_ObjectHideFlags: 0
@@ -4928,6 +4929,7 @@ MonoBehaviour:
     type: 3}
   ExampleButton: {fileID: 874771080}
   Landscape: {fileID: 1339609036}
+  nextButton: {fileID: 670461399}
 --- !u!114 &1435067555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6647,7 +6649,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1395471238}
-        m_MethodName: BeginWarehousePlacement
+        m_MethodName: StartSimulation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6770,7 +6772,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1896842205}
   m_OnClick:
     m_PersistentCalls:

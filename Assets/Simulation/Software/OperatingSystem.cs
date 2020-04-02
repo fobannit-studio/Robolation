@@ -4,13 +4,14 @@ using Simulation.Utils;
 using Simulation.Robots;
 using Simulation.Components;
 using UnityEngine;
+using System.Collections.ObjectModel;
 namespace Simulation.Software
 {
     abstract class OperatingSystem : ICommunicator
     {
        
 
-        public readonly Radio radio;
+        public Radio radio;
         public Robot attributedRobot;
         protected int operatorMac;
         
@@ -19,38 +20,40 @@ namespace Simulation.Software
             get => operatorMac;
             
         }
-        public Vector3 Position
+        protected abstract DestinationRole IReceive { get; }
+        public Vector3 Position  => attributedRobot.transform.position;
+
+
+        public ReadOnlyCollection<Application> ReqiuredSoft => requiredSoft.AsReadOnly();
+
+        protected List<Application> requiredSoft;
+
+        protected abstract void LoadSoft();
+
+
+        public  void Init(Robot robot)
         {
-            
-            get
-            {
-                return attributedRobot.Position;
-            }
-        }
-        public abstract List<Application> ReqiuredSoft
-        {
-            get;
-        }
-        public OperatingSystem(ref Robot robot)
-        {
+
             attributedRobot = robot;
             attributedRobot.radio.software = this;
             radio = attributedRobot.radio;
-            operatorMac = -1;
+            operatorMac = -1; 
+            LoadSoft();
+            InstallSoft();
 
-            
+
         }
+
         protected void InstallSoft()
         {
             foreach (var application in ReqiuredSoft)
             {
                 application.installOn(this);
+                application.Activate();
             }
         }
-        protected abstract DestinationRole IReceive
-        {
-            get;
-        }
+      
+     
         protected bool isForMe(Frame message)
         {
             return message.destinationRole == IReceive || message.destinationRole is DestinationRole.NoMatter;

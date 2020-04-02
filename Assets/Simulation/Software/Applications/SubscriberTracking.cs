@@ -12,7 +12,7 @@ namespace Simulation.Software
     class SubscriberTracking : Application
     {
         bool sent = false;
-        public SubscriberTracking()
+        public override void Activate()
         {
      
             ActionsOnRecive = new Dictionary<Message, Action<Frame>>
@@ -44,34 +44,11 @@ namespace Simulation.Software
             software.radio.AddListener(frame.srcMac);
             identifyMe(frame);
         }
-       
-        IEnumerator enaaa (float time)
-        {
-
-            while (true)
-            {
-                yield return new WaitForSeconds(time * Time.timeScale);
-                ((MoveOrder)software.ReqiuredSoft[1]).SendOrder();
-            }
-            
-        }
+        
         private void finishSubscription(Frame frame)
         {
             Debug.Log("Subscription suceed !");
             
-            if (!sent)
-
-            {
-               
-                sent = true;
-                StartCoroutine(enaaa(3));
-
-
-
-            }
-            
-            
-
         }
         private void identifyMe(Frame frame)
         {

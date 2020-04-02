@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 namespace Simulation.UI
 {
 
@@ -25,9 +27,11 @@ namespace Simulation.UI
 
         [SerializeField]
         private Transform Landscape;
-
-
         public static List<Building> placedBuildings= new List<Building>();
+
+        [SerializeField]
+        private Button nextButton;
+
        
         private Placer placer;
 
@@ -52,6 +56,8 @@ namespace Simulation.UI
         {
             var building = instantiated.GetComponent<Building>(); 
             placedBuildings.Add(building);
+            nextButton.interactable = true;
+            
             
         }
         
@@ -64,7 +70,10 @@ namespace Simulation.UI
 
             placer.ChangeObject(Instantiate(buildingPrefab,Landscape));
         }
-
+        public List<Building> GetBuildings()
+        {
+            return placedBuildings;
+        }
         private void CreateList()
         {
             for (int i = 0; i < buildings.Count; i++)

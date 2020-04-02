@@ -11,13 +11,12 @@ namespace Simulation.Software
     class MoveOrder : Application
     {
         private float[] xyz = new float[] { 2.28f, 0.3f, 12.44f };
-        public MoveOrder()
+        public override void Activate()
         {
-   
             ActionsOnRecive = new Dictionary<Message, Action<Frame>>
             {
                 {Message.MoveTo, ReceiveACK }
-                
+
             };
         }
 

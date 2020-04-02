@@ -29,15 +29,10 @@ namespace Simulation.Robots
         private void Start()
         {
             StartCoroutine(AnimateRotors());
-            StartCoroutine(startmove());
+           
             
         }
-        private IEnumerator startmove()
-        {
-            yield return new WaitForSeconds(5);
-            agent.SetDestination(new Vector3(0.5f, 0.3f, 5));
-            
-        }
+       
 
 
 

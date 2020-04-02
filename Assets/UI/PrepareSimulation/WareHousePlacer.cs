@@ -30,7 +30,9 @@ namespace Simulation.UI
 
         [SerializeField]
         private Warehouse warehouse_prefab;
-     
+        [SerializeField]
+        private Button nextButton;
+
 
         private Placer placer;
         private ScrollViewManager<MaterialAmount> materials_in_warehouse;
@@ -39,11 +41,7 @@ namespace Simulation.UI
         private ConcurrentDictionary<BuildingMaterial, int> MaterialsNeeded;
         private Warehouse current_warehouse;
         private Camera cam;
- 
-
-        
-
-
+   
 
         void Start()
         {
@@ -104,6 +102,7 @@ namespace Simulation.UI
             var ware_house_instance = Instantiate(warehouse_prefab.gameObject, Landscape);
             ware_house_instance.GetComponent<Warehouse>().SetPreview(true);
             placer.ChangeObject(ware_house_instance);
+            nextButton.interactable = true;
             
         }
         private void onPlaced(GameObject instantiated)
@@ -134,6 +133,10 @@ namespace Simulation.UI
 
             }
             return false;
+        }
+        public List<Warehouse> GetWarehouses()
+        {
+            return spawned_warehouses;
         }
         private void ChangeCurrentWarehouse(Warehouse warehouse)
         {

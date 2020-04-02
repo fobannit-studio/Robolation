@@ -7,40 +7,22 @@ namespace Simulation.Software
 {
     class OperatorSoftware : OperatingSystem
     {
-        protected override DestinationRole IReceive
+        protected override DestinationRole IReceive => DestinationRole.Operator;
+
+
+
+        protected override void LoadSoft()
         {
-            get
-            {
-                return DestinationRole.Operator;
-            }
-        }
+            attributedRobot.radio.maxListenersNumber = 5;
 
-
-        private readonly List<Application> reqiuredSoft;
-        public override List<Application> ReqiuredSoft
-        {
-            get => reqiuredSoft;
-        }
-
-        public OperatorSoftware(int maxListenersNumber, Robot robot) : base(ref robot)
-        {
-            robot.radio.maxListenersNumber = maxListenersNumber;
-
-            reqiuredSoft = new List<Application>
+            requiredSoft = new List<Application>
             {
                attributedRobot.gameObject.AddComponent<SubscriberTracking>(),
                attributedRobot.gameObject.AddComponent<MoveOrder>()
 
             };
-            InstallSoft();
-
-
-
         }
-        public OperatorSoftware(Robot robot) : this(5, robot)
-        {
 
-        }
 
         public void SendAllTransportToPosition(float x, float y, float z)
         {
@@ -55,7 +37,6 @@ namespace Simulation.Software
             attributedRobot.radio.NotifySubscribers(moveTo);
         }
 
-
-
+      
     }
 }

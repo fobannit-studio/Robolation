@@ -46,7 +46,7 @@ namespace Simulation.UI
 
         void OnPlaced(GameObject instantiated)
         {
-            placed.Add((currentButton.assignedRobot.soft, currentButton.assignedRobot.robot));
+            placed.Add((currentButton.assignedRobot.soft, instantiated.GetComponent<Robot>()));
             remains.Delete(currentButton);
             if (remains.elements.Count==0)
             {
