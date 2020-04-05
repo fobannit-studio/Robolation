@@ -52,22 +52,19 @@ namespace Simulation
 
 
 
-
-
-
-            //Vector2 center = new Vector2(0, 0);
-            //Vector2 veryFar = new Vector2(100, 100);
-            //Vector2 veryClose = new Vector2(5, 5);
-            //Parrot r1 = new Parrot(center, 50, ref ether);
-            //IRB1100 r2 = new IRB1100(veryFar, 10, ref ether);
-            //Spot r3 = new Spot(veryClose, 10, ref ether);
-
-            //// Should be so
-            //Operator oper = new Operator(r1);
-            //Builder builder = new Builder(r2);
-            //Transporter transporter = new Transporter(r3);
-            //oper.SendAllTransportToPosition(10.0F, 10.0F, 10.0F);
-            // 
+            // Vector2 center = new Vector2(0, 0);
+            // Vector2 veryFar = new Vector2(100, 100);
+            // Vector2 veryClose = new Vector2(5, 5);
+            // Parrot r1 = new Parrot(center, 50, ref ether);
+            // IRB1100 r2 = new IRB1100(veryFar, 10, ref ether);
+            // Spot r3 = new Spot(veryClose, 10, ref ether);
+            // r1.
+            // // Should be so
+            // Operator oper = new Operator(r1);
+            // Builder builder = new Builder(r2);
+            // Transporter transporter = new Transporter(r3);
+            // oper.SendAllTransportToPosition(10.0F, 10.0F, 10.0F);
+            
             // r1.NotifySubscribers(message);
             // r1.role.SendAllTransportToPosition((10.0,10.0));
 

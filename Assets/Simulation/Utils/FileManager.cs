@@ -153,16 +153,7 @@ namespace Simulation.Utils
                 }
 
                 File.WriteAllLines(BuildingsDir + @"\" + building.Name + @"\" + MaterialsFile,content);
-
-               
-
-
-
-
-
             }
-
-
         }
     }
 }

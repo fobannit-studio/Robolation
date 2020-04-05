@@ -6,9 +6,9 @@ using System;
 using UnityEngine;
 namespace Simulation.Components
 {
-
     public class Radio
     {
+        public event EventHandler<MacTableCapacityChangedEventArgs> MacTableCapasityChanged;
         // Method serves as a Gateway to Medium.
         // Sends frame that shoud be transmitted and radio position.
         private readonly Action<Frame, Vector3, float> Gateway;
@@ -19,9 +19,9 @@ namespace Simulation.Components
         public ICommunicator software;
         private List<int> macTable = new List<int>();
 
-        public Radio(float range, ref Medium ether, int maxListenersNumber=1) :this(range,  null,ref ether, maxListenersNumber)
-        {}
-        public Radio(float range, ICommunicator software, ref Medium ether, int maxListenersNumber=1)
+        public Radio(float range, ref Medium ether, int maxListenersNumber = 1) : this(range, null, ref ether, maxListenersNumber)
+        { }
+        public Radio(float range, ICommunicator software, ref Medium ether, int maxListenersNumber = 1)
         {
             this.software = software;
             this.range = range;
@@ -41,14 +41,19 @@ namespace Simulation.Components
             foreach (int macAddress in macTable)
             {
                 frame.destMac = macAddress;
-                SendFrame(frame);   
+                SendFrame(frame);
             }
         }
         public bool AddListener(int macAddress)
         {
-            if(macTable.Count < maxListenersNumber)
+            if (macTable.Count < maxListenersNumber)
             {
                 macTable.Add(macAddress);
+                var args = new MacTableCapacityChangedEventArgs();
+                args.CausingMac = macAddress;
+                args.NewCapacity = macTable.Count;
+                args.IsSubscription = true;
+                OnMacTableCapacityChanged(args);
                 return true;
             }
             return false;
@@ -58,11 +63,11 @@ namespace Simulation.Components
             frame.srcMac = macAddress;
             Debug.Log($"{this.software.GetType().Name}'s radio sent frame");
             Gateway(frame, software.Position, this.range);
-         
+
         }
         public void ReceiveFrame(Frame frame, Vector3 senderPosition, float senderRange)
         {
-            if(isAbleToReceive(frame, senderPosition, senderRange))
+            if (isAbleToReceive(frame, senderPosition, senderRange))
             {
                 Debug.Log($"{this.software.GetType().Name}'s radio received frame");
                 software.HandleFrame(frame);
@@ -73,9 +78,20 @@ namespace Simulation.Components
             bool isControlerExists = !System.Object.ReferenceEquals(software, null);
             // If radio software doesn't exists, than later checks have no sense,
             // because they based on software characterisitcs
-            if(!isControlerExists) return false;
-            bool isSenderInRange = Vector3.Distance(software.Position, senderPosition) < senderRange; 
+            if (!isControlerExists) return false;
+            bool isSenderInRange = Vector3.Distance(software.Position, senderPosition) < senderRange;
             return isSenderInRange;
+        }
+        protected virtual void OnMacTableCapacityChanged(MacTableCapacityChangedEventArgs e)
+        {
+            if (MacTableCapasityChanged != null)
+            {
+                MacTableCapasityChanged(this, e);
+            }
+            else
+            {
+                Debug.Log("No registerd handlers");
+            }
         }
     }
 }

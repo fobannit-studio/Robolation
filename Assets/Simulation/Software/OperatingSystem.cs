@@ -7,43 +7,30 @@ using UnityEngine;
 using System.Collections.ObjectModel;
 namespace Simulation.Software
 {
-    abstract class OperatingSystem : ICommunicator
+    public abstract class OperatingSystem : ICommunicator
     {
-       
-
         public Radio radio;
         public Robot attributedRobot;
         protected int operatorMac;
-        
-        public int OperatorMac{
-            set =>  operatorMac=value;
+        public int OperatorMac
+        {
+            set => operatorMac = value;
             get => operatorMac;
-            
         }
         protected abstract DestinationRole IReceive { get; }
-        public Vector3 Position  => attributedRobot.transform.position;
-
-
+        public Vector3 Position => attributedRobot.transform.position;
         public ReadOnlyCollection<Application> ReqiuredSoft => requiredSoft.AsReadOnly();
-
         protected List<Application> requiredSoft;
-
         protected abstract void LoadSoft();
-
-
-        public  void Init(Robot robot)
+        public void Init(Robot robot)
         {
-
             attributedRobot = robot;
             attributedRobot.radio.software = this;
             radio = attributedRobot.radio;
-            operatorMac = -1; 
+            operatorMac = -1;
             LoadSoft();
             InstallSoft();
-
-
         }
-
         protected void InstallSoft()
         {
             foreach (var application in ReqiuredSoft)
@@ -52,8 +39,6 @@ namespace Simulation.Software
                 application.Activate();
             }
         }
-      
-     
         protected bool isForMe(Frame message)
         {
             return message.destinationRole == IReceive || message.destinationRole is DestinationRole.NoMatter;
@@ -66,7 +51,7 @@ namespace Simulation.Software
                 foreach (var application in ReqiuredSoft)
                 {
                     application.ReceiveFrame(frame);
-                }               
+                }
             }
         }
     }

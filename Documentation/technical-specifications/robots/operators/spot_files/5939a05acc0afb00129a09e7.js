@@ -1,0 +1,1 @@
+window.__sharethis__.init({"ts":1496951816761,"inline-share-buttons":{"enabled":true,"alignment":"left","font_size":11,"has_spacing":true,"labels":"cta","min_count":10,"networks":["facebook","twitter","linkedin"],"num_networks":3,"padding":8,"radius":4,"show_total":false,"size":32,"size_label":"small","spacing":8,"ts":1496951816744}});
