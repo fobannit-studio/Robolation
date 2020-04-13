@@ -1,18 +1,20 @@
 using Simulation.Common;
 using Simulation.Components;
+using UnityEngine;
 namespace Simulation.Software
 {
     public abstract class CommunicationBasedApplicationState
     {
-        public Application application;
-        protected OperatingSystem software {get => application.software;}
+        public Application Application;
+        protected OperatingSystem AttributedSoftware { get => Application.AttributedSoftware; }
         protected Radio radio;
         public CommunicationBasedApplicationState(Application application)
         {
-            this.application = application;
-            this.radio = application.Radio;
+            Application = application;
+            radio = application.Radio;
         }
-        public abstract void Send();
+        public virtual void Send() { Debug.Log("Should send predefined frame"); }
+        public virtual void Send(Payload payload) { Debug.Log("Should send frame with payload"); }
         public abstract void Receive(Frame frame);
     }
 }

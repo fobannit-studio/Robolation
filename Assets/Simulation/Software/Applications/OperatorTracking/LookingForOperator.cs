@@ -20,7 +20,7 @@ namespace Simulation.Software
             radio.AddListener(frame.srcMac);
             frame.destMac = frame.srcMac;
             frame.messageType = MessageType.ACK;
-            ((OperatorTracking)application).OperatorMac = frame.srcMac;
+            ((OperatorTracking) Application).OperatorMac = frame.srcMac;
             radio.SendFrame(frame);
         }
     }

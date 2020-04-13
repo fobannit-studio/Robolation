@@ -11,7 +11,7 @@ namespace Simulation.Software
     {
         protected CommunicationBasedApplicationState currentState;
         protected Dictionary<Message, Action<Frame>> ActionsOnRecive;
-        public OperatingSystem software;
+        public OperatingSystem AttributedSoftware;
         public Radio Radio { get; protected set; }
 
         public virtual void ReceiveFrame(Frame frame)
@@ -23,7 +23,7 @@ namespace Simulation.Software
 
         public void installOn(OperatingSystem system)
         {
-            this.software = system;
+            this.AttributedSoftware = system;
             Radio = system.attributedRobot.radio;
             initStates();
         }

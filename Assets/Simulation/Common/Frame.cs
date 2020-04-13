@@ -26,6 +26,13 @@ namespace Simulation.Common
             sb.Append(textPayload);
             return sb.ToString();
         }
+        public void Deconstruct(out float x, out float y, out float z) 
+        => (x,y,z) = (floatPayload[0],floatPayload[1],floatPayload[2]);
+        public void Deconstruct(out string text, out float x, out float y, out float z)
+        {
+            text = textPayload;
+            Deconstruct(out x, out y, out z);
+        }
 
     }
     public struct Frame

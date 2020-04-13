@@ -14,7 +14,7 @@ namespace Simulation.Software
                 DestinationRole.Operator,
                 MessageType.Heartbeat,
                 Message.Notify,
-                destMac: ((OperatorTracking) application).OperatorMac
+                destMac: ((OperatorTracking) Application).OperatorMac
             );
             radio.SendFrame(heartbeatFrame);
         }

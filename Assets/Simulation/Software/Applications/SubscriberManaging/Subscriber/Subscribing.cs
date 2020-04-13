@@ -23,8 +23,8 @@ namespace Simulation.Software
         }
         private void createNewReceivingApplication(Frame frame)
         {
-            var newApp = this.software.GameObject.AddComponent<SubscriberTracking>();
-            newApp.installOn(this.application.software);
+            var newApp = AttributedSoftware.GameObject.AddComponent<SubscriberTracking>();
+            newApp.installOn(AttributedSoftware);
             newApp.Activate();
             SubscriberTrackingApps.Add(frame.srcMac, newApp);
             radio.AddListener(frame.srcMac);

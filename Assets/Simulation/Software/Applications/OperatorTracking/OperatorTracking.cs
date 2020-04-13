@@ -13,7 +13,7 @@ namespace Simulation.Software
         private Subscribed subscribed;
         public override void Activate()
         {
-            software.radio.MacTableCapasityChanged += MacTableCapasityChanged;
+            AttributedSoftware.radio.MacTableCapasityChanged += MacTableCapasityChanged;
             currentState = lookingForOperator;
             StartCoroutine(Scheduler(2.0f));
         }
