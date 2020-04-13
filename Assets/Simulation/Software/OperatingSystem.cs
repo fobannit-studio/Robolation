@@ -5,6 +5,8 @@ using Simulation.Robots;
 using Simulation.Components;
 using UnityEngine;
 using System.Collections.ObjectModel;
+using System.Reflection;
+using System;
 namespace Simulation.Software
 {
     public abstract class OperatingSystem : ICommunicator
@@ -17,6 +19,7 @@ namespace Simulation.Software
             set => operatorMac = value;
             get => operatorMac;
         }
+        public GameObject GameObject {get => attributedRobot.gameObject;}
         protected abstract DestinationRole IReceive { get; }
         public Vector3 Position => attributedRobot.transform.position;
         public ReadOnlyCollection<Application> ReqiuredSoft => requiredSoft.AsReadOnly();

@@ -17,12 +17,8 @@ namespace Simulation.Software
         public virtual void ReceiveFrame(Frame frame)
         {
             currentState.Receive(frame);
-            // if (ActionsOnRecive.ContainsKey(frame.message))
-            // {
-            //     Action<Frame> action = ActionsOnRecive[frame.message];
-            //     action(frame);
-            // }
         }
+        // Does it needed ? 
         public virtual void Activate() { }
 
         public void installOn(OperatingSystem system)

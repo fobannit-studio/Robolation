@@ -13,7 +13,7 @@ namespace Simulation
     public class Simulation : MonoBehaviour
     {
 
-        public  List<Robot> robots;
+        public List<Robot> robots;
         public List<Building> buildings;
 
         public void Init(List<(Type soft, Robot robot)> robots, List<Building> buildings, List<Warehouse> warehouses)
@@ -28,18 +28,18 @@ namespace Simulation
 
             Medium ether = new Medium();
 
-           
+
 
             foreach (var item in robots)
             {
-                item.robot.Init(1000, ref ether);
-                var soft = Activator.CreateInstance(item.soft)as Software.OperatingSystem;
+                item.robot.Init(1000, ether);
+                var soft = Activator.CreateInstance(item.soft) as Software.OperatingSystem;
                 soft.Init(item.robot);
                 this.robots.Add(item.robot);
-                Debug.Log(string.Format("Installed {0} on {1}", item.soft.Name,item.robot.GetType().Name));
+                Debug.Log(string.Format("Installed {0} on {1}", item.soft.Name, item.robot.GetType().Name));
             }
 
-            
+
 
             //foreach (var robot in robots)
             //{
@@ -64,7 +64,7 @@ namespace Simulation
             // Builder builder = new Builder(r2);
             // Transporter transporter = new Transporter(r3);
             // oper.SendAllTransportToPosition(10.0F, 10.0F, 10.0F);
-            
+
             // r1.NotifySubscribers(message);
             // r1.role.SendAllTransportToPosition((10.0,10.0));
 

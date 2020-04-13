@@ -4,28 +4,29 @@ using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
 using UnityEngine;
-
-
-
 namespace Simulation.Software
 {
-    class SubscriberTracking : Application
+    ///<summary> 
+    /// Waiting for subscriptions. When receive new subscription, 
+    /// starts new process, that will track this instance
+    /// </summary>
+    class Subscriber : Application
     {
         bool sent = false;
-        ListeningForSubscriptions listeningForSubscriptions;
+        CommunicationBasedApplicationState Subscribing;
 
         public override void initStates()
         {
-            listeningForSubscriptions = new ListeningForSubscriptions(this);
+            Subscribing = new Subscribing(this);
         }
         public override void Activate()
         {
-            // ActionsOnRecive = new Dictionary<Message, Action<Frame>>
-            // {
-            //     {Message.Notify, receiveHeartbeat}     
-            // };
-            currentState = listeningForSubscriptions;
+            currentState = Subscribing;
         }
+        // ActionsOnRecive = new Dictionary<Message, Action<Frame>>
+          // {
+          //     {Message.Notify, receiveHeartbeat}     
+          // };
         // public  override void ReceiveFrame(Frame frame)
         // {
         //     // switch (frame.messageType)

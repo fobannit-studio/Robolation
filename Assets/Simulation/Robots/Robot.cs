@@ -30,10 +30,10 @@ namespace Simulation.Robots
         // Every robot on creation should register himself 
         // in ether.
        
-        public void Init(float radioRange, ref Medium ether)
+        public void Init(float radioRange, Medium ether)
         {
             batteryLevel = 1.0F;
-            radio = new Radio(radioRange, ref ether);
+            radio = new Radio(radioRange, ether);
         }
 
         virtual public void MoveOrder(Vector3 destination)

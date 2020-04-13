@@ -19,9 +19,9 @@ namespace Simulation.Components
         public ICommunicator software;
         private List<int> macTable = new List<int>();
 
-        public Radio(float range, ref Medium ether, int maxListenersNumber = 1) : this(range, null, ref ether, maxListenersNumber)
+        public Radio(float range, Medium ether, int maxListenersNumber = 1) : this(range, null, ether, maxListenersNumber)
         { }
-        public Radio(float range, ICommunicator software, ref Medium ether, int maxListenersNumber = 1)
+        public Radio(float range, ICommunicator software,  Medium ether, int maxListenersNumber = 1)
         {
             this.software = software;
             this.range = range;

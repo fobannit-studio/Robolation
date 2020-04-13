@@ -8,22 +8,15 @@ namespace Simulation.Software
     class OperatorSoftware : OperatingSystem
     {
         protected override DestinationRole IReceive => DestinationRole.Operator;
-
-
-
         protected override void LoadSoft()
         {
             attributedRobot.radio.maxListenersNumber = 5;
-
             requiredSoft = new List<Application>
             {
-               attributedRobot.gameObject.AddComponent<SubscriberTracking>(),
+               attributedRobot.gameObject.AddComponent<Subscriber>(),
                attributedRobot.gameObject.AddComponent<MoveOrder>()
-
             };
         }
-
-
         public void SendAllTransportToPosition(float x, float y, float z)
         {
             Frame moveTo = new Frame
@@ -37,6 +30,6 @@ namespace Simulation.Software
             attributedRobot.radio.NotifySubscribers(moveTo);
         }
 
-      
+
     }
 }
