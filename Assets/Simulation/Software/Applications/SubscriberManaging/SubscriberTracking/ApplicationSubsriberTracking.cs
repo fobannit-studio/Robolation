@@ -1,6 +1,7 @@
-using System.Collections;
-using Simulation.Common;
 using UnityEngine;
+using System.Collections;
+using Simulation.Utils;
+using Simulation.Common;
 namespace Simulation.Software
 {
     ///<summary> 
@@ -17,18 +18,18 @@ namespace Simulation.Software
         {
             lookingForMissingSubscriber = new LookingForMissingSubscriber(this);
             receivingHeartbeat = new ReceivingHeartbeat(this);
-            Debug.Log("Before");
-            StartCoroutine(Scheduler(2.0f));
-            Debug.Log("After");
-        }
-        public override void ReceiveFrame(Frame frame)
-        {
-            isReceivingHeartbeat = true;
-            currentState.Receive(frame);
-        }
-        public override void Activate()
-        {
             currentState = receivingHeartbeat;
+            StartCoroutine(Scheduler(2.0f));
+        }
+
+        protected override bool receiveCondition(Frame frame)
+        {
+            if(frame.message is Message.Heartbeat)
+            {
+                isReceivingHeartbeat = true;
+                return true;
+            }
+            return false;
         }
         private IEnumerator Scheduler(float waitingForTime)
         {

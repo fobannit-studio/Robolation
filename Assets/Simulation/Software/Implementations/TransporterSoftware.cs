@@ -8,10 +8,7 @@ namespace Simulation.Software
 {
     class TransporterSoftware : OperatingSystem
     {
- 
-
         protected override DestinationRole IReceive => DestinationRole.Transporter;
-
         protected override void LoadSoft()
         {
             requiredSoft = new List<Application>

@@ -4,8 +4,6 @@ using Simulation.Utils;
 using UnityEngine;
 namespace Simulation.Software
 {
-    // TODO 
-    // Provide access to operator
     public class Moving : CommunicationBasedApplicationState
     {
         public Moving(Application app) : base(app) { }

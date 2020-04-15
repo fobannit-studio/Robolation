@@ -46,8 +46,10 @@ namespace Simulation.Components
         }
         public bool AddListener(int macAddress)
         {
+            Debug.Log("Someone want to add Listener");
             if (macTable.Count < maxListenersNumber)
             {
+                Debug.Log("Listener added");
                 macTable.Add(macAddress);
                 var args = new MacTableCapacityChangedEventArgs();
                 args.CausingMac = macAddress;
@@ -61,7 +63,7 @@ namespace Simulation.Components
         public void SendFrame(Frame frame)
         {
             frame.srcMac = macAddress;
-            Debug.Log($"{this.software.GetType().Name}'s radio sent frame");
+            Debug.Log($"{this.software.GetType().Name}'s radio sent frame {frame}");
             Gateway(frame, software.Position, this.range);
 
         }
@@ -69,7 +71,7 @@ namespace Simulation.Components
         {
             if (isAbleToReceive(frame, senderPosition, senderRange))
             {
-                Debug.Log($"{this.software.GetType().Name}'s radio received frame");
+                Debug.Log($"{this.software.GetType().Name}'s radio received frame ${frame}");
                 software.HandleFrame(frame);
             }
         }

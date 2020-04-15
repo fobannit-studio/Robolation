@@ -13,14 +13,15 @@ namespace Simulation.Software
         protected Dictionary<Message, Action<Frame>> ActionsOnRecive;
         public OperatingSystem AttributedSoftware;
         public Radio Radio { get; protected set; }
-
+        ///<summary>
+        /// Indicates if this application can receive given frame
+        ///<summary/>
+        protected virtual bool receiveCondition(Frame frame) => true;
         public virtual void ReceiveFrame(Frame frame)
         {
-            currentState.Receive(frame);
+            if(receiveCondition(frame))
+                currentState.Receive(frame);
         }
-        // Does it needed ? 
-        public virtual void Activate() { }
-
         public void installOn(OperatingSystem system)
         {
             this.AttributedSoftware = system;

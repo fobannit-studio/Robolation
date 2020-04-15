@@ -13,14 +13,14 @@ namespace Simulation.Software
                 TransmissionType.Unicast,
                 DestinationRole.Operator,
                 MessageType.Heartbeat,
-                Message.Notify,
+                Message.Heartbeat,
                 destMac: ((OperatorTracking) Application).OperatorMac
             );
             radio.SendFrame(heartbeatFrame);
         }
         public override void Receive(Frame frame)
         {
-            if (frame.message != Message.Notify)
+            if (frame.message != Message.Heartbeat)
             {
                 Debug.Log("Error!!!!!");
             }

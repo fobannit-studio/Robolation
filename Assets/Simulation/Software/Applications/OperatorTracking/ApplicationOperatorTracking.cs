@@ -11,17 +11,17 @@ namespace Simulation.Software
         public int OperatorMac { get; set; }
         private LookingForOperator lookingForOperator;
         private Subscribed subscribed;
-        public override void Activate()
-        {
-            AttributedSoftware.radio.MacTableCapasityChanged += MacTableCapasityChanged;
-            currentState = lookingForOperator;
-            StartCoroutine(Scheduler(2.0f));
-        }
         public override void initStates()
         {
             lookingForOperator = new LookingForOperator(this);
             subscribed = new Subscribed(this);
+            AttributedSoftware.radio.MacTableCapasityChanged += MacTableCapasityChanged;
+            currentState = lookingForOperator;
+            StartCoroutine(Scheduler(2.0f));
         }
+        ///<summary>
+        /// Event called on change of radio mac table
+        ///<summary/>
         private void MacTableCapasityChanged(object radio, MacTableCapacityChangedEventArgs args)
         {
             if (args.IsSubscription)
@@ -41,10 +41,6 @@ namespace Simulation.Software
                 yield return new WaitForSeconds(waitTime * Time.timeScale);
                 currentState.Send();
             }
-        }
-        public override void ReceiveFrame(Frame frame)
-        {
-            currentState.Receive(frame);
         }
     }
 }

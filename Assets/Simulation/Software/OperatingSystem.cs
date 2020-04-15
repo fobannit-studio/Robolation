@@ -39,7 +39,7 @@ namespace Simulation.Software
             foreach (var application in ReqiuredSoft)
             {
                 application.installOn(this);
-                application.Activate();
+                // application.Activate();
             }
         }
         protected bool isForMe(Frame message)

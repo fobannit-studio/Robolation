@@ -25,18 +25,16 @@ namespace Simulation.Software
         {
             var newApp = AttributedSoftware.GameObject.AddComponent<SubscriberTracking>();
             newApp.installOn(AttributedSoftware);
-            newApp.Activate();
             SubscriberTrackingApps.Add(frame.srcMac, newApp);
             radio.AddListener(frame.srcMac);
-            Frame identifyMe = new Frame(
+            var identifyMe = new Frame(
                     TransmissionType.Unicast,
                     DestinationRole.NoMatter,
                     MessageType.ACK,
                     Message.Subscribe,
                     destMac: frame.srcMac
                 );
-            radio.SendFrame(frame);
-
+            radio.SendFrame(identifyMe);
         }
     }
 }

@@ -13,15 +13,12 @@ namespace Simulation.Software
     class Subscriber : Application
     {
         bool sent = false;
-        CommunicationBasedApplicationState Subscribing;
-
+        private CommunicationBasedApplicationState subscribing;
+        protected override bool receiveCondition(Frame frame) => frame.message is Message.Subscribe;
         public override void initStates()
         {
-            Subscribing = new Subscribing(this);
-        }
-        public override void Activate()
-        {
-            currentState = Subscribing;
+            subscribing = new Subscribing(this);
+            currentState = subscribing;
         }
     }
 
