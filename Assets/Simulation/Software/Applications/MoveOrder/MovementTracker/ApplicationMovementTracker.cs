@@ -28,12 +28,6 @@ namespace Simulation.Software
         {
             currentState = readyToSendOrder;
         }
-        private IEnumerator Scheduler(float time)
-        {
-            while(true)
-            {
-                yield return new WaitForSeconds(time * Time.timeScale);
-            }
-        }        
+      
     }
 }

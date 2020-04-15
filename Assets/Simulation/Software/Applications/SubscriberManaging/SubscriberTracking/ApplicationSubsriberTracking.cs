@@ -19,7 +19,7 @@ namespace Simulation.Software
             lookingForMissingSubscriber = new LookingForMissingSubscriber(this);
             receivingHeartbeat = new ReceivingHeartbeat(this);
             currentState = receivingHeartbeat;
-            StartCoroutine(Scheduler(2.0f));
+            UseScheduler = true;
         }
 
         protected override bool receiveCondition(Frame frame)
@@ -31,17 +31,14 @@ namespace Simulation.Software
             }
             return false;
         }
-        private IEnumerator Scheduler(float waitingForTime)
+        protected override void DoAction()
         {
-            while(true)
-            {
-                yield return new WaitForSeconds(waitingForTime * Time.timeScale);
                 currentState = isReceivingHeartbeat 
-                              ? receivingHeartbeat
-                              : lookingForMissingSubscriber;
+                  ? receivingHeartbeat
+                  : lookingForMissingSubscriber;
                 isReceivingHeartbeat = false;
                 currentState.Send();
-            }
-        } 
+
+        }
     }
 }

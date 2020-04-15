@@ -46,10 +46,8 @@ namespace Simulation.Components
         }
         public bool AddListener(int macAddress)
         {
-            Debug.Log("Someone want to add Listener");
             if (macTable.Count < maxListenersNumber)
             {
-                Debug.Log("Listener added");
                 macTable.Add(macAddress);
                 var args = new MacTableCapacityChangedEventArgs();
                 args.CausingMac = macAddress;

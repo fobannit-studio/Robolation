@@ -17,7 +17,7 @@ namespace Simulation.Software
             subscribed = new Subscribed(this);
             AttributedSoftware.radio.MacTableCapasityChanged += MacTableCapasityChanged;
             currentState = lookingForOperator;
-            StartCoroutine(Scheduler(2.0f));
+            UseScheduler = true;
         }
         ///<summary>
         /// Event called on change of radio mac table
@@ -33,14 +33,9 @@ namespace Simulation.Software
                 currentState = lookingForOperator;
             }
         }
-
-        private IEnumerator Scheduler(float waitTime)
+        protected override void DoAction()
         {
-            while (true)
-            {
-                yield return new WaitForSeconds(waitTime * Time.timeScale);
-                currentState.Send();
-            }
+            currentState.Send();
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections;
 using Simulation.Utils;
 using Simulation.Common;
 using UnityEngine;
@@ -10,8 +10,8 @@ namespace Simulation.Software
     public abstract class Application : MonoBehaviour
     {
         protected CommunicationBasedApplicationState currentState;
-        protected Dictionary<Message, Action<Frame>> ActionsOnRecive;
         public OperatingSystem AttributedSoftware;
+        protected bool UseScheduler {get; set; } = false;
         public Radio Radio { get; protected set; }
         ///<summary>
         /// Indicates if this application can receive given frame
@@ -27,8 +27,21 @@ namespace Simulation.Software
             this.AttributedSoftware = system;
             Radio = system.attributedRobot.radio;
             initStates();
+            if(UseScheduler) StartCoroutine(Scheduler(2.0f));
+
         }
         public abstract void initStates();
+
+        protected virtual IEnumerator Scheduler(float waitTime)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(waitTime * Time.timeScale);
+                DoAction();
+            }
+        }
+        protected virtual void DoAction() { }
+
     }
 
 }
