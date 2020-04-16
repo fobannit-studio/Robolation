@@ -14,7 +14,7 @@ namespace Simulation.Software
     {
         bool sent = false;
         private CommunicationBasedApplicationState subscribing;
-        protected override bool receiveCondition(Frame frame) => frame.message is Message.Subscribe;
+        protected override bool receiveCondition(Frame frame) => frame.message is Message.Subscribe || frame.message is Message.Heartbeat;
         public override void initStates()
         {
             subscribing = new Subscribing(this);
