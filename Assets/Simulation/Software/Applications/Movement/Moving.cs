@@ -6,10 +6,13 @@ namespace Simulation.Software
 {
     public class Moving : CommunicationBasedApplicationState
     {
-        public Moving(Application app) : base(app) { }
+        private new Movement Application;
+        public Moving(Application app) : base(app)
+            => Application = app as Movement;
         public override void Send()
         { 
-            Debug.Log("I come to point so sending Confirmation !");
+            if (Application.Destination == Application.AttributedSoftware.Position)
+                Debug.Log("I come to point so sending Confirmation !");
         }
         public override void Receive(Frame frame)
         {

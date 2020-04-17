@@ -1,9 +1,10 @@
 ﻿using Simulation.Robots;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
+
 namespace Simulation.UI
 {
     public class RobotPlacer : MonoBehaviour
@@ -46,7 +47,9 @@ namespace Simulation.UI
 
         void OnPlaced(GameObject instantiated)
         {
-            placed.Add((currentButton.assignedRobot.soft, instantiated.GetComponent<Robot>()));
+            var robot = instantiated.GetComponent<Robot>();
+            placed.Add((currentButton.assignedRobot.soft, robot));
+            robot.GetComponent<NavMeshAgent>().Warp(robot.Position);
             remains.Delete(currentButton);
             if (remains.elements.Count==0)
             {

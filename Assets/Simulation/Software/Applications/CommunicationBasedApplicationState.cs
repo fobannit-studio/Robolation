@@ -6,7 +6,7 @@ namespace Simulation.Software
     public abstract class CommunicationBasedApplicationState
     {
         public Application Application;
-        protected OperatingSystem AttributedSoftware { get => Application.AttributedSoftware; }
+        protected RobotOperatingSystem AttributedSoftware { get => Application.AttributedSoftware; }
         protected Radio radio;
         public CommunicationBasedApplicationState(Application application)
         {

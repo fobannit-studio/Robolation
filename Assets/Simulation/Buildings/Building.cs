@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Simulation.Components;
 using Simulation.Common;
 using System.Collections.Concurrent;
 namespace Simulation.World
 {
-
-
     public class Building : MonoBehaviour
     {
         [SerializeField]
@@ -16,7 +12,7 @@ namespace Simulation.World
         private MeshFilter meshFilter;
 
 
-        public int stage;  // finished paused planned in progress
+        public int stage;  // finished, paused, planned, in progress
         private List<Mesh> frames;
         private int frame_iterator;
         private SlotContainer container;

@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using Simulation.Utils;
-using UnityEngine;
 namespace Simulation.Common
 {
     public struct Payload
@@ -35,6 +34,7 @@ namespace Simulation.Common
         }
 
     }
+    //TODO change naming on upper case
     public struct Frame
     {
         // Check Utils.Enumerations for enum meaning
@@ -42,11 +42,10 @@ namespace Simulation.Common
 
         public TransmissionType transmissionType;
         public DestinationRole destinationRole;
+        public Type SendingOS;
         public MessageType messageType;
         public Message message;
         public Payload payload;
-
-
         public Frame(
             TransmissionType transmissionType,
             DestinationRole destinationRole,
@@ -55,6 +54,7 @@ namespace Simulation.Common
             // in case if it is a frame for broadcast between subscribers
             int destMac = -1,
             int srcMac = -1,
+            Type sendingOS = null,
             Payload? payload = null
         )
         {
@@ -63,6 +63,7 @@ namespace Simulation.Common
             this.messageType = messageType;
             this.message = message;
             this.srcMac = srcMac;
+            SendingOS = sendingOS;
             this.destMac = destMac;
             this.payload = payload ?? new Payload();
         }

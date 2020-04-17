@@ -7,13 +7,14 @@ namespace Simulation.Software
 {
     class Movement : Application
     {
-
+        public Vector3 Destination { get; set; }
         private CommunicationBasedApplicationState movement;
         private CommunicationBasedApplicationState waiting;
         protected override bool receiveCondition(Frame frame) => frame.message is Message.MoveTo;
         public override void initStates()
         {
             movement = new Moving(this);
+            waiting = new Waiting(this);
             currentState = waiting;
         }
         public void SetMovingState()

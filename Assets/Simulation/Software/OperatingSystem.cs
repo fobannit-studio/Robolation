@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
@@ -5,15 +6,18 @@ using Simulation.Robots;
 using Simulation.Components;
 using UnityEngine;
 using System.Collections.ObjectModel;
-using System.Reflection;
-using System;
 namespace Simulation.Software
 {
-    public abstract class OperatingSystem : ICommunicator
+    public abstract class RobotOperatingSystem : ICommunicator
     {
-        public Radio radio;
+        /// <summary>
+        /// Contain Types of subscribed operating systems, and mac addresses assigned to them
+        /// </summary>
+        public Dictionary<(Type type, int mac), (float x, float y, float z)> RoutingTable { get; } = new Dictionary<(Type type, int mac), (float x, float y, float z)>();
+        public Radio Radio;
         public Robot attributedRobot;
         protected int operatorMac;
+        // TODO Check if could be removed
         public int OperatorMac
         {
             set => operatorMac = value;
@@ -29,7 +33,7 @@ namespace Simulation.Software
         {
             attributedRobot = robot;
             attributedRobot.radio.software = this;
-            radio = attributedRobot.radio;
+            Radio = attributedRobot.radio;
             operatorMac = -1;
             LoadSoft();
             InstallSoft();
@@ -39,7 +43,6 @@ namespace Simulation.Software
             foreach (var application in ReqiuredSoft)
             {
                 application.installOn(this);
-                // application.Activate();
             }
         }
         protected bool isForMe(Frame message)

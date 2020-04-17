@@ -16,12 +16,13 @@ namespace Simulation.Software
         /// Move transporter to position. If transporter is not given - move random transporter from 
         /// its subsribtion list 
         /// </summary>
-        public void MoveToPosition(float x, float y, float z, int? robotMac = null)
+        public void MoveToPosition(float x, float y, float z)
         {
             var pos = new[] { x, y, z };
             var movementTrackingThread = AttributedSoftware.GameObject.AddComponent<MovementTracker>();
             movementTrackingThreads.Add((x, y, z), movementTrackingThread);
             movementTrackingThread.installOn(AttributedSoftware);
+            movementTrackingThread.Position = pos;
         }
         public override void ReceiveFrame(Frame frame)
         {

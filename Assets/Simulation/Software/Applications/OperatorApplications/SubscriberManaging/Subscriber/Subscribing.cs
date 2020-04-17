@@ -1,7 +1,6 @@
 using Simulation.Common;
 using Simulation.Utils;
 using System.Collections.Generic;
-using UnityEngine;
 namespace Simulation.Software
 {
     public class Subscribing : CommunicationBasedApplicationState
@@ -23,10 +22,10 @@ namespace Simulation.Software
         }
         private void createNewReceivingApplication(Frame frame)
         {
-            var newApp = AttributedSoftware.GameObject.AddComponent<SubscriberTracking>();
-            newApp.installOn(AttributedSoftware);
-            SubscriberTrackingApps.Add(frame.srcMac, newApp);
-            radio.AddListener(frame.srcMac);
+            Application.Radio.AddListener(frame.srcMac);
+            Application.CreateAppBasedOnFrame(frame, SubscriberTrackingApps);
+            var (x,y,z) = frame.payload;
+            AttributedSoftware.RoutingTable.Add((frame.SendingOS, frame.srcMac), (x,y,z));
             var identifyMe = new Frame(
                     TransmissionType.Unicast,
                     DestinationRole.NoMatter,

@@ -1,17 +1,25 @@
 using System.Collections;
-using Simulation.Utils;
+using System.Collections.Generic;
 using Simulation.Common;
 using UnityEngine;
-using System;
 using Simulation.Components;
-
 namespace Simulation.Software
 {
     public abstract class Application : MonoBehaviour
     {
+        private IEnumerator scheduler;
         protected CommunicationBasedApplicationState currentState;
-        public OperatingSystem AttributedSoftware;
-        protected bool UseScheduler {get; set; } = false;
+        public RobotOperatingSystem AttributedSoftware;
+        private bool useScheduler;
+        protected bool UseScheduler {
+            get => useScheduler;
+            set 
+            {
+                if (value) StartCoroutine(scheduler);
+                else StopCoroutine(scheduler);
+                useScheduler = value;
+            } 
+        }
         public Radio Radio { get; protected set; }
         ///<summary>
         /// Indicates if this application can receive given frame
@@ -20,19 +28,26 @@ namespace Simulation.Software
         public virtual void ReceiveFrame(Frame frame)
         {
             if(receiveCondition(frame))
+            {
+                BeforeReceive(frame);
                 currentState.Receive(frame);
+            }
         }
-        public void installOn(OperatingSystem system)
+        public T CreateAppBasedOnFrame<T>(Frame frame, Dictionary<int, T> registrator) where T : Application
+        {
+            T newApp = AttributedSoftware.GameObject.AddComponent<T>();
+            newApp.installOn(AttributedSoftware);
+            registrator.Add(frame.srcMac, newApp);
+            return newApp;
+        }
+        public void installOn(RobotOperatingSystem system)
         {
             this.AttributedSoftware = system;
             Radio = system.attributedRobot.radio;
+            scheduler = Scheduler(2.0f);
             initStates();
-            if(UseScheduler) StartCoroutine(Scheduler(2.0f));
-
         }
-        public abstract void initStates();
-
-        protected virtual IEnumerator Scheduler(float waitTime)
+        private IEnumerator Scheduler(float waitTime)
         {
             while (true)
             {
@@ -40,8 +55,10 @@ namespace Simulation.Software
                 DoAction();
             }
         }
+        public abstract void initStates();
         protected virtual void DoAction() { }
-
+        protected virtual void BeforeReceive(Frame frame) { }
+   
     }
 
 }

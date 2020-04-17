@@ -1,24 +1,18 @@
 using System.Collections.Generic;
-using System.Collections;
-using Simulation.Common;
 using Simulation.Utils;
-using Simulation.Robots;
-using UnityEngine;
 namespace Simulation.Software
 {
-    class BuilderSoftware : OperatingSystem
+    class BuilderSoftware : RobotOperatingSystem
     {
         protected override DestinationRole IReceive  => DestinationRole.Builder; 
         protected  override void LoadSoft() 
         {
             requiredSoft = new List<Application>
             {
-               attributedRobot.gameObject.AddComponent<OperatorTracking>()
+               attributedRobot.gameObject.AddComponent<Movement>(),
+               attributedRobot.gameObject.AddComponent<OperatorTracking>(),
+               attributedRobot.gameObject.AddComponent<BuildingApplication>()
             };
-
-
         }
-
-     
     }
 }

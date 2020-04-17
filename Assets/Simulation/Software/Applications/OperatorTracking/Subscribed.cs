@@ -9,12 +9,14 @@ namespace Simulation.Software
 
         public override void Send()
         {
+            var pos = Application.AttributedSoftware.Position;
             var heartbeatFrame = new Frame(
                 TransmissionType.Unicast,
                 DestinationRole.Operator,
                 MessageType.Heartbeat,
                 Message.Heartbeat,
-                destMac: ((OperatorTracking) Application).OperatorMac
+                destMac: ((OperatorTracking) Application).OperatorMac,
+                payload: new Payload(new float[] {pos.x, pos.y, pos.z})
             );
             Debug.Log($"Sending {heartbeatFrame}");
             radio.SendFrame(heartbeatFrame);

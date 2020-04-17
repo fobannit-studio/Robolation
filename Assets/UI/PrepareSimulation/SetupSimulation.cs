@@ -45,13 +45,11 @@ namespace Simulation.UI
         }
         public void BeginRobotSelection()
         {
-           
             if (WarehousePlacerCanvas.GetComponent<WareHousePlacer>().NextStage())
             {
                 WarehousePlacerCanvas.gameObject.SetActive(false);
                 RobotSelectionCanvas.gameObject.SetActive(true);
-            }
-           
+            }  
         }
         public void BeginRobotPlacement()
         {
@@ -59,15 +57,12 @@ namespace Simulation.UI
             if (selector.Proceed())
             {
                 RobotSelectionCanvas.gameObject.SetActive(false);
-
                 RobotPlacementCanvas.GetComponent<RobotPlacer>().Init(selector.GetSelectedRobots());
                 RobotPlacementCanvas.gameObject.SetActive(true);
-            }
-            
+            }  
         }
         public void StartSimulation()
         {
-            
            var  robots= RobotPlacementCanvas.GetComponent<RobotPlacer>().GetResult();
            var warehouses = WarehousePlacerCanvas.GetComponent<WareHousePlacer>().GetWarehouses();
            var buildings = PlacementCanvas.GetComponent<BuildingPlacer>().GetBuildings();

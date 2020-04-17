@@ -15,7 +15,7 @@ namespace Simulation.Software
         {
             lookingForOperator = new LookingForOperator(this);
             subscribed = new Subscribed(this);
-            AttributedSoftware.radio.MacTableCapasityChanged += MacTableCapasityChanged;
+            AttributedSoftware.Radio.MacTableCapasityChanged += MacTableCapasityChanged;
             currentState = lookingForOperator;
             UseScheduler = true;
         }

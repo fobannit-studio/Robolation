@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using Simulation.Common;
 using Simulation.Utils;
-using Simulation.Robots;
-using UnityEngine;
+using System;
 namespace Simulation.Software
 {
-    class OperatorSoftware : OperatingSystem
+    class OperatorSoftware : RobotOperatingSystem
     {
         protected override DestinationRole IReceive => DestinationRole.Operator;
         protected override void LoadSoft()
@@ -14,22 +12,12 @@ namespace Simulation.Software
             requiredSoft = new List<Application>
             {
                attributedRobot.gameObject.AddComponent<Subscriber>(),
-               attributedRobot.gameObject.AddComponent<MoveOrder>()
+               attributedRobot.gameObject.AddComponent<MoveOrder>(),
+               attributedRobot.gameObject.AddComponent<BuildingPreparation>()
             };
         }
-        public void SendAllTransportToPosition(float x, float y, float z)
-        {
-            Frame moveTo = new Frame
-            (
-                TransmissionType.Unicast,
-                DestinationRole.Transporter,
-                MessageType.Service,
-                Message.MoveTo,
-                payload: new Payload(new float[] { x, y, z })
-            );
-            attributedRobot.radio.NotifySubscribers(moveTo);
-        }
-
-
+        public Subscriber Subscriber { get => requiredSoft[0] as Subscriber; }
+        public MoveOrder MoveOrder { get => requiredSoft[1] as MoveOrder; }
+        public BuildingPreparation BuildingPreparation { get => requiredSoft[2] as BuildingPreparation; }
     }
 }

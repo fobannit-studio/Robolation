@@ -14,6 +14,8 @@ namespace Simulation.Software
         }
         public override void Receive(Frame frame)
         {
+            var (x, y, z) = frame.payload;
+            Application.AttributedSoftware.RoutingTable[(frame.SendingOS, frame.srcMac)] = (x, y, z);
             Debug.Log($"Received heartbeat from {frame.srcMac}");
         }
     }

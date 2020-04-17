@@ -15,6 +15,7 @@ namespace Simulation.Components
         public int maxListenersNumber;
         public readonly int macAddress;
         protected float range;
+        public float Range { get => range; }
         // Receiver, that will handle messages sent by this radio.
         public ICommunicator software;
         private List<int> macTable = new List<int>();
@@ -61,6 +62,7 @@ namespace Simulation.Components
         public void SendFrame(Frame frame)
         {
             frame.srcMac = macAddress;
+            frame.SendingOS = software.GetType();
             Debug.Log($"{this.software.GetType().Name}'s radio sent frame {frame}");
             Gateway(frame, software.Position, this.range);
 

@@ -8,11 +8,13 @@ namespace Simulation.Software
         public LookingForOperator(Application app) : base(app) { }
         public override void Send()
         {
+            var pos = Application.AttributedSoftware.Position;
             Frame findOperatorFrame = new Frame(
                 TransmissionType.Broadcast,
                 DestinationRole.Operator,
                 MessageType.Service,
-                Message.Subscribe
+                Message.Subscribe,
+                payload: new Payload(new float[] { pos.x, pos.y, pos.z })
             );
             radio.SendFrame(findOperatorFrame);
         }

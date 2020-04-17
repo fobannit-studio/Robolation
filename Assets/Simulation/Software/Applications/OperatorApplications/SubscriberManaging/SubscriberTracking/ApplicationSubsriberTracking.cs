@@ -23,14 +23,9 @@ namespace Simulation.Software
         }
 
         protected override bool receiveCondition(Frame frame)
-        {
-            if(frame.message is Message.Heartbeat)
-            {
-                isReceivingHeartbeat = true;
-                return true;
-            }
-            return false;
-        }
+        => frame.message is Message.Heartbeat;
+        protected override void BeforeReceive(Frame frame)
+        => isReceivingHeartbeat = true;
         protected override void DoAction()
         {
                 currentState = isReceivingHeartbeat 
@@ -38,7 +33,6 @@ namespace Simulation.Software
                   : lookingForMissingSubscriber;
                 isReceivingHeartbeat = false;
                 currentState.Send();
-
         }
     }
 }

@@ -6,7 +6,7 @@ using Simulation.Robots;
 using UnityEngine;
 namespace Simulation.Software
 {
-    class TransporterSoftware : OperatingSystem
+    class TransporterSoftware : RobotOperatingSystem
     {
         protected override DestinationRole IReceive => DestinationRole.Transporter;
         protected override void LoadSoft()
