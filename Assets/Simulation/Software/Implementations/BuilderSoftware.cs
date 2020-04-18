@@ -14,5 +14,8 @@ namespace Simulation.Software
                attributedRobot.gameObject.AddComponent<BuildingApplication>()
             };
         }
+        public Movement GetMovement() => requiredSoft[0] as Movement;
+        public OperatorTracking GetOperatorTracking() => requiredSoft[1] as OperatorTracking;
+        public BuildingApplication GetBuildingApplication() => requiredSoft[2] as BuildingApplication;
     }
 }

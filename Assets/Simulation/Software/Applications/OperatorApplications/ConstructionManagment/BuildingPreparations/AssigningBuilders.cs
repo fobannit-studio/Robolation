@@ -26,13 +26,17 @@ namespace Simulation.Software
                 AttributedSoftware.Radio.SendFrame(findFreeBuilders);
             }
         }
+        /// <summary>
+        /// Called on receive frame from builder
+        /// </summary>
+        /// <param name="frame"></param>
         public override void Receive(Frame frame)
         {
             if( frame.messageType is MessageType.ACK && frame.message is Message.BuildNewBuilding && Application.BuildingsWithoutBuilders.Count > 0) 
             {
-                Application.CreateAppBasedOnFrame(frame, Application.BuilderTrackingApplications);
-                var buildingPosition = Application.BuildingsWithoutBuilders.Pop().transform.position;
-                (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z);
+                BuilderTracking ControlThread = Application.CreateAppBasedOnFrame(frame, Application.BuilderTrackingApplications);
+                var buildingPosition = Application.BuildingsWithoutBuilders.Pop().ClosestPoint(AttributedSoftware.Position);
+                (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z, ControlThread.GetControl);
             }
         }
     }

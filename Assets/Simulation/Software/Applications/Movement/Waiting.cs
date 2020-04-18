@@ -21,19 +21,9 @@ namespace Simulation.Software
             (float x,float y,float z) = frame.payload;
             Application.Destination = new Vector3(x, y, z);
             AttributedSoftware.attributedRobot.MoveOrder(Application.Destination);
+            Application.OrderAuthor = frame.srcMac;
             Application.SetMovingState();
-            //ConfirmReceiving(frame.srcMac);
         }
-        //private void ConfirmReceiving(int destMac)
-        //{
-        //    // Should confirm only when come to position
-        //    Frame response = new Frame(
-        //       TransmissionType.Unicast,
-        //       DestinationRole.Operator,
-        //       MessageType.ACK,
-        //       Message.MoveTo,
-        //       destMac: destMac);
-        //    AttributedSoftware.Radio.SendFrame(response);
-        //}
+
     }
 }

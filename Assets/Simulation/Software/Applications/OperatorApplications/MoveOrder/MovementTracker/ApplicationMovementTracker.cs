@@ -6,10 +6,14 @@ using Simulation.Utils;
 using Simulation.Common;
 namespace Simulation.Software
 {
-    class MovementTracker : Application
+    public class MovementTracker : Application
     {
         private CommunicationBasedApplicationState readyToSendOrder;
         private CommunicationBasedApplicationState waitingForAcknowledge;
+        /// <summary>
+        /// Called when movement is finished, to return control to application
+        /// </summary>
+        public Action ReturnControl;
         public float[] Position { get; set;  }
 
         public override void initStates()

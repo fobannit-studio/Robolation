@@ -6,7 +6,7 @@ namespace Simulation.Software
 {
     public class ReadyToSendOrder : CommunicationBasedApplicationState
     {
-        public ReadyToSendOrder(Application app) : base(app) { }
+        public ReadyToSendOrder(MovementTracker app) : base(app) { }
         public override void Send(Payload payload)
         {
             // Sends first subscriber 
@@ -21,6 +21,7 @@ namespace Simulation.Software
             );
             // TODO change on unicast
             AttributedSoftware.Radio.NotifySubscribers(frame);
+            (Application as MovementTracker).SetWaitingForAck();
         }
         public override void Receive(Frame frame)
         {

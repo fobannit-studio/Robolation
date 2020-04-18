@@ -2,6 +2,7 @@
 using UnityEngine;
 using Simulation.Common;
 using System.Collections.Concurrent;
+using System;
 namespace Simulation.World
 {
     public class Building : MonoBehaviour
@@ -12,6 +13,10 @@ namespace Simulation.World
         private MeshFilter meshFilter;
 
 
+        /// <summary>
+        /// Return the closest position to point given as first argument
+        /// </summary>
+        public Func<Vector3, Vector3> ClosestPoint;
         public int stage;  // finished, paused, planned, in progress
         private List<Mesh> frames;
         private int frame_iterator;
@@ -27,7 +32,7 @@ namespace Simulation.World
             stage = 0;
             frame_iterator = 0;
             this.Name = Name;
-
+            ClosestPoint = this.GetComponent<MeshRenderer>().bounds.ClosestPoint;
         }
         public  Building(string Name, SlotContainer materials, List<Mesh> frames)
         {

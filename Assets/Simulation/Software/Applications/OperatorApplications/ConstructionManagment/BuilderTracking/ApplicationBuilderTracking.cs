@@ -6,14 +6,16 @@ namespace Simulation.Software
     class BuilderTracking : Application
     {
 
-        private CommunicationBasedApplicationState managingBuilderToPosition;
-        //private CommunicationBasedApplicationState waitingForBuilderArriving;
-        //private CommunicationBasedApplicationState waitingForBuilderFeedback;
+        private CommunicationBasedApplicationState waitingForMaterialRequest;
         public Building AdministratedBuilding { get; set; }
         public override void initStates()
         {
-            managingBuilderToPosition = new ManagingBuilderToPosition(this);
-            currentState = managingBuilderToPosition;
+            waitingForMaterialRequest = new WaitingForMaterialRequest(this);
+            currentState = waitingForMaterialRequest;
+        }
+        public void GetControl() 
+        {
+            Debug.Log("Control received !");
         }
     }
 }

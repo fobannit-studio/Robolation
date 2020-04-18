@@ -63,7 +63,7 @@ namespace Simulation.Components
         {
             frame.srcMac = macAddress;
             frame.SendingOS = software.GetType();
-            Debug.Log($"{this.software.GetType().Name}'s radio sent frame {frame}");
+            //Debug.Log($"{this.software.GetType().Name}'s radio sent frame {frame}");
             Gateway(frame, software.Position, this.range);
 
         }
@@ -71,7 +71,7 @@ namespace Simulation.Components
         {
             if (isAbleToReceive(frame, senderPosition, senderRange))
             {
-                Debug.Log($"{this.software.GetType().Name}'s radio received frame ${frame}");
+                //Debug.Log($"{this.software.GetType().Name}'s radio received frame ${frame}");
                 software.HandleFrame(frame);
             }
         }

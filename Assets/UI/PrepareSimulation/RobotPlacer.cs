@@ -41,10 +41,7 @@ namespace Simulation.UI
                     }
                 }
             }
-         
-
         }
-
         void OnPlaced(GameObject instantiated)
         {
             var robot = instantiated.GetComponent<Robot>();

@@ -53,7 +53,7 @@ namespace Simulation.Software
         {
             if (isForMe(frame))
             {
-                Debug.Log($"{this.GetType().Name} recognized itself and start parsing message: {frame}");
+                //Debug.Log($"{this.GetType().Name} recognized itself and start parsing message: {frame}");
                 foreach (var application in ReqiuredSoft)
                 {
                     application.ReceiveFrame(frame);

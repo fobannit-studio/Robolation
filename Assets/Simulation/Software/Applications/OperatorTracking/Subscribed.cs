@@ -18,7 +18,7 @@ namespace Simulation.Software
                 destMac: ((OperatorTracking) Application).OperatorMac,
                 payload: new Payload(new float[] {pos.x, pos.y, pos.z})
             );
-            Debug.Log($"Sending {heartbeatFrame}");
+            //Debug.Log($"Sending {heartbeatFrame}");
             radio.SendFrame(heartbeatFrame);
         }
         public override void Receive(Frame frame)

@@ -16,7 +16,7 @@ namespace Simulation.Software
         {
             var (x, y, z) = frame.payload;
             Application.AttributedSoftware.RoutingTable[(frame.SendingOS, frame.srcMac)] = (x, y, z);
-            Debug.Log($"Received heartbeat from {frame.srcMac}");
+            //Debug.Log($"Received heartbeat from {frame.srcMac}");
         }
     }
 }
