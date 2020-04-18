@@ -9,6 +9,7 @@ namespace Simulation.Software
 
         public override void Receive(Frame frame)
         {
+            
             Debug.Log("Received");
         }
     }

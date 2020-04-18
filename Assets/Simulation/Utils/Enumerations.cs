@@ -36,7 +36,8 @@ namespace Simulation.Utils
         MoveTo,
         Notify,
         Heartbeat,
-        BuildNewBuilding
+        BuildNewBuilding,
+        BringMaterials
     }
     public enum BuildingStatus
     {

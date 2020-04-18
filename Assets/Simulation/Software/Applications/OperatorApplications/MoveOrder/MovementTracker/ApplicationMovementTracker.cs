@@ -13,7 +13,7 @@ namespace Simulation.Software
         /// <summary>
         /// Called when movement is finished, to return control to application
         /// </summary>
-        public Action ReturnControl;
+        public Action<Frame> ReturnControl;
         public float[] Position { get; set;  }
 
         public override void initStates()

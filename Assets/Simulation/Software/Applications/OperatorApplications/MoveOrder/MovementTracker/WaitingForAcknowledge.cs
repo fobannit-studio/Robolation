@@ -15,7 +15,7 @@ namespace Simulation.Software
         {
             (float x, float y, float z) = frame.payload;            
             (Application.AttributedSoftware as OperatorSoftware).MoveOrder.FinishMoveOrderTracking(x,y,z);
-            (Application as MovementTracker).ReturnControl();
+            (Application as MovementTracker).ReturnControl(frame);
         }
     }
 }
