@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3037053308406323674}
   - component: {fileID: 2334280157281324297}
   - component: {fileID: 6433292725854036473}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Claw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,8 @@ GameObject:
   - component: {fileID: 4503773661250069028}
   - component: {fileID: 5461846716665107494}
   - component: {fileID: 267027045053006156}
-  m_Layer: 0
+  - component: {fileID: 6068299465086905744}
+  m_Layer: 8
   m_Name: Builder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,6 +197,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 5461846716665107494}
+--- !u!95 &6068299465086905744
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889555366224322225}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5186199657799258549
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 668277949508428566}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ClawPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +256,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 699485643535254469}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ArmPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +290,7 @@ GameObject:
   - component: {fileID: 8188036131777970489}
   - component: {fileID: 8926556610381501930}
   - component: {fileID: 199246042823735578}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}

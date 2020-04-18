@@ -17,4 +17,9 @@ namespace Simulation.Utils{
         public NoMaterialInContainerException(string message, System.Exception inner) : base(message, inner) { }
     }
 
+    public class WarehouseNotInRangeException:System.Exception
+    {
+
+    }
+
 }

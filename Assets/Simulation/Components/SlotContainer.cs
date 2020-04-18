@@ -70,12 +70,20 @@ public class SlotContainer : IContainer
         throw new NoMaterialInContainerException();
 
     }
+    public bool CanTake(BuildingMaterial material, int requestedAmount)
+    {
+        return currentMaterials.TryGetValue(material, out int incontainer);
+    }
+    public bool CanPut(BuildingMaterial material, int amount)
+    {
+        return currentMaterials[material] + amount > MaxMaterials[material];
+    }
 
     public void Put(BuildingMaterial material, int amount)
     {
         if (currentMaterials.TryGetValue(material, out int incontainer))
         {
-            if (incontainer+amount>MaxMaterials[material])
+            if (!CanPut(material, amount)) 
             {
                 throw new ContainerIsFullException();
             }

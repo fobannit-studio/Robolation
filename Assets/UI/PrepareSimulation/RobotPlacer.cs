@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
-
+using Simulation.World;
 namespace Simulation.UI
 {
     public class RobotPlacer : MonoBehaviour
@@ -41,8 +41,26 @@ namespace Simulation.UI
                     }
                 }
             }
-         
 
+           
+
+
+        }
+        public void PlaceAll()
+        {
+            var warehouse=FindObjectOfType<Warehouse>();
+            int i = 1;
+            var offset = new Vector3(0, 0, 1f);
+            foreach (var item in remains.elements)
+            {
+                var robot = Instantiate(item.assignedRobot.robot.gameObject);
+
+                robot.GetComponent<NavMeshAgent>().Warp(warehouse.transform.position+i*offset);
+
+                placed.Add((item.assignedRobot.soft, robot.GetComponent<Robot>()));
+                i++;
+
+            }
         }
 
         void OnPlaced(GameObject instantiated)
@@ -67,8 +85,6 @@ namespace Simulation.UI
             var robot = Instantiate(button.assignedRobot.robot.gameObject);
             placer.ChangeObject(robot);
         }
-
-
 
     }
 }
