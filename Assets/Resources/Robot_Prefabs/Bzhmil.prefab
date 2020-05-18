@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3040847418148698125}
   - component: {fileID: 16034004588493161}
   - component: {fileID: 3912026706964078553}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rotor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,8 @@ GameObject:
   - component: {fileID: 3921489143435928165}
   - component: {fileID: 5628892310205791844}
   - component: {fileID: 6955606268430504723}
-  m_Layer: 0
+  - component: {fileID: -2848141305980729257}
+  m_Layer: 8
   m_Name: Bzhmil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,6 +153,25 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!95 &-2848141305980729257
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2184888537854077114}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2600612811660450378
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +183,7 @@ GameObject:
   - component: {fileID: 6147877913037789931}
   - component: {fileID: 1823677769219567600}
   - component: {fileID: 1634245892003343515}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rotor (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +262,7 @@ GameObject:
   - component: {fileID: 2857966998916329597}
   - component: {fileID: 3308256060794905774}
   - component: {fileID: 6110236346015271006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +345,7 @@ GameObject:
   - component: {fileID: 4206340804530332998}
   - component: {fileID: 574510478082165838}
   - component: {fileID: 4441497424093644826}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rotor (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +424,7 @@ GameObject:
   - component: {fileID: 3560363235285204780}
   - component: {fileID: 538525781097419572}
   - component: {fileID: 6285129944674421867}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rotor (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

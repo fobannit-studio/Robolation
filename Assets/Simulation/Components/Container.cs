@@ -37,14 +37,27 @@ namespace Simulation.Components
         // Throws exception if container is full
         public void Put(BuildingMaterial material, int amount)
         {
-            FreeSpace -= material.Volume * amount;
-            Weight += material.Weight * amount;
-            if (!materialsInContainer.TryAdd(material.Type, amount))
+            if (CanPut(material,amount))
             {
-                materialsInContainer[material.Type] += amount;
+                FreeSpace -= material.Volume * amount;
+                Weight += material.Weight * amount;
+                if (!materialsInContainer.TryAdd(material.Type, amount))
+                {
+                    materialsInContainer[material.Type] += amount;
+                }
             }
+            else
+                throw new ContainerIsFullException();
+            
+            
 
         }
+
+        public bool CanPut(BuildingMaterial material, int requestedAmount)
+        {
+            return FreeSpace >= material.Volume * requestedAmount;
+        }
+
         public int Take(BuildingMaterial material, int requestedAmount)
         {
             int returnedAmount = 0;

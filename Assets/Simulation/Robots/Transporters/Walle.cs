@@ -13,35 +13,7 @@ namespace Assets.Simulation.Robots.Transporters
         [SerializeField]
         private Transform Plate;
 
-
-     
-
-        // Start is called before the first frame update
-        /// <summary>
-        /// Coroutine for opening plate of Wall-e.
-        /// </summary>
-        IEnumerator OpenPlate()
-        {
-            for (float i = 0; i < 1; i+=Time.deltaTime)
-            {
-                Plate.rotation= Quaternion.Euler( Mathf.Lerp(0,120,i),0, 0);
-                yield return null;
-            }
-            Plate.rotation = Quaternion.Euler(120, 0, 0);
-            
-        }
-        IEnumerator ClosePlate()
-        {
-            for (float i = 0; i < 1; i += Time.deltaTime)
-            {
-                Plate.rotation = Quaternion.Euler(Mathf.LerpAngle(120, 0, i), 0, 0);
-                yield return null;
-            }
-            Plate.rotation = Quaternion.Euler(0, 0, 0);
-
-        }
-
-      
+        protected override int cointainer_size => 5;
 
 
     }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2185297022304181933}
   - component: {fileID: 1446636913173465726}
   - component: {fileID: 7868314471804003982}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,50 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &2237490133225737864
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5452409298605014826}
-  - component: {fileID: 7929449887204365432}
-  m_Layer: 0
-  m_Name: PlaceHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5452409298605014826
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2237490133225737864}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.07030026, z: 0.0247}
-  m_LocalScale: {x: 0.05377346, y: 0.05377346, z: 0.05377346}
-  m_Children: []
-  m_Father: {fileID: 6187761604767496867}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7929449887204365432
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2237490133225737864}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2502566559975560265
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3958980139097263762}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightArmPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +121,7 @@ GameObject:
   - component: {fileID: 3266832207004642824}
   - component: {fileID: 2816682839827151579}
   - component: {fileID: 6788187804444169771}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +200,7 @@ GameObject:
   - component: {fileID: 4732782345196619256}
   - component: {fileID: 5471584359912542507}
   - component: {fileID: 3660399780883267035}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +281,8 @@ GameObject:
   - component: {fileID: 2791451285384987264}
   - component: {fileID: 1979776872732138126}
   - component: {fileID: 3677427710113425696}
-  m_Layer: 0
+  - component: {fileID: 7439921367514413489}
+  m_Layer: 8
   m_Name: Transporter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +304,6 @@ Transform:
   - {fileID: 8280103655277443578}
   - {fileID: 7438248451886409788}
   - {fileID: 3958980139097263762}
-  - {fileID: 5452409298605014826}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -436,6 +392,25 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!95 &7439921367514413489
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6622143978799889941}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1e6094c4cceb5c4448a608f424ff6969, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7446217960887182404
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7438248451886409788}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftArmPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +453,7 @@ GameObject:
   - component: {fileID: 8280103655277443578}
   - component: {fileID: 8694224285448629545}
   - component: {fileID: 111099212432671193}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
