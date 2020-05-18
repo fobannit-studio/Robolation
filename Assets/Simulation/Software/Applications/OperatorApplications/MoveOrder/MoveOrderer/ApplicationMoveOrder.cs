@@ -1,6 +1,5 @@
 ﻿using Simulation.Utils;
 using System.Collections.Generic;
-using UnityEngine;
 using Simulation.Common;
 using System;
 namespace Simulation.Software
@@ -16,7 +15,7 @@ namespace Simulation.Software
         /// Move transporter to position. If transporter is not given - move random transporter from 
         /// its subsribtion list 
         /// </summary>
-        public void MoveToPosition(float x, float y, float z, Action controlReturn)
+        public void MoveToPosition(float x, float y, float z, Action<Frame> controlReturn)
         {
             var pos = new[] { x, y, z };
             var movementTrackingThread = AttributedSoftware.GameObject.AddComponent<MovementTracker>();

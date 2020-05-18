@@ -24,7 +24,7 @@ namespace Simulation.Software
             => SendTransporterToMaterials(new List<BuildingMaterial> { material});
         public void SendTransporterToMaterials(List<BuildingMaterial> materials)
         {
-            sendingTransporterToGetMaterials.RequestMaterials(materials);
+            ((SendingTransporterToGetMaterials)sendingTransporterToGetMaterials).RequestMaterials(materials);
             currentState = sendingTransporterToGetMaterials;
         }
         public void StartWaitForMaterailRequst() => currentState = waitingForMaterialRequest;

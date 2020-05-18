@@ -11,8 +11,6 @@ namespace Simulation.Software
             => Application = app as Movement;
         public override void Send()
         {
-
-            Debug.Log("Uhuuu !");
             if ((Application.Destination.x, Application.Destination.z) == (Application.AttributedSoftware.Position.x, Application.AttributedSoftware.Position.z))
             {
                 Debug.Log("I come to point so sending Confirmation !");

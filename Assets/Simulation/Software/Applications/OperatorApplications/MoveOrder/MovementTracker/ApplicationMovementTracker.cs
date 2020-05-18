@@ -1,7 +1,4 @@
-using UnityEngine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Simulation.Utils;
 using Simulation.Common;
 namespace Simulation.Software
@@ -15,7 +12,6 @@ namespace Simulation.Software
         /// </summary>
         public Action<Frame> ReturnControl;
         public float[] Position { get; set;  }
-
         public override void initStates()
         {
             readyToSendOrder = new ReadyToSendOrder(this);
