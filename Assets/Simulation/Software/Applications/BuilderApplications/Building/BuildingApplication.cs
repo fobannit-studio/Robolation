@@ -35,7 +35,7 @@ namespace Simulation.Software
         public Building FindBuilding() 
         {
             return FindObjectsOfType<Building>()
-                   .OrderBy(x => x.ClosestPoint(AttributedSoftware.Position))
+                   .OrderBy(x => Vector3.Distance(x.ClosestPoint(AttributedSoftware.Position), AttributedSoftware.Position))
                    .ToList()[0];
         }
         public void StartScheduler()
