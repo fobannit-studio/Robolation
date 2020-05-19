@@ -5,6 +5,8 @@ using Simulation.Utils;
 using Simulation.Common;
 
 using UnityEngine;
+using System.Runtime.Remoting.Messaging;
+
 namespace Simulation.Components
 {
     public class Container :IContainer
@@ -58,6 +60,8 @@ namespace Simulation.Components
             return FreeSpace >= material.Volume * requestedAmount;
         }
 
+        public bool CanTake(BuildingMaterial material)
+        => materialsInContainer.ContainsKey(material.Type);
         public int Take(BuildingMaterial material, int requestedAmount)
         {
             int returnedAmount = 0;

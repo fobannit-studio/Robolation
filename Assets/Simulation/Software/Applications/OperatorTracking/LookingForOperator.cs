@@ -24,6 +24,7 @@ namespace Simulation.Software
             frame.destMac = frame.srcMac;
             frame.messageType = MessageType.ACK;
             ((OperatorTracking) Application).OperatorMac = frame.srcMac;
+            AttributedSoftware.OperatorMac = frame.srcMac;
             radio.SendFrame(frame);
         }
     }

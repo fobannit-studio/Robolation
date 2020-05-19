@@ -14,7 +14,7 @@ namespace Simulation.Software
         public override void Receive(Frame frame)
         {
             Application.StartWorking();
-            Debug.Log("Yo-ho-ho i butylka roma !");
+            //Debug.Log("Yo-ho-ho i butylka roma !");
             var response = new Frame(
                     TransmissionType.Unicast,
                     DestinationRole.Operator,

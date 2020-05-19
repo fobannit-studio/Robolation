@@ -32,7 +32,7 @@ namespace Simulation.Robots
         protected Container container;
         protected Animator animator;
 
-
+        public Container MaterialContainer { get => container; }
 
         protected abstract int cointainer_size { get; }
 

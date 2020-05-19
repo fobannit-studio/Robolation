@@ -6,12 +6,12 @@ namespace Simulation.Common
     public struct Payload
     {
         public string textPayload;
-        public float[] floatPayload;
-        
+        public float[] floatPayload;        
         public Payload(float[] floatPayload = null, string textPayload = "")
         {
             this.floatPayload = floatPayload ?? new float[] { };
             this.textPayload = textPayload;
+            
         }
         public Payload(string textPayload, float[] floatPayload = null) : this(floatPayload, textPayload)
         { }
