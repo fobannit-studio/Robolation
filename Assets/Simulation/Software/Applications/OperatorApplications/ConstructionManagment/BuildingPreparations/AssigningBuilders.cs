@@ -1,6 +1,8 @@
 ﻿using Simulation.Common;
 using Simulation.Utils;
 using System.Collections.Generic;
+using UnityEngine;
+
 namespace Simulation.Software
 {
     class AssigningBuilders : CommunicationBasedApplicationState
@@ -37,10 +39,11 @@ namespace Simulation.Software
         {
             if( frame.messageType is MessageType.ACK && frame.message is Message.BuildNewBuilding && Application.BuildingsWithoutBuilders.Count > 0) 
             {
+                Debug.Log(frame.srcMac);
                 BuilderTracking ControlThread = Application.CreateAppBasedOnFrame(frame, Application.BuilderTrackingApplications);
                 var buildingPosition = Application.BuildingsWithoutBuilders.Pop().ClosestPoint(AttributedSoftware.Position);
                 builderTrackingThreads.Add(ControlThread);
-                (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z, ControlThread.GetControl);
+                (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z, ControlThread.GetControl, frame.srcMac);
             }
             else if(frame.message is Message.BringMaterials)
             {

@@ -7,6 +7,7 @@ namespace Simulation.Software
     {
         private CommunicationBasedApplicationState readyToSendOrder;
         private CommunicationBasedApplicationState waitingForAcknowledge;
+        public  int TargetsMac {get; set;}
         /// <summary>
         /// Called when movement is finished, to return control to application
         /// </summary>
