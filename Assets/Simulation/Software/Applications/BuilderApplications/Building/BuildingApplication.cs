@@ -1,5 +1,7 @@
 ﻿using Simulation.Common;
 using Simulation.Utils;
+using Simulation.World;
+using System.Linq;
 using UnityEngine;
 
 namespace Simulation.Software
@@ -29,6 +31,20 @@ namespace Simulation.Software
         {
             Debug.Log("Start waiting");
             currentState = waitingForOrder;
+        }
+        public Building FindBuilding() 
+        {
+            return FindObjectsOfType<Building>()
+                   .OrderBy(x => x.ClosestPoint(AttributedSoftware.Position))
+                   .ToList()[0];
+        }
+        public void StartScheduler()
+        {
+            UseScheduler = true;
+        }
+        protected override void DoAction() 
+        {
+            currentState.DoAction();
         }
     }
 }

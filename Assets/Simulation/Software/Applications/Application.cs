@@ -58,7 +58,7 @@ namespace Simulation.Software
         public abstract void initStates();
         protected virtual void DoAction() { }
         protected virtual void BeforeReceive(Frame frame) { }
-   
+
     }
 
 }

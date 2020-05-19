@@ -17,5 +17,6 @@ namespace Simulation.Software
         public virtual void Send() { Debug.Log("Should send predefined frame"); }
         public virtual void Send(Payload payload) { Debug.Log("Should send frame with payload"); }
         public abstract void Receive(Frame frame);
+        public virtual void DoAction() { }
     }
 }

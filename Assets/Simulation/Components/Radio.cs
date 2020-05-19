@@ -92,7 +92,7 @@ namespace Simulation.Components
             }
             else
             {
-                Debug.Log("No registerd handlers");
+                // Debug.Log("No registerd handlers");
             }
         }
     }
