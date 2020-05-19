@@ -25,7 +25,7 @@ namespace Simulation.Software
         {
             if (frame.message != Message.Heartbeat)
             {
-                Debug.Log("Error!!!!!");
+                // Debug.Log("Error!!!!!");
             }
             else
             {

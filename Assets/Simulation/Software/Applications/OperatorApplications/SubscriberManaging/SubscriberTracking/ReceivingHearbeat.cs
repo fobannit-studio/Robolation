@@ -10,7 +10,7 @@ namespace Simulation.Software
         public ReceivingHeartbeat(Application app): base(app) { }
         public override void Send()
         { 
-            Debug.Log("Sending confirmation to subscriber");
+        //    Debug.Log("Sending confirmation to subscriber");
         }
         public override void Receive(Frame frame)
         {

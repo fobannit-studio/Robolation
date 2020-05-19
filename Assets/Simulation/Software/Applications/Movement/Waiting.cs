@@ -12,7 +12,7 @@ namespace Simulation.Software
         => this.Application = app as Movement;
         public override void Send()
         {
-            Debug.Log("Nothing to send!");
+         //   Debug.Log("Nothing to send!");
         }
         public override void Receive(Frame frame)
         {

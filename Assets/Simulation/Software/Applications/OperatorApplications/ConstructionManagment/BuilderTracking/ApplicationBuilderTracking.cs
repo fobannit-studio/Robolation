@@ -2,6 +2,7 @@
 using Simulation.World;
 using UnityEngine;
 using System.Collections.Generic;
+using Simulation.Utils;
 namespace Simulation.Software
 {
     class BuilderTracking : Application
@@ -33,8 +34,16 @@ namespace Simulation.Software
             UseScheduler = false;
             (float x, float y, float z) = frame.payload;
             AdministratedBuilderPosition = new Vector3(x, y, z);
-            currentState = waitingForMaterialRequest;
             Debug.Log("Control received !");
+            var startBuild = new Frame(
+                            TransmissionType.Unicast,
+                            DestinationRole.Builder,
+                            MessageType.Service,
+                            Message.BuildNewBuilding,
+                            destMac: frame.srcMac
+                            );
+            Radio.SendFrame(startBuild);
+            StartWaitForMaterailRequst();
         }
     }
 }
