@@ -9,6 +9,7 @@ namespace Simulation.Software
     {
 
         public Vector3 AdministratedBuilderPosition { get; private set; }
+        private List<int> RobotsITrack = new List<int>();
         private CommunicationBasedApplicationState waitingForBuilderComeToPosition;
         private CommunicationBasedApplicationState waitingForMaterialRequest;
         private CommunicationBasedApplicationState sendingTransporterToGetMaterials;
@@ -28,7 +29,7 @@ namespace Simulation.Software
             ((SendingTransporterToGetMaterials)sendingTransporterToGetMaterials).RequestMaterials(materials);
             currentState = sendingTransporterToGetMaterials;
         }
-        public void StartWaitForMaterailRequst() => currentState = waitingForMaterialRequest;
+        public void StartWaitForMaterialRequst() => currentState = waitingForMaterialRequest;
         public void GetControl(Frame frame) 
         {
             UseScheduler = false;
@@ -43,7 +44,11 @@ namespace Simulation.Software
                             destMac: frame.srcMac
                             );
             Radio.SendFrame(startBuild);
-            StartWaitForMaterailRequst();
+            RobotsITrack.Add(frame.srcMac);
+            StartWaitForMaterialRequst();
         }
+        protected override bool receiveCondition(Frame frame)
+        => RobotsITrack.Contains(frame.srcMac);
+
     }
 }

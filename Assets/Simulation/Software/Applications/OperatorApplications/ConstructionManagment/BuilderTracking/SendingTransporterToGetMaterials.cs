@@ -1,6 +1,8 @@
 ﻿using Simulation.Common;
 using Simulation.Utils;
 using System.Collections.Generic;
+using UnityEngine;
+
 namespace Simulation.Software
 {
     internal class SendingTransporterToGetMaterials : CommunicationBasedApplicationState
@@ -31,8 +33,9 @@ namespace Simulation.Software
             //    MessageType.Service,
             //    Message.BringMaterials,
             //    payload: Application.AdministratedBuilderPosition);
-            if (frame.message is Message.BringMaterials && frame.messageType is MessageType.ACK)
+            if (frame.message is Message.BringMaterials)
            {
+
                 // requestedMaterials.Pop()
                 //sendingFrame.payload = new Payload(BuilderPosition) 
             }

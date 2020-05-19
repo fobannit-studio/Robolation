@@ -30,6 +30,7 @@ namespace Simulation.Software
             else
             {
                 Debug.Log("Operator answered");
+                
             }
         }
     }
