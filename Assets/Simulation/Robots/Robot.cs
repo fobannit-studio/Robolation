@@ -24,7 +24,7 @@ namespace Simulation.Robots
         protected float batteryLevel;
         protected float durability;
         protected int workingTime;
-        public float PickupRange { get; protected set; }
+        public float PickupRange=5f;
         public Radio radio;
         // public IReceiver controller;
         [SerializeField]
@@ -54,35 +54,34 @@ namespace Simulation.Robots
             agent.SetDestination(destination);
         }
         
-
-        async public Task<bool> PickupObject(Warehouse warehouse,BuildingMaterial material)
-        {
-            bool result = false;
-            if ((warehouse.transform.position - this.transform.position).magnitude < PickupRange)
-            {
+        
+        //public bool PickupFromWarehouse(BuildingMaterial material,int count)
+        //{
+          
+        //    var colliders = Physics.OverlapSphere(transform.position, PickupRange);
+        //    foreach (var collider in colliders)
+        //    {
+        //        var warehouse = collider.GetComponent<Warehouse>();
+        //        if (warehouse)
+        //           return warehouse.container.TransferTo(this.container,material,count);
                 
-                animator.SetBool("opening", true);
-                await Task.Delay(1);
-                if (container.CanPut(material, 1))
-                {
-                    if (warehouse.container.CanTake(material, 1))
-                    {
-                        warehouse.container.Take(material, 1);
-                        container.Put(material, 1);
-                        result = true;
-                    }
-                    else result = false;
-                }
-                else result = false;
+        //    }
+        //    return false;
+        //}
 
+    
 
-                animator.SetBool("opening", false);
-                await Task.Delay(1);
-                return result;
-              
-            }
-            else
-                throw new WarehouseNotInRangeException();
+     
+    
+        public bool PutObject(Container container,BuildingMaterial material,int count)
+        {
+
+            return this.container.TransferTo(container, material, count);
+
+        }
+        public bool PickupObject(Container container, BuildingMaterial material,int count)
+        {
+           return container.TransferTo(this.container, material, count);
         }
        
     }
