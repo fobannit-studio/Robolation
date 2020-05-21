@@ -73,13 +73,13 @@ namespace Simulation.Robots
 
      
     
-        public bool PutObject(Container container,BuildingMaterial material,int count)
+        public bool PutObject(IContainer container,BuildingMaterial material,int count)
         {
 
             return this.container.TransferTo(container, material, count);
 
         }
-        public bool PickupObject(Container container, BuildingMaterial material,int count)
+        public bool PickupObject(IContainer container, BuildingMaterial material,int count)
         {
            return container.TransferTo(this.container, material, count);
         }
