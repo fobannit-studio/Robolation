@@ -60,8 +60,31 @@ namespace Simulation.Components
             return FreeSpace >= material.Volume * requestedAmount;
         }
 
-        public bool CanTake(BuildingMaterial material)
-        => materialsInContainer.ContainsKey(material.Type);
+        public bool CanTake(BuildingMaterial material, int count)
+        {
+            if ( materialsInContainer.ContainsKey(material.Type))
+            {
+                return materialsInContainer[material.Type] >= count;
+            }
+
+            else
+            
+                return false;
+            
+        }
+        public bool TransferTo(IContainer container,BuildingMaterial material,int amount)
+        {
+            if (!CanTake(material, amount))
+                return false;
+            if (container.CanPut(material,amount))
+            {
+                Take(material, amount);
+                container.Put(material, amount);
+                return true;
+               
+            }
+            return false;
+        }
         public int Take(BuildingMaterial material, int requestedAmount)
         {
             int returnedAmount = 0;

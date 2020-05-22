@@ -33,6 +33,7 @@ public class SlotContainer : IContainer
         this.currentMaterials.TryAdd(mat, 0);
 
     }
+
     public SlotContainer()
     {
         MaxMaterials = new ConcurrentDictionary<BuildingMaterial, int>();
@@ -96,4 +97,19 @@ public class SlotContainer : IContainer
         }
        
     }
+
+    public bool TransferTo(IContainer container, BuildingMaterial material, int amount)
+    {
+        if (!CanTake(material, amount))
+            return false;
+        if (container.CanPut(material, amount))
+        {
+            Take(material, amount);
+            container.Put(material, amount);
+            return true;
+        }
+        return false;
+    }
+
+
 }

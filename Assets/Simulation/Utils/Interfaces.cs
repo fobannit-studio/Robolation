@@ -33,6 +33,11 @@ namespace Simulation.Utils
         int Take(BuildingMaterial material, int requestedAmount);
 
 
+        bool CanTake(BuildingMaterial material, int requestedAmount);
+        bool CanPut(BuildingMaterial material, int requestedAmount);
+
+        bool TransferTo(IContainer container, BuildingMaterial material, int amount);
+   
 
 
 
