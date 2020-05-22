@@ -41,11 +41,12 @@ namespace Simulation.Software
             {
                 Debug.Log(frame.srcMac);
                 BuilderTracking ControlThread = Application.CreateAppBasedOnFrame(frame, Application.BuilderTrackingApplications);
+                ControlThread.ManagingApp = this.Application;
                 var buildingPosition = Application.BuildingsWithoutBuilders.Pop().ClosestPoint(AttributedSoftware.Position);
                 builderTrackingThreads.Add(ControlThread);
                 (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z, ControlThread.GetControl, frame.srcMac);
             }
-            else if(frame.message is Message.BringMaterials)
+            else if(frame.message is Message.BringMaterials || frame.message is Message.isFree)
             {
                 foreach(var thread in builderTrackingThreads) 
                 {

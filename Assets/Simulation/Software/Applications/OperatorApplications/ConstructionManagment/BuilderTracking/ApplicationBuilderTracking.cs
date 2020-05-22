@@ -3,16 +3,19 @@ using Simulation.World;
 using UnityEngine;
 using System.Collections.Generic;
 using Simulation.Utils;
+using System.Linq;
+
 namespace Simulation.Software
 {
     class BuilderTracking : Application
     {
 
+        public BuildingPreparation ManagingApp;
         public Vector3 AdministratedBuilderPosition { get; private set; }
         private List<int> RobotsITrack = new List<int>();
-        private CommunicationBasedApplicationState waitingForBuilderComeToPosition;
-        private CommunicationBasedApplicationState waitingForMaterialRequest;
-        private CommunicationBasedApplicationState sendingTransporterToGetMaterials;
+        private WaitingForBuilderComeToPosition waitingForBuilderComeToPosition;
+        private WaitingForMaterialRequest waitingForMaterialRequest;
+        private SendingTransporterToGetMaterials sendingTransporterToGetMaterials;
         public Building AdministratedBuilding { get; set; }
         public override void initStates()
         {
@@ -22,12 +25,15 @@ namespace Simulation.Software
             currentState = waitingForBuilderComeToPosition;
             UseScheduler = true;
         }
-        public void SendTransporterToMaterials(BuildingMaterial material) 
-            => SendTransporterToMaterials(new List<BuildingMaterial> { material});
-        public void SendTransporterToMaterials(List<BuildingMaterial> materials)
+
+        public void SendTransporterToBringMaterials(int transpMac, string material, int amount) 
         {
-            ((SendingTransporterToGetMaterials)sendingTransporterToGetMaterials).RequestMaterials(materials);
+            sendingTransporterToGetMaterials.TransporterMac = transpMac;
+            sendingTransporterToGetMaterials.Material = material;
+            sendingTransporterToGetMaterials.Amount = amount;
             currentState = sendingTransporterToGetMaterials;
+            currentState.Send();
+            
         }
         public void StartWaitForMaterialRequst() => currentState = waitingForMaterialRequest;
         public void GetControl(Frame frame) 
@@ -48,7 +54,11 @@ namespace Simulation.Software
             StartWaitForMaterialRequst();
         }
         protected override bool receiveCondition(Frame frame)
-        => RobotsITrack.Contains(frame.srcMac);
+        {
+            return (ManagingApp.TransportersMacAddresses.Contains(frame.srcMac)
+                    || ManagingApp.BuildersMacAddresses.Contains(frame.srcMac));
+        }
+            //RobotsITrack.Contains(frame.srcMac);
 
     }
 }

@@ -7,18 +7,24 @@ namespace Simulation.Software
 {
     internal class SendingTransporterToGetMaterials : CommunicationBasedApplicationState
     {
-        private Stack<BuildingMaterial> requestedMaterials = new Stack<BuildingMaterial>();
-        private Frame sendingFrame = new Frame();
+        public string Material;
+        public int Amount;
+        public int TransporterMac;
+
         public SendingTransporterToGetMaterials(Application application) : base(application)
         { }
-
-        public void RequestMaterials(List<BuildingMaterial> materials)
-        {
-            foreach (var material in materials) requestedMaterials.Push(material);
-        }
         public override void Send()
         {
-            AttributedSoftware.Radio.SendFrame(sendingFrame);
+            Debug.Log("Sending to transporter frame with material information");
+            var payload = new Payload(Amount, Material);
+            var materialRequest = new Frame(
+                TransmissionType.Unicast,
+                DestinationRole.Transporter,
+                MessageType.Service,
+                Message.BringMaterials,
+                destMac: TransporterMac,
+                payload: payload);
+            AttributedSoftware.Radio.SendFrame(materialRequest);
         }
         /// <summary>
         /// Handle message from transporter that can indicate if he take material successfully 
@@ -27,23 +33,21 @@ namespace Simulation.Software
         /// <param name="frame"></param>
         public override void Receive(Frame frame)
         {
-            //sendingFrame = new Frame(
-            //    TransmissionType.Unicast,
-            //    DestinationRole.Transporter,
-            //    MessageType.Service,
-            //    Message.BringMaterials,
-            //    payload: Application.AdministratedBuilderPosition);
-            if (frame.message is Message.BringMaterials)
-           {
-
-                // requestedMaterials.Pop()
-                //sendingFrame.payload = new Payload(BuilderPosition) 
+            // Warehouse have enough materials
+            if (frame.message is Message.BringMaterials && frame.messageType is MessageType.ACK)
+            {
+                var position = (Application as BuilderTracking).AdministratedBuilderPosition;
+                Debug.Log($"Start moving to position {position}");
+                (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(position, GetControl, frame.srcMac);
             }
-            else
-           {
-                // requestedMaterials.Peek()
-                //sendingFrame.payload = new Payload(NextWarehousePosition)
+            else if (frame.message is Message.BringMaterials && frame.messageType is MessageType.NACK) 
+            {
+                Debug.Log("Not enough materials on this warehouse");
             }
+        }
+        private void GetControl(Frame frame)
+        {
+            Debug.Log("Transporter arrived to Builder");
         }
     }
 }

@@ -1,17 +1,23 @@
 using System;
 using System.Text;
 using Simulation.Utils;
+using UnityEngine.Assertions.Must;
+
 namespace Simulation.Common
 {
     public struct Payload
     {
         public string textPayload;
-        public float[] floatPayload;        
+        public float[] floatPayload;
+        public Payload(int intPayload, string textPayload = "")
+        {
+            this.floatPayload = new float[] {(float)intPayload, 0F, 0F};
+            this.textPayload = textPayload;
+        }
         public Payload(float[] floatPayload = null, string textPayload = "")
         {
             this.floatPayload = floatPayload ?? new float[] { };
-            this.textPayload = textPayload;
-            
+            this.textPayload = textPayload; 
         }
         public Payload(string textPayload, float[] floatPayload = null) : this(floatPayload, textPayload)
         { }

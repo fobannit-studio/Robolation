@@ -27,7 +27,7 @@ namespace Simulation.Utils
         Request,
         ACK,
         NACK,
-        Heartbeat
+        Heartbeat,
     }
     // Messages, that could be received by robots
     public enum Message
@@ -37,7 +37,8 @@ namespace Simulation.Utils
         Notify,
         Heartbeat,
         BuildNewBuilding,
-        BringMaterials
+        BringMaterials,
+        isFree
     }
     public enum BuildingStatus
     {

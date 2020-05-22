@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Simulation.Common;
 using System;
+using UnityEngine;
 namespace Simulation.Software
 {
     class MoveOrder : Application
@@ -25,6 +26,9 @@ namespace Simulation.Software
             movementTrackingThread.Position = pos;
             movementTrackingThread.ReturnControl = controlReturn;
         }
+        public void MoveToPosition(Vector3 position, Action<Frame> controlReturn, int targetsMac) =>
+            MoveToPosition(position.x, position.y, position.z, controlReturn, targetsMac);
+  
         public override void ReceiveFrame(Frame frame)
         {
             if (frame.message is Message.MoveTo)

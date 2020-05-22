@@ -29,6 +29,12 @@ namespace Simulation.Software
         public ReadOnlyCollection<Application> ReqiuredSoft => requiredSoft.AsReadOnly();
         protected List<Application> requiredSoft;
         protected abstract void LoadSoft();
+        public bool PickUpFromWarehouse(string material, int amount)
+        {
+            Debug.Log($"Picking {material} in amount {amount} from warehoues");
+            BuildingMaterial buildMaterial = BuildingMaterial.existingMaterials[material];
+            return true;
+        }
         public void Init(Robot robot)
         {
             attributedRobot = robot;
