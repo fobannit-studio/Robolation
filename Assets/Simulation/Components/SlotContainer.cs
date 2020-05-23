@@ -77,7 +77,7 @@ public class SlotContainer : IContainer
     }
     public bool CanPut(BuildingMaterial material, int amount)
     {
-        return currentMaterials[material] + amount < MaxMaterials[material];
+        return currentMaterials[material] + amount <= MaxMaterials[material];
     }
 
     public void Put(BuildingMaterial material, int amount)
@@ -111,5 +111,18 @@ public class SlotContainer : IContainer
         return false;
     }
 
-
+    public int TryTransferTo(IContainer container, BuildingMaterial material, int amount)
+    {
+       int transfered = 0;
+        for (int i = amount; i >0; i--)
+        {
+            if (TransferTo(container, material, i))
+            {
+                transfered = i;
+                break;
+            }
+               
+        }
+        return transfered;
+    }
 }

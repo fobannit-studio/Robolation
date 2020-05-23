@@ -15,8 +15,7 @@ namespace Simulation.Software
         {
             if (isWaitingForTranspReponse && frame.message is Message.isFree && frame.messageType is MessageType.ACK) 
             {
-                 isWaitingForTranspReponse = false;
-                (Application as BuilderTracking).AdministratedTransporterMac = frame.srcMac;
+                isWaitingForTranspReponse = false;
                 (Application as BuilderTracking).SendTransporterToBringMaterials(frame.srcMac, requestedMaterial, requestedAmount);
             }
             else if (frame.message is Message.BringMaterials && frame.messageType is MessageType.Request && frame.srcMac == (Application as BuilderTracking).AdministratedBuilderMac) 

@@ -38,17 +38,9 @@ namespace Simulation.Software
             var warehouse = attributedRobot.NearestToPickup<Warehouse>();
             if (warehouse)
             {
-                bool success = false;
-                for (int i = amount; i >0; i--)
-                {
-                    if (warehouse.container.TransferTo(attributedRobot.MaterialContainer, buildMaterial, i))
-                    {
-                        success = true;
-                        break;
-                    }
-                   
-                }
-                return success;
+
+                int result = warehouse.container.TryTransferTo(attributedRobot.MaterialContainer, buildMaterial, amount);
+                return result != 0;
             }
                 
             else return false;

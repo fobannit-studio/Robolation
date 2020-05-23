@@ -5,6 +5,8 @@ using System.Collections.Concurrent;
 using System;
 using Simulation.Utils;
 using System.Security.AccessControl;
+using System.Collections.Concurrent;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace Simulation.World
 {
@@ -24,7 +26,6 @@ namespace Simulation.World
         private List<Mesh> frames;
         private int frame_iterator;
         private SlotContainer container;
-       
         public string Name;
 
         public void Init(string Name, SlotContainer materials,List<Mesh> frames)
@@ -37,6 +38,17 @@ namespace Simulation.World
             this.Name = Name;
             ClosestPoint = this.GetComponent<MeshRenderer>().bounds.ClosestPoint;
         }
+
+        private int RecalculateMaterial(ConcurrentDictionary<BuildingMaterial, int> content)
+        { 
+            int cnt = 0;
+            foreach( var item in content) 
+            {
+                cnt += item.Value;
+            }
+            return cnt;
+        }
+
         public  Building(string Name, SlotContainer materials, List<Mesh> frames)
         {
             container = materials;
@@ -100,15 +112,24 @@ namespace Simulation.World
 
             foreach (var item in container.GetContent())
             {
-                container.TransferTo(this.container, item.Key, item.Value);
+                
+                if (this.container.GetMax().TryGetValue(item.Key,out int _need))
+                {
+                
+                    container.TryTransferTo(this.container, item.Key, item.Value);
+                }
+
+              
             }
             Debug.Log("After building");
             foreach (var item in this.container.GetContent())
             {
                 Debug.LogFormat("{0} units of {1}", item.Value, item.Key.Type);
             }
-
             // сделать анимацию
+            int have = RecalculateMaterial(this.container.GetContent());
+            int need =RecalculateMaterial(this.container.GetMax());
+            SetFrame((have  * (frames.Count - 1)/ need));
         }
         public void SetFrame(int frame)
         {
@@ -119,6 +140,7 @@ namespace Simulation.World
         {
             meshFilter.mesh = frames[frame_iterator];
         }
+        
 
 
     }

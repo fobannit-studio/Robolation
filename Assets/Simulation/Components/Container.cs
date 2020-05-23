@@ -118,6 +118,19 @@ namespace Simulation.Components
         {
             return materialsInContainer;
         }
+        public int TryTransferTo(IContainer container, BuildingMaterial material, int amount)
+        {
+            int transfered = 0;
+            for (int i = amount; i > 0; i--)
+            {
+                if (TransferTo(container, material, i))
+                {
+                    transfered = i;
+                    break;
+                }
+            }
+            return transfered;
+        }
     }
 
 }

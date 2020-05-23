@@ -41,7 +41,8 @@ namespace Simulation.Software
             SlotContainer buildingContainer = currentBuilding.GetSlotContainer();
             foreach(var requiredMaterial in currentBuilding.GetFull())
             {
-                if(requiredMaterial.Value - buildingContainer.GetContent()[requiredMaterial.Key] != 0) 
+                int requiredAmount = requiredMaterial.Value - buildingContainer.GetContent()[requiredMaterial.Key];
+                if (requiredAmount != 0) 
                 {
                     currentMaterial = new KeyValuePair<BuildingMaterial, int>(
                         requiredMaterial.Key, 
@@ -79,13 +80,6 @@ namespace Simulation.Software
         {
             // Means that no more materials is needed
             requestSent = false;
-            Debug.Log("Building");
-            ConcurrentDictionary<BuildingMaterial, int> cont = currentBuilding.GetFull();
-            foreach (var record in cont) 
-            {
-                Debug.Log(record.Key + " " + record.Value);
-
-            }
             Debug.Log("Robot is starting to build");
             currentBuilding.Build(AttributedSoftware.attributedRobot.MaterialContainer);
          

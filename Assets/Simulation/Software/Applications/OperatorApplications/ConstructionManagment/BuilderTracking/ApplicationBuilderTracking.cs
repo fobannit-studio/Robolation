@@ -10,7 +10,6 @@ namespace Simulation.Software
     {
 
         public BuildingPreparation ManagingApp;
-        public int AdministratedTransporterMac { get; set; } = -1;
         public Vector3 AdministratedBuilderPosition { get; private set; }
         public int AdministratedBuilderMac { get; set; }
         private WaitingForBuilderComeToPosition waitingForBuilderComeToPosition;
@@ -36,7 +35,6 @@ namespace Simulation.Software
         }
         public void StartWaitForMaterialRequst()
         {
-            AdministratedTransporterMac = -1;
             currentState = waitingForMaterialRequest;
             UseScheduler = true;
         }
@@ -59,8 +57,7 @@ namespace Simulation.Software
         }
         protected override bool receiveCondition(Frame frame)
         {
-            return ((AdministratedTransporterMac == -1 && ManagingApp.TransportersMacAddresses.Contains(frame.srcMac)) 
-                    || frame.srcMac == AdministratedTransporterMac
+            return (ManagingApp.TransportersMacAddresses.Contains(frame.srcMac)
                     || frame.srcMac == AdministratedBuilderMac);
         }
     }

@@ -38,8 +38,8 @@ namespace Simulation.Utils
         bool CanPut(BuildingMaterial material, int requestedAmount);
 
         bool TransferTo(IContainer container, BuildingMaterial material, int amount);
-   
 
+        int TryTransferTo(IContainer container, BuildingMaterial material, int amount);
 
 
 
