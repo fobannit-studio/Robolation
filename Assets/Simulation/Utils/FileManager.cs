@@ -26,6 +26,7 @@ namespace Simulation.Utils
 
         public static List<BuildingMaterial> ReadMaterials()
         {
+       
             BuildingMaterial.existingMaterials = new System.Collections.Concurrent.ConcurrentDictionary<string, BuildingMaterial>();
             List<BuildingMaterial> materials = new List<BuildingMaterial>();
             if (Directory.Exists(MaterialsDir))
