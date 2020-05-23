@@ -5,6 +5,6 @@ namespace Simulation.Robots
 {
     class IRB1100 : Robot
     {
-        protected override int cointainer_size => 5;
+        protected override int cointainer_size => 60;
     }
 }

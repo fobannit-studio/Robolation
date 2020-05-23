@@ -3,6 +3,9 @@ using UnityEngine;
 using Simulation.Common;
 using System.Collections.Concurrent;
 using System;
+using Simulation.Utils;
+using System.Security.AccessControl;
+
 namespace Simulation.World
 {
     public class Building : MonoBehaviour
@@ -69,8 +72,13 @@ namespace Simulation.World
         }
         public void SetPreview()
         {
-            meshFilter.mesh = frames[frames.Count - 1];
+            SetFrame(frames.Count-1);
             collider.enabled = false;
+        }
+        public void SetActual()
+        {
+            collider.enabled = true;
+            SetFrame(frame_iterator);
         }
         public ConcurrentDictionary<BuildingMaterial, int> GetRemaining()
         {
@@ -81,13 +89,32 @@ namespace Simulation.World
             return container.GetMax();
         }
 
-        public void Build(int quantity, BuildingMaterial mat)
+        public void Build(IContainer container)
         {
+            Debug.Log("Before building");
 
-            container.Put(mat, quantity);
-            //check for stage increase
+            foreach (var item in this.container.GetContent())
+            {
+                Debug.LogFormat("{0} units of {1}", item.Value, item.Key.Type);
+            }
+
+            foreach (var item in container.GetContent())
+            {
+                container.TransferTo(this.container, item.Key, item.Value);
+            }
+            Debug.Log("After building");
+            foreach (var item in this.container.GetContent())
+            {
+                Debug.LogFormat("{0} units of {1}", item.Value, item.Key.Type);
+            }
+
+            // сделать анимацию
         }
-
+        public void SetFrame(int frame)
+        {
+            frame_iterator = frame;
+            Animate();
+        }
         public void Animate()
         {
             meshFilter.mesh = frames[frame_iterator];
