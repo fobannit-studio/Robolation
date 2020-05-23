@@ -13,7 +13,7 @@ namespace Simulation.Robots
 
         private float rotor_speed = 40f;
 
-        protected override int cointainer_size => 5;
+        protected override int cointainer_size => 20;
 
         IEnumerator AnimateRotors()
         {

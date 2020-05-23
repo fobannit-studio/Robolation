@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
@@ -6,6 +6,8 @@ using Simulation.Robots;
 using Simulation.Components;
 using UnityEngine;
 using System.Collections.ObjectModel;
+using Simulation.World;
+
 namespace Simulation.Software
 {
     public abstract class RobotOperatingSystem : ICommunicator
@@ -33,7 +35,24 @@ namespace Simulation.Software
         {
             Debug.Log($"Picking {material} in amount {amount} from warehoues");
             BuildingMaterial buildMaterial = BuildingMaterial.existingMaterials[material];
-            return true;
+            var warehouse = attributedRobot.NearestToPickup<Warehouse>();
+            if (warehouse)
+            {
+                bool success = false;
+                for (int i = amount; i >0; i--)
+                {
+                    if (warehouse.container.TransferTo(attributedRobot.MaterialContainer, buildMaterial, i))
+                    {
+                        success = true;
+                        break;
+                    }
+                   
+                }
+                return success;
+            }
+                
+            else return false;
+
         }
         public void Init(Robot robot)
         {

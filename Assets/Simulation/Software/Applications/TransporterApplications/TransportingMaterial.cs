@@ -1,4 +1,5 @@
 ﻿using Simulation.Common;
+using Simulation.Robots;
 using Simulation.Utils;
 using UnityEngine;
 namespace Simulation.Software
@@ -28,7 +29,9 @@ namespace Simulation.Software
         {
             Debug.Log($"Start trasnporting {material} in amount {amount}");
             warehousePosition = (Application as MaterialTransfering).FindWarehouse();
+
             Send();
+
         }
         public override void Receive(Frame frame)
         {
@@ -43,6 +46,18 @@ namespace Simulation.Software
         private void GiveMaterialToBuilder() 
         {
             Debug.Log("Giving material to builder");
+            var builder = AttributedSoftware.attributedRobot.NearestToPickup<Robot>();
+            if (builder)
+            {
+                var to_give = AttributedSoftware.attributedRobot.MaterialContainer.GetContent();
+                foreach (var item in to_give)
+                {
+                    this.AttributedSoftware.attributedRobot.PutObject(builder.MaterialContainer, item.Key, item.Value);
+                    Debug.LogFormat("Transfered {0} {1} to builder", item.Key.Type, item.Value);
+                }
+
+            }
+
         }
     }
 }

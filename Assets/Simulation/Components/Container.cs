@@ -11,7 +11,7 @@ namespace Simulation.Components
 {
     public class Container :IContainer
     {
-        private ConcurrentDictionary<string, int> materialsInContainer = new ConcurrentDictionary<string, int>();
+        private ConcurrentDictionary<BuildingMaterial, int> materialsInContainer = new ConcurrentDictionary<BuildingMaterial, int>();
         private float freeSpace;
         public float Weight; 
         public float FreeSpace
@@ -22,7 +22,7 @@ namespace Simulation.Components
             }
             set
             {
-                if (value > 0)
+                if (value >= 0)
                 {
                     freeSpace = value;
                 }
@@ -32,6 +32,7 @@ namespace Simulation.Components
                 }
             }
         }
+        
         public Container(int freeSpace)
         {
             this.freeSpace = freeSpace;
@@ -43,9 +44,9 @@ namespace Simulation.Components
             {
                 FreeSpace -= material.Volume * amount;
                 Weight += material.Weight * amount;
-                if (!materialsInContainer.TryAdd(material.Type, amount))
+                if (!materialsInContainer.TryAdd(material, amount))
                 {
-                    materialsInContainer[material.Type] += amount;
+                    materialsInContainer[material] += amount;
                 }
             }
             else
@@ -62,9 +63,9 @@ namespace Simulation.Components
 
         public bool CanTake(BuildingMaterial material, int count)
         {
-            if ( materialsInContainer.ContainsKey(material.Type))
+            if ( materialsInContainer.ContainsKey(material))
             {
-                return materialsInContainer[material.Type] >= count;
+                return materialsInContainer[material] >= count;
             }
 
             else
@@ -88,10 +89,10 @@ namespace Simulation.Components
         public int Take(BuildingMaterial material, int requestedAmount)
         {
             int returnedAmount = 0;
-            if (materialsInContainer.TryGetValue(material.Type, out int amountInContainer))
+            if (materialsInContainer.TryGetValue(material, out int amountInContainer))
             {
                 returnedAmount = Mathf.Min(amountInContainer, requestedAmount);
-                materialsInContainer[material.Type] -= returnedAmount;
+                materialsInContainer[material] -= returnedAmount;
                 Weight -= material.Weight * returnedAmount;
                 FreeSpace += material.Volume * returnedAmount;
             }
@@ -105,12 +106,17 @@ namespace Simulation.Components
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (KeyValuePair<string, int> material in materialsInContainer)
+            foreach (KeyValuePair<BuildingMaterial, int> material in materialsInContainer)
             {
-                sb.Append(material.ToString());
+                sb.Append(material.Key.Type);
             }
             sb.Append($"\nFree space: {FreeSpace}\nWeight: {Weight}\n");
             return sb.ToString();
+        }
+
+        public ConcurrentDictionary<BuildingMaterial, int> GetContent()
+        {
+            return materialsInContainer;
         }
     }
 

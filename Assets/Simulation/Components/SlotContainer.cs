@@ -77,7 +77,7 @@ public class SlotContainer : IContainer
     }
     public bool CanPut(BuildingMaterial material, int amount)
     {
-        return currentMaterials[material] + amount > MaxMaterials[material];
+        return currentMaterials[material] + amount < MaxMaterials[material];
     }
 
     public void Put(BuildingMaterial material, int amount)

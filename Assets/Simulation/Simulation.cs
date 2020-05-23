@@ -5,6 +5,7 @@ using Simulation.World;
 using System.Collections.Generic;
 using Simulation.Software;
 using System;
+using UnityEngine.Rendering;
 
 namespace Simulation
 {
@@ -28,6 +29,18 @@ namespace Simulation
                 Robots.Add(item.robot);
                 Debug.Log(string.Format("Installed {0} on {1}", item.soft.Name, item.robot.GetType().Name));
             }
+
+            foreach (var warehouse in warehouses)
+            {
+                warehouse.SetPreview(false);
+            }
+            foreach (var building in buildings)
+            {
+                building.SetFrame(0);
+                building.SetActual();
+            }
+
+
             Debug.Log("Done ");
         }
     }

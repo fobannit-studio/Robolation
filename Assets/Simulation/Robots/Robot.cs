@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
 using System.Threading.Tasks;
+using System;
+using System.Linq;
+using Simulation.Software;
 
 namespace Simulation.Robots
 {
@@ -24,8 +27,9 @@ namespace Simulation.Robots
         protected float batteryLevel;
         protected float durability;
         protected int workingTime;
-        public float PickupRange=5f;
+        public float PickupRange;
         public Radio radio;
+
         // public IReceiver controller;
         [SerializeField]
         protected NavMeshAgent agent;
@@ -43,7 +47,7 @@ namespace Simulation.Robots
         {
             batteryLevel = 1.0F;
             container = new Container(cointainer_size);
-            PickupRange = 0.5f;
+            PickupRange = 100;
             animator = GetComponent<Animator>();
             radio = new Radio(radioRange, ether);
         }
@@ -53,26 +57,23 @@ namespace Simulation.Robots
         {
             agent.SetDestination(destination);
         }
-        
-        
-        //public bool PickupFromWarehouse(BuildingMaterial material,int count)
-        //{
-          
-        //    var colliders = Physics.OverlapSphere(transform.position, PickupRange);
-        //    foreach (var collider in colliders)
-        //    {
-        //        var warehouse = collider.GetComponent<Warehouse>();
-        //        if (warehouse)
-        //           return warehouse.container.TransferTo(this.container,material,count);
-                
-        //    }
-        //    return false;
-        //}
 
-    
 
-     
-    
+        public T NearestToPickup<T>() where T:MonoBehaviour
+        {
+            Debug.Log(this.transform.position);
+            var colliders = FindObjectsOfType<T>();
+            var possible = colliders.Where(x => (x.transform.position - this.transform.position).magnitude <= PickupRange && this!=x)
+                .OrderBy(x => (transform.position - x.transform.position).magnitude).ToList();
+            if (possible.Count == 0)
+                return null;
+            else
+            {
+                return possible[0];
+            }
+        }
+
+
         public bool PutObject(IContainer container,BuildingMaterial material,int count)
         {
 

@@ -46,7 +46,7 @@ namespace Simulation.Software
                     currentMaterial = new KeyValuePair<BuildingMaterial, int>(
                         requiredMaterial.Key, 
                         requiredMaterial.Value - buildingContainer.GetContent()[requiredMaterial.Key]);
-                    return AttributedSoftware.attributedRobot.MaterialContainer.CanTake(currentMaterial.Key, requiredMaterial.Value);
+                    return AttributedSoftware.attributedRobot.MaterialContainer.CanTake(currentMaterial.Key, 1);
                 }
             }
             return true;
@@ -84,7 +84,13 @@ namespace Simulation.Software
             foreach (var record in cont) 
             {
                 Debug.Log(record.Key + " " + record.Value);
+
             }
+            Debug.Log("Robot is starting to build");
+            currentBuilding.Build(AttributedSoftware.attributedRobot.MaterialContainer);
+         
+          
+
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Assets.Simulation.Robots.Transporters
         [SerializeField]
         private Transform Plate;
 
-        protected override int cointainer_size => 5;
+        protected override int cointainer_size => 40;
 
 
     }
