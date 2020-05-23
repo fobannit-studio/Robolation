@@ -16,14 +16,23 @@ namespace Simulation.Software
             if (isWaitingForTranspReponse && frame.message is Message.isFree && frame.messageType is MessageType.ACK) 
             {
                  isWaitingForTranspReponse = false;
+                (Application as BuilderTracking).AdministratedTransporterMac = frame.srcMac;
                 (Application as BuilderTracking).SendTransporterToBringMaterials(frame.srcMac, requestedMaterial, requestedAmount);
             }
-            else if (frame.message is Message.BringMaterials) 
+            else if (frame.message is Message.BringMaterials && frame.messageType is MessageType.Request && frame.srcMac == (Application as BuilderTracking).AdministratedBuilderMac) 
             {
-                (string material, float amount, float _, float _) = frame.payload;
+                Debug.Log($"Received frame {frame}");
+                (string material, float amount, _, _) = frame.payload;
                 requestedMaterial = material;
                 requestedAmount = (int)amount;
-                Debug.Log($"Received request for {material} in amount {amount}");
+                Debug.Log($"Received request for {material} in amount {amount} from {frame.srcMac}");
+                isWaitingForTranspReponse = true;
+            }
+        }
+        public override void DoAction()
+        {
+            if (isWaitingForTranspReponse)
+            {
                 var FindFreeTransporter = new Frame(
                     TransmissionType.Unicast,
                     DestinationRole.Transporter,

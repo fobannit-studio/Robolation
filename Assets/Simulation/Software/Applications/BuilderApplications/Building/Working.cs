@@ -56,7 +56,7 @@ namespace Simulation.Software
             if (!requestSent)
             {
                 requestSent = true;
-                Debug.Log($"Requesting {currentMaterial.Key} in amount {currentMaterial.Value}");
+                Debug.Log($"Requesting {currentMaterial.Key} in amount {currentMaterial.Value}. Request by {AttributedSoftware.Radio.macAddress}");
                 var payload = new Payload(new float[] { currentMaterial.Value, 0, 0 }, currentMaterial.Key.Type);
                 var requestMaterial = new Frame(
                     TransmissionType.Unicast,

@@ -8,8 +8,8 @@ namespace Simulation.Software
     class MoveOrder : Application
     {
         // Contains record for every uncompleted move order
-        private Dictionary<(float, float, float), MovementTracker> movementTrackingThreads
-        = new Dictionary<(float, float, float), MovementTracker>();
+        private Dictionary<(float, float, float, int), MovementTracker> movementTrackingThreads
+        = new Dictionary<(float, float, float, int), MovementTracker>();
         public override void initStates()
         { }
         /// <summary>
@@ -20,7 +20,7 @@ namespace Simulation.Software
         {
             var pos = new[] { x, y, z };
             var movementTrackingThread = AttributedSoftware.GameObject.AddComponent<MovementTracker>();
-            movementTrackingThreads.Add((x, y, z), movementTrackingThread);
+            movementTrackingThreads.Add((x, y, z, targetsMac), movementTrackingThread);
             movementTrackingThread.installOn(AttributedSoftware);
             movementTrackingThread.TargetsMac = targetsMac;
             movementTrackingThread.Position = pos;
@@ -34,12 +34,12 @@ namespace Simulation.Software
             if (frame.message is Message.MoveTo)
             {
                 (float x, float y, float z) = frame.payload;
-                movementTrackingThreads[(x, y, z)].ReceiveFrame(frame);
+                movementTrackingThreads[(x, y, z, frame.srcMac)].ReceiveFrame(frame);
             }
         }
-        public void FinishMoveOrderTracking(float x, float y, float z)
+        public void FinishMoveOrderTracking(float x, float y, float z, int mac)
         {
-            movementTrackingThreads.Remove((x, y, z));
+            movementTrackingThreads.Remove((x, y, z, mac));
         }
     }
 }

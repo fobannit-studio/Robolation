@@ -41,7 +41,8 @@ namespace Simulation.Software
             {
                 Debug.Log(frame.srcMac);
                 BuilderTracking ControlThread = Application.CreateAppBasedOnFrame(frame, Application.BuilderTrackingApplications);
-                ControlThread.ManagingApp = this.Application;
+                ControlThread.ManagingApp = Application;
+                ControlThread.AdministratedBuilderMac = frame.srcMac;
                 var buildingPosition = Application.BuildingsWithoutBuilders.Pop().ClosestPoint(AttributedSoftware.Position);
                 builderTrackingThreads.Add(ControlThread);
                 (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z, ControlThread.GetControl, frame.srcMac);

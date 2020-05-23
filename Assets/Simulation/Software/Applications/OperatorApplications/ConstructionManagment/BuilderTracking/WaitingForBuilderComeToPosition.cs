@@ -14,7 +14,7 @@ namespace Simulation.Software
 
         public override void Receive(Frame frame)
         {
-            Debug.Log("Come");
+            Debug.Log($"Received frame {frame} during waiting");
         }
     }
 }

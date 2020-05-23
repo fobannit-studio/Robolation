@@ -23,6 +23,7 @@ namespace Simulation.Software
         public void StartTransportingMaterial(string material, int amount) {
             currentState = transportingMaterial;
             transportingMaterial.StartTransporting(material, amount);
+            UseScheduler = false;
         }
         public void StartWaitingForOrder()
         {

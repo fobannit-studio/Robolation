@@ -14,7 +14,7 @@ namespace Simulation.Software
             if (Vector2.Distance(new Vector2(Application.Destination.x, Application.Destination.z), 
                                  new Vector2(Application.AttributedSoftware.Position.x, Application.AttributedSoftware.Position.z)) < 0.1)
             {
-                Debug.Log("I come to point so sending Confirmation !");
+                Debug.Log($"I come to point so sending Confirmation !  ({AttributedSoftware.Radio.macAddress})");
                 float[] dest = new[] { Application.Destination.x, Application.Destination.y, Application.Destination.z };
                 var reportGoalReached = new Frame(
                     TransmissionType.Unicast,
