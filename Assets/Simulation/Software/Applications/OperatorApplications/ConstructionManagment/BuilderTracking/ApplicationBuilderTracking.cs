@@ -58,7 +58,6 @@ namespace Simulation.Software
             return (ManagingApp.TransportersMacAddresses.Contains(frame.srcMac)
                     || ManagingApp.BuildersMacAddresses.Contains(frame.srcMac));
         }
-            //RobotsITrack.Contains(frame.srcMac);
-
+        //RobotsITrack.Contains(frame.srcMac);
     }
 }

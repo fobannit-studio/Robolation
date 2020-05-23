@@ -1,5 +1,7 @@
 ﻿using Simulation.Common;
 using Simulation.Utils;
+using Simulation.World;
+using System.Linq;
 using UnityEngine;
 
 namespace Simulation.Software
@@ -43,5 +45,12 @@ namespace Simulation.Software
         {
             return frame.message is Message.isFree || frame.message is Message.BringMaterials;
         }
+        public Vector3 FindWarehouse()
+        {
+            return FindObjectsOfType<Warehouse>()
+                   .OrderBy(x => Vector3.Distance(x.ClosestPoint(AttributedSoftware.Position), AttributedSoftware.Position))
+                   .ToList()[0].transform.position;
+        }
+      
     }
 }

@@ -27,7 +27,7 @@ namespace Simulation.Software
         public void StartTransporting(string material, int amount)
         {
             Debug.Log($"Start trasnporting {material} in amount {amount}");
-            warehousePosition = AttributedSoftware.Position;
+            warehousePosition = (Application as MaterialTransfering).FindWarehouse();
             Send();
         }
         public override void Receive(Frame frame)

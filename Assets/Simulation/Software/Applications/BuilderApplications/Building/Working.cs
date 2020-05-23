@@ -38,15 +38,15 @@ namespace Simulation.Software
         private bool CheckMaterials() 
         {
             //ConcurrentDictionary<BuildingMaterial, int> cont = currentBuilding.GetFull();
-            SlotContainer cont = currentBuilding.GetSlotContainer();
+            SlotContainer buildingContainer = currentBuilding.GetSlotContainer();
             foreach(var requiredMaterial in currentBuilding.GetFull())
             {
-                if(requiredMaterial.Value - cont.GetContent()[requiredMaterial.Key] != 0) 
+                if(requiredMaterial.Value - buildingContainer.GetContent()[requiredMaterial.Key] != 0) 
                 {
                     currentMaterial = new KeyValuePair<BuildingMaterial, int>(
                         requiredMaterial.Key, 
-                        requiredMaterial.Value - cont.GetContent()[requiredMaterial.Key]);
-                    return AttributedSoftware.attributedRobot.MaterialContainer.CanTake(currentMaterial.Key);
+                        requiredMaterial.Value - buildingContainer.GetContent()[requiredMaterial.Key]);
+                    return AttributedSoftware.attributedRobot.MaterialContainer.CanTake(currentMaterial.Key, requiredMaterial.Value);
                 }
             }
             return true;
