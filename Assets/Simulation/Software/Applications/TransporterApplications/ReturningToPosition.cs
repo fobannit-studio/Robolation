@@ -1,0 +1,31 @@
+﻿using Simulation.Common;
+using Simulation.Utils;
+using System.Security.Cryptography;
+using UnityEngine;
+namespace Simulation.Software
+{
+    class ReturningToPosition : CommunicationBasedApplicationState
+    {
+        private Vector3 Dest;
+        public ReturningToPosition(Application application) : base(application)
+        { }
+
+        public override void Receive(Frame frame)
+        {
+            Debug.Log("Returning to warehouse. No response");
+        }
+        public void StartMoving(Vector3 dest)
+        {
+            Dest = dest;
+            AttributedSoftware.attributedRobot.MoveOrder(dest);
+        }
+        public override void DoAction()
+        {
+            if (Vector2.Distance(new Vector2(AttributedSoftware.Position.x, AttributedSoftware.Position.z),
+                                 new Vector2(Dest.x, Dest.x)) < 0.1)
+            {
+                (Application as MaterialTransfering).StartWaitingForOrder();
+            }
+                                 }
+    }
+}

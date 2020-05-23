@@ -11,7 +11,8 @@ namespace Simulation.Software
             => Application = app as Movement;
         public override void Send()
         {
-            if ((Application.Destination.x, Application.Destination.z) == (Application.AttributedSoftware.Position.x, Application.AttributedSoftware.Position.z))
+            if (Vector2.Distance(new Vector2(Application.Destination.x, Application.Destination.z), 
+                                 new Vector2(Application.AttributedSoftware.Position.x, Application.AttributedSoftware.Position.z)) < 0.1)
             {
                 Debug.Log("I come to point so sending Confirmation !");
                 float[] dest = new[] { Application.Destination.x, Application.Destination.y, Application.Destination.z };

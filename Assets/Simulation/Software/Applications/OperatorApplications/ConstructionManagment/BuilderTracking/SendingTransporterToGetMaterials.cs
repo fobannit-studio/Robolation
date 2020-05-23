@@ -47,7 +47,14 @@ namespace Simulation.Software
         }
         private void GetControl(Frame frame)
         {
-            Debug.Log("Transporter arrived to Builder");
+            Debug.Log("Transporter arrived to Builder !");
+            var arriveConfirm = new Frame(
+                TransmissionType.Unicast,
+                DestinationRole.Transporter,
+                MessageType.ACK,
+                Message.BringMaterials,
+                destMac: frame.srcMac);
+            AttributedSoftware.Radio.SendFrame(arriveConfirm);
         }
     }
 }

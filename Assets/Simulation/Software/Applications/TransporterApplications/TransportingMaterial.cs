@@ -5,6 +5,10 @@ namespace Simulation.Software
 {
     class TransportingMaterial : CommunicationBasedApplicationState
     {
+        /// <summary>
+        /// Position to which this transporeter should return after he will deliver his materials
+        /// </summary>
+        private Vector3 warehousePosition;
         public TransportingMaterial(Application app) : base(app)
         { }
 
@@ -19,15 +23,26 @@ namespace Simulation.Software
                 );
             AttributedSoftware.Radio.SendFrame(confirmTransportingReadiness); 
         }
-
+        
         public void StartTransporting(string material, int amount)
         {
             Debug.Log($"Start trasnporting {material} in amount {amount}");
+            warehousePosition = AttributedSoftware.Position;
             Send();
         }
         public override void Receive(Frame frame)
         {
-            Debug.Log("Currently transporter in transporting state");
+            // Receive frame, that confirms, that he come to builder
+            if ( frame.message is Message.BringMaterials && frame.messageType is MessageType.ACK) 
+            {
+                Debug.Log("Hurra !  I come to my builder ");
+                GiveMaterialToBuilder();
+                (Application as MaterialTransfering).ReturnToWarehouse(warehousePosition);
+            }
+        }
+        private void GiveMaterialToBuilder() 
+        {
+            Debug.Log("Giving material to builder");
         }
     }
 }
