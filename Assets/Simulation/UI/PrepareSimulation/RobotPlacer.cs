@@ -52,7 +52,6 @@ namespace Simulation.UI
                 var robot = Instantiate(item.assignedRobot.robot.gameObject);
 
                 robot.GetComponent<NavMeshAgent>().Warp(warehouse.transform.position+i*offset);
-
                 placed.Add((item.assignedRobot.soft, robot.GetComponent<Robot>()));
                 i++;
 

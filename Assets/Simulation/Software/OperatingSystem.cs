@@ -46,7 +46,7 @@ namespace Simulation.Software
             else return false;
 
         }
-        public void Init(Robot robot)
+        public virtual void Init(Robot robot)
         {
             attributedRobot = robot;
             attributedRobot.radio.software = this;

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Simulation.Software;
 using System;
 using UnityEngine.Rendering;
+using System.Data;
 
 namespace Simulation
 {
@@ -40,6 +41,7 @@ namespace Simulation
             Buildings = buildings;
             NotAdministratedBuildings = buildings; 
             Warehouses = warehouses;
+            Vector3 offset = new Vector3();
             foreach (var item in robots)
             {
                 item.robot.Init(1000, ether);
@@ -47,6 +49,12 @@ namespace Simulation
                 soft.Init(item.robot);
                 Robots.Add(item.robot);
                 Debug.Log(string.Format("Installed {0} on {1}", item.soft.Name, item.robot.GetType().Name));
+                if (soft.GetType() == typeof(TransporterSoftware))
+                {
+                    Vector3 pos = (soft as TransporterSoftware).FindClosestWarehouse();
+                    item.robot.MoveOrder(pos + offset);
+                    offset.x += 0.5F;
+                }
             }
 
             foreach (var warehouse in warehouses)

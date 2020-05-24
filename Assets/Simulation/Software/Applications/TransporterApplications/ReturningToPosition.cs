@@ -24,6 +24,7 @@ namespace Simulation.Software
                                  new Vector2(Dest.x, Dest.z));
             if (dist < 1)
             {
+                AttributedSoftware.attributedRobot.MoveOrder(AttributedSoftware.Position);
                 (Application as MaterialTransfering).StartWaitingForOrder();
             }
         }

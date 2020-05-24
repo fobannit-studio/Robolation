@@ -42,6 +42,7 @@ namespace Simulation.Software
             }
             else received = false;
         }
+
         public T CreateAppBasedOnFrame<T>(Frame frame, Dictionary<int, T> registrator) where T : Application
            => CreateAppBasedOnFrame<T>(frame.srcMac, registrator);
 
