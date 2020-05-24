@@ -25,7 +25,7 @@ namespace Simulation.UI
             }
             elements.Clear();
         }
-        public T GenerateList(GameObject example)
+        public T AddElement(GameObject example)
         {
             GameObject button = Instantiate(example);
             button.SetActive(true);

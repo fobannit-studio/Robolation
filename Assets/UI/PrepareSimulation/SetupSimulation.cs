@@ -24,6 +24,8 @@ namespace Simulation.UI
 
         [SerializeField]
         private Canvas RobotPlacementCanvas;
+        [SerializeField]
+        private SimulationHUD hud;
 
         [SerializeField]
         private Simulation simulation;
@@ -77,8 +79,10 @@ namespace Simulation.UI
            var  robots= RobotPlacementCanvas.GetComponent<RobotPlacer>().GetResult();
            var warehouses = WarehousePlacerCanvas.GetComponent<WareHousePlacer>().GetWarehouses();
            var buildings = PlacementCanvas.GetComponent<BuildingPlacer>().GetBuildings();
-           simulation.Init(robots, buildings, warehouses);
+           hud.Activate();
 
+           simulation.Init(robots, buildings, warehouses);
+           
         }
     }
 }

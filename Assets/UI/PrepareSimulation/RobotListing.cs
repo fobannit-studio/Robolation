@@ -56,7 +56,7 @@ namespace Simulation.UI
 
         public void AddRobot()
         {
-            var dropdown = dropdowns.GenerateList(dropdown_example);
+            var dropdown = dropdowns.AddElement(dropdown_example);
             dropdown.Init(RobotsModels);
         }
     }

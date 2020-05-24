@@ -75,7 +75,7 @@ namespace Simulation.UI
             foreach (var item in MaterialsNeeded)
             {
         
-                var amount_button = needed.GenerateList(material_need_example);
+                var amount_button = needed.AddElement(material_need_example);
                 amount_button.Init(item.Key, item.Value);
             }
         }
@@ -92,7 +92,7 @@ namespace Simulation.UI
             materials_in_warehouse.ClearList();
             foreach (var material in warehouse.container.GetContent())
             {
-                var amount_button= materials_in_warehouse.GenerateList(material_amount_example);
+                var amount_button= materials_in_warehouse.AddElement(material_amount_example);
                 amount_button.Init(material.Key,material.Value);
                 
             }      
