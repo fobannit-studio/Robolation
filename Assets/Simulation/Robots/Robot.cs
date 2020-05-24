@@ -36,6 +36,11 @@ namespace Simulation.Robots
         protected Container container;
         protected Animator animator;
 
+
+        public abstract int BuildIterations { get; }
+        public int IterationsPassed;
+
+
         public Container MaterialContainer { get => container; }
 
         protected abstract int cointainer_size { get; }
@@ -56,6 +61,10 @@ namespace Simulation.Robots
         virtual public void MoveOrder(Vector3 destination)
         {
             agent.SetDestination(destination);
+        }
+        private void Update()
+        {
+
         }
 
 
@@ -84,6 +93,7 @@ namespace Simulation.Robots
         {
            return container.TryTransferTo(this.container, material, count)!=0;
         }
-       
+    
+
     }
 }
