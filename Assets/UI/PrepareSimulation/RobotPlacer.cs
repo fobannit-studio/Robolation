@@ -36,7 +36,7 @@ namespace Simulation.UI
                 {
                     for (int i = 0; i < tuple.amount; i++)
                     {
-                        var button = remains.GenerateList(PlaceButtonExample);
+                        var button = remains.AddElement(PlaceButtonExample);
                         button.Init((role, tuple.robot), this);
                     }
                 }

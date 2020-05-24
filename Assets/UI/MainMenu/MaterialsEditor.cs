@@ -139,7 +139,7 @@ namespace Simulation.UI
             aviable_mats.ClearList();
             for (int i = 0; i < materials.Count; i++)
             {             
-                var materialButton = aviable_mats.GenerateList(this.MaterialButtonTemplate);
+                var materialButton = aviable_mats.AddElement(this.MaterialButtonTemplate);
                 materialButton.init(materials[i].Type, this, materials[i], i);
             }
             

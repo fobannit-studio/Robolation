@@ -65,7 +65,7 @@ namespace Simulation.UI
         }
         public MaterialDropDown AddMaterial(List<string> options,int amount,int index)
         { 
-            var dropdown = material_dropdowns.GenerateList(MaterialDropdownTemplate);
+            var dropdown = material_dropdowns.AddElement(MaterialDropdownTemplate);
             dropdown.Init(options, amount, index);
             return dropdown;
         }
@@ -85,7 +85,7 @@ namespace Simulation.UI
         {
             for (int i = 0; i < buildings.Count; i++)
             {
-                var building_button = building_buttons.GenerateList(BuildingButtonTemplate);
+                var building_button = building_buttons.AddElement(BuildingButtonTemplate);
                 building_button.init(buildings[i].Name, this, buildings[i], i);
             }
         }
