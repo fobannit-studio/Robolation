@@ -13,7 +13,7 @@ namespace Simulation.Software
         private CommunicationBasedApplicationState working;
 
         protected override bool receiveCondition(Frame frame)
-            => frame.message is Message.BuildNewBuilding;
+            => frame.message is Message.BuildNewBuilding || frame.message is Message.FindFreeBuilders;
         public override void initStates()
         {
             waitingForTask = new WaitingForTask(this);
@@ -24,9 +24,14 @@ namespace Simulation.Software
         public void StartWorking()
         {
             Debug.Log("Start working");
+            UseScheduler = true;
             currentState = working;
         }
-        public void WaitForTask() => currentState = waitingForTask;
+        public void WaitForTask()
+        {
+            UseScheduler = false;
+            currentState = waitingForTask;
+        }
         public void StartWaitingForOrder()
         {
             Debug.Log("Start waiting");

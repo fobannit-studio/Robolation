@@ -52,8 +52,9 @@ namespace Simulation.Software
                             MessageType.Service,
                             Message.BuildNewBuilding,
                             destMac: frame.srcMac);
-            Radio.SendFrame(startBuild);
             StartWaitForMaterialRequst();
+            Radio.SendFrame(startBuild);
+            
         }
         protected override bool receiveCondition(Frame frame)
         {

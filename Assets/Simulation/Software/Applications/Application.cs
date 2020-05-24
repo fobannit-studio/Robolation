@@ -34,10 +34,14 @@ namespace Simulation.Software
             }
         }
         public T CreateAppBasedOnFrame<T>(Frame frame, Dictionary<int, T> registrator) where T : Application
+           => CreateAppBasedOnFrame<T>(frame.srcMac, registrator);
+
+        public T CreateAppBasedOnFrame<T>(int srcMac, Dictionary<int, T> registrator) where T : Application
         {
+            if (registrator.ContainsKey(srcMac)) return registrator[srcMac];
             T newApp = AttributedSoftware.GameObject.AddComponent<T>();
             newApp.installOn(AttributedSoftware);
-            registrator.Add(frame.srcMac, newApp);
+            registrator.Add(srcMac, newApp);
             return newApp;
         }
         public void installOn(RobotOperatingSystem system)

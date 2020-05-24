@@ -10,13 +10,31 @@ namespace Simulation.Software
         // Contains record for every uncompleted move order
         private Dictionary<(float, float, float, int), MovementTracker> movementTrackingThreads
         = new Dictionary<(float, float, float, int), MovementTracker>();
+        //private Queue<(float x, float y, float z, int mac, Action<Frame> action)> pendingOrders = new Queue<(float x, float y, float z, int mac, Action<Frame> action)>();
         public override void initStates()
-        { }
+        {
+            //UseScheduler = true;
+        }
         /// <summary>
         /// Move transporter to position. If transporter is not given - move random transporter from 
         /// its subsribtion list 
         /// </summary>
+        //protected override void DoAction()
+        //{
+        //    if( pendingOrders.Count > 0) 
+        //    {
+        //        var order = pendingOrders.Dequeue();
+        //        MoveToPosition(order.x, order.y, order.z, order.action, order.mac);
+        //    }
+        //}
         public void MoveToPosition(float x, float y, float z, Action<Frame> controlReturn, int targetsMac)
+        {
+            if (movementTrackingThreads.ContainsKey((x, y, z, targetsMac))) return;
+            //pendingOrders.Enqueue((x, y, z, targetsMac, controlReturn));
+            else StartThread(x, y, z, controlReturn, targetsMac);
+
+        }
+        private void StartThread(float x, float y, float z, Action<Frame> controlReturn, int targetsMac) 
         {
             var pos = new[] { x, y, z };
             var movementTrackingThread = AttributedSoftware.GameObject.AddComponent<MovementTracker>();

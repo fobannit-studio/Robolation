@@ -24,8 +24,8 @@ namespace Simulation.Software
                 var findFreeBuilders = new Frame(
                     TransmissionType.Unicast,
                     DestinationRole.Builder,
-                    MessageType.Service,
-                    Message.BuildNewBuilding,
+                    MessageType.Request,
+                    Message.FindFreeBuilders,
                     destMac: builderMac
                     );
                 AttributedSoftware.Radio.SendFrame(findFreeBuilders);
@@ -37,15 +37,9 @@ namespace Simulation.Software
         /// <param name="frame"></param>
         public override void Receive(Frame frame)
         {
-            if( frame.messageType is MessageType.ACK && frame.message is Message.BuildNewBuilding && Application.BuildingsWithoutBuilders.Count > 0) 
+            if( frame.messageType is MessageType.ACK && frame.message is Message.FindFreeBuilders && Application.BuildingsWithoutBuilders.Count > 0) 
             {
-                Debug.Log(frame.srcMac);
-                BuilderTracking ControlThread = Application.CreateAppBasedOnFrame(frame, Application.BuilderTrackingApplications);
-                ControlThread.ManagingApp = Application;
-                ControlThread.AdministratedBuilderMac = frame.srcMac;
-                var buildingPosition = Application.BuildingsWithoutBuilders.Pop().ClosestPoint(AttributedSoftware.Position);
-                builderTrackingThreads.Add(ControlThread);
-                (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z, ControlThread.GetControl, frame.srcMac);
+                AssignBuilderToBuilding(frame.srcMac);
             }
             else if(frame.message is Message.BringMaterials || frame.message is Message.isFree)
             {
@@ -55,5 +49,17 @@ namespace Simulation.Software
                 }
             }
         }
+
+        private void AssignBuilderToBuilding(int builderMac)
+        {
+            Debug.Log(builderMac);
+            BuilderTracking ControlThread = Application.CreateAppBasedOnFrame(builderMac, Application.BuilderTrackingApplications);
+            ControlThread.ManagingApp = Application;
+            ControlThread.AdministratedBuilderMac = builderMac;
+            var buildingPosition = Application.BuildingsWithoutBuilders.Pop().ClosestPoint(AttributedSoftware.Position);
+            builderTrackingThreads.Add(ControlThread);
+            (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z, ControlThread.GetControl, builderMac);
+        }
+
     }
 }

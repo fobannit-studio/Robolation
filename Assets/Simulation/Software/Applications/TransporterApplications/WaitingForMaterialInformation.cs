@@ -1,6 +1,7 @@
 ﻿using Simulation.Common;
 using Simulation.Software;
 using Simulation.Utils;
+using System;
 using UnityEngine;
 namespace Simulation.Software
 {
@@ -27,7 +28,9 @@ namespace Simulation.Software
             else if (frame.message is Message.BringMaterials) 
             {
                 (string material, float amount, _, _) = frame.payload;
-                bool isSuccess = AttributedSoftware.PickUpFromWarehouse(material, (int)amount);
+                var buildingMaterial = BuildingMaterial.existingMaterials[material];
+                AttributedSoftware.attributedRobot.MaterialContainer.GetContent().TryGetValue(buildingMaterial, out int amountInContainer);
+                bool isSuccess = AttributedSoftware.PickUpFromWarehouse(material, Math.Abs((int)amount - amountInContainer));
                 if (isSuccess)
                     (Application as MaterialTransfering).StartTransportingMaterial(material, (int)amount);
                 else

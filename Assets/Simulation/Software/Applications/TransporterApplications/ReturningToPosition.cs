@@ -23,8 +23,7 @@ namespace Simulation.Software
         {
             var dist = Vector2.Distance(new Vector2(AttributedSoftware.Position.x, AttributedSoftware.Position.z),
                                  new Vector2(Dest.x, Dest.z));
-            if (Vector2.Distance(new Vector2(AttributedSoftware.Position.x, AttributedSoftware.Position.z),
-                                 new Vector2(Dest.x, Dest.z)) < 0.8)
+            if (dist < 0.8)
             {
                 (Application as MaterialTransfering).StartWaitingForOrder();
             }

@@ -38,7 +38,8 @@ namespace Simulation.Utils
         Heartbeat,
         BuildNewBuilding,
         BringMaterials,
-        isFree
+        isFree,
+        FindFreeBuilders
     }
     public enum BuildingStatus
     {
