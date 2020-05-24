@@ -14,7 +14,7 @@ namespace Simulation.Software
 
         public override void Receive(Frame frame)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"Received frame {frame} during waiting");
         }
     }
 }

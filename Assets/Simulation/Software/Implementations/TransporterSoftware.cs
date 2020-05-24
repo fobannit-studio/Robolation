@@ -12,9 +12,11 @@ namespace Simulation.Software
         protected override void LoadSoft()
         {
             requiredSoft = new List<Application>
-           {    attributedRobot.gameObject.AddComponent<Movement>(),
-                attributedRobot.gameObject.AddComponent<OperatorTracking>()
-           };
+            {    
+                attributedRobot.gameObject.AddComponent<Movement>(),
+                attributedRobot.gameObject.AddComponent<OperatorTracking>(),
+                attributedRobot.gameObject.AddComponent<MaterialTransfering>()
+            };
         }
     }
 }

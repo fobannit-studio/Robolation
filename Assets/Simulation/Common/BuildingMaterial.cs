@@ -20,8 +20,11 @@ namespace Simulation.Common
             Dimensions = dimensions;
             Volume = dimensions.x * dimensions.y * dimensions.z;
             Weight = weight;
+        }
 
-            
+        public override string ToString()
+        {
+            return Type;
         }
         
     }

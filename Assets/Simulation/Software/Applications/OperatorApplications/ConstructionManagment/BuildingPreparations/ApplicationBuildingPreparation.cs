@@ -10,7 +10,7 @@ namespace Simulation.Software
         /// Builders, this operator control
         /// </summary>
         public IReadOnlyList<int> BuildersMacAddresses { get => buildersMacAddreses.AsReadOnly(); }
-        public IReadOnlyList<int> TransportersMacAddresse { get => transportersMacAddresses.AsReadOnly(); }
+        public IReadOnlyList<int> TransportersMacAddresses { get => transportersMacAddresses.AsReadOnly(); }
         /// <summary>
         /// Contains buildings, for which this operator should assign builders
         /// </summary>

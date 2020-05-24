@@ -3,6 +3,11 @@ using UnityEngine;
 using Simulation.Common;
 using System.Collections.Concurrent;
 using System;
+using Simulation.Utils;
+using System.Security.AccessControl;
+using System.Collections.Concurrent;
+using Unity.Collections.LowLevel.Unsafe;
+
 namespace Simulation.World
 {
     public class Building : MonoBehaviour
@@ -21,7 +26,6 @@ namespace Simulation.World
         private List<Mesh> frames;
         private int frame_iterator;
         private SlotContainer container;
-       
         public string Name;
 
         public void Init(string Name, SlotContainer materials,List<Mesh> frames)
@@ -34,6 +38,17 @@ namespace Simulation.World
             this.Name = Name;
             ClosestPoint = this.GetComponent<MeshRenderer>().bounds.ClosestPoint;
         }
+
+        private int RecalculateMaterial(ConcurrentDictionary<BuildingMaterial, int> content)
+        { 
+            int cnt = 0;
+            foreach( var item in content) 
+            {
+                cnt += item.Value;
+            }
+            return cnt;
+        }
+
         public  Building(string Name, SlotContainer materials, List<Mesh> frames)
         {
             container = materials;
@@ -69,8 +84,13 @@ namespace Simulation.World
         }
         public void SetPreview()
         {
-            meshFilter.mesh = frames[frames.Count - 1];
+            SetFrame(frames.Count-1);
             collider.enabled = false;
+        }
+        public void SetActual()
+        {
+            collider.enabled = true;
+            SetFrame(frame_iterator);
         }
         public ConcurrentDictionary<BuildingMaterial, int> GetRemaining()
         {
@@ -81,17 +101,46 @@ namespace Simulation.World
             return container.GetMax();
         }
 
-        public void Build(int quantity, BuildingMaterial mat)
+        public void Build(IContainer container)
         {
+            Debug.Log("Before building");
 
-            container.Put(mat, quantity);
-            //check for stage increase
+            foreach (var item in this.container.GetContent())
+            {
+                Debug.LogFormat("{0} units of {1}", item.Value, item.Key.Type);
+            }
+
+            foreach (var item in container.GetContent())
+            {
+                
+                if (this.container.GetMax().TryGetValue(item.Key,out int _need))
+                {
+                
+                    container.TryTransferTo(this.container, item.Key, item.Value);
+                }
+
+              
+            }
+            Debug.Log("After building");
+            foreach (var item in this.container.GetContent())
+            {
+                Debug.LogFormat("{0} units of {1}", item.Value, item.Key.Type);
+            }
+            // сделать анимацию
+            int have = RecalculateMaterial(this.container.GetContent());
+            int need =RecalculateMaterial(this.container.GetMax());
+            SetFrame((have  * (frames.Count - 1)/ need));
         }
-
+        public void SetFrame(int frame)
+        {
+            frame_iterator = frame;
+            Animate();
+        }
         public void Animate()
         {
             meshFilter.mesh = frames[frame_iterator];
         }
+        
 
 
     }

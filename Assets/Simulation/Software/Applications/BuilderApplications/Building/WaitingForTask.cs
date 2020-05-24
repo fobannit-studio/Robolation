@@ -13,16 +13,18 @@ namespace Simulation.Software
 
         public override void Receive(Frame frame)
         {
-            Application.StartWorking();
-            Debug.Log("Yo-ho-ho i butylka roma !");
-            var response = new Frame(
-                    TransmissionType.Unicast,
-                    DestinationRole.Operator,
-                    MessageType.ACK,
-                    Message.BuildNewBuilding,
-                    destMac: frame.srcMac
-                );
-            Application.AttributedSoftware.Radio.SendFrame(response);
+            if(frame.message is Message.FindFreeBuilders && frame.messageType is MessageType.Request) 
+            {
+                 Application.StartWorking();
+                //Debug.Log("Yo-ho-ho i butylka roma !");
+                var response = new Frame(
+                        TransmissionType.Unicast,
+                        DestinationRole.Operator,
+                        MessageType.ACK,
+                        Message.FindFreeBuilders,
+                        destMac: frame.srcMac);
+                Application.AttributedSoftware.Radio.SendFrame(response);
+            }
         }
     }
 }

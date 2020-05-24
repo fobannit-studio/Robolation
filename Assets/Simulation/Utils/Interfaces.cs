@@ -1,4 +1,5 @@
 using Simulation.Common;
+using System.Collections.Concurrent;
 using UnityEngine;
 namespace Simulation.Utils
 {
@@ -32,8 +33,13 @@ namespace Simulation.Utils
         /// <exception cref="NoMaterialInContainerException">Thrown when container does not contains this material</exception>
         int Take(BuildingMaterial material, int requestedAmount);
 
+        ConcurrentDictionary<BuildingMaterial, int> GetContent();
+        bool CanTake(BuildingMaterial material, int requestedAmount);
+        bool CanPut(BuildingMaterial material, int requestedAmount);
 
+        bool TransferTo(IContainer container, BuildingMaterial material, int amount);
 
+        int TryTransferTo(IContainer container, BuildingMaterial material, int amount);
 
 
 

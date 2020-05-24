@@ -10,6 +10,10 @@ namespace Simulation.Software
             Application = app as BuildingApplication;
         }
 
+        public WaitingForOrder(Application application) : base(application)
+        {
+        }
+
         public override void Receive(Frame frame)
         {
             // Not used 

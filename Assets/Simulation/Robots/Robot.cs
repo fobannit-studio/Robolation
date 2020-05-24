@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using Simulation.Common;
 using Simulation.Utils;
 using System.Threading.Tasks;
+using System;
+using System.Linq;
+using Simulation.Software;
 
 namespace Simulation.Robots
 {
@@ -24,15 +27,16 @@ namespace Simulation.Robots
         protected float batteryLevel;
         protected float durability;
         protected int workingTime;
-        public float PickupRange { get; protected set; }
+        public float PickupRange;
         public Radio radio;
+
         // public IReceiver controller;
         [SerializeField]
         protected NavMeshAgent agent;
         protected Container container;
         protected Animator animator;
 
-
+        public Container MaterialContainer { get => container; }
 
         protected abstract int cointainer_size { get; }
 
@@ -43,7 +47,7 @@ namespace Simulation.Robots
         {
             batteryLevel = 1.0F;
             container = new Container(cointainer_size);
-            PickupRange = 0.5f;
+            PickupRange = 100;
             animator = GetComponent<Animator>();
             radio = new Radio(radioRange, ether);
         }
@@ -53,36 +57,32 @@ namespace Simulation.Robots
         {
             agent.SetDestination(destination);
         }
-        
 
-        async public Task<bool> PickupObject(Warehouse warehouse,BuildingMaterial material)
+
+        public T NearestToPickup<T>() where T:MonoBehaviour
         {
-            bool result = false;
-            if ((warehouse.transform.position - this.transform.position).magnitude < PickupRange)
-            {
-                
-                animator.SetBool("opening", true);
-                await Task.Delay(1);
-                if (container.CanPut(material, 1))
-                {
-                    if (warehouse.container.CanTake(material, 1))
-                    {
-                        warehouse.container.Take(material, 1);
-                        container.Put(material, 1);
-                        result = true;
-                    }
-                    else result = false;
-                }
-                else result = false;
-
-
-                animator.SetBool("opening", false);
-                await Task.Delay(1);
-                return result;
-              
-            }
+            Debug.Log(this.transform.position);
+            var colliders = FindObjectsOfType<T>();
+            var possible = colliders.Where(x => (x.transform.position - this.transform.position).magnitude <= PickupRange && this!=x)
+                .OrderBy(x => (transform.position - x.transform.position).magnitude).ToList();
+            if (possible.Count == 0)
+                return null;
             else
-                throw new WarehouseNotInRangeException();
+            {
+                return possible[0];
+            }
+        }
+
+
+        public bool PutObject(IContainer container,BuildingMaterial material,int count)
+        {
+
+            return this.container.TryTransferTo(container, material, count)!=0;
+
+        }
+        public bool PickupObject(IContainer container, BuildingMaterial material,int count)
+        {
+           return container.TryTransferTo(this.container, material, count)!=0;
         }
        
     }

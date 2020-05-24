@@ -14,13 +14,14 @@ namespace Simulation.Software
             var frame = new Frame
             (
                 TransmissionType.Unicast,
-                DestinationRole.Builder,
+                DestinationRole.NoMatter,
                 MessageType.Service,
                 Message.MoveTo,
-                payload: payload
+                payload: payload,
+                destMac: (Application as MovementTracker).TargetsMac
             );
             // TODO change on unicast
-            AttributedSoftware.Radio.NotifySubscribers(frame);
+            AttributedSoftware.Radio.SendFrame(frame);
             (Application as MovementTracker).SetWaitingForAck();
         }
         public override void Receive(Frame frame)
