@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace Simulation.Software
 {
@@ -16,17 +17,18 @@ namespace Simulation.Software
         private KeyValuePair<BuildingMaterial, int> currentMaterial;
         private bool requestSent = false;
 
+
         public Working(Application app) : base(app)
         {
             Application = app as BuildingApplication;
+         
 
         }
         public override void Receive(Frame frame)
         {
             if (frame.messageType is MessageType.Service && frame.message is Message.BuildNewBuilding)
             {
-                isWorking = true;
-                currentBuilding = Application.FindBuilding();
+                StartBuilding();
                 var response = new Frame(
                             TransmissionType.Unicast,
                             DestinationRole.Operator,
@@ -48,6 +50,13 @@ namespace Simulation.Software
             
            
 
+        }
+
+        private void StartBuilding()
+        {
+            isWorking = true;
+            AttributedSoftware.attributedRobot.IterationsPassed = 0;
+            currentBuilding = Application.FindBuilding();
         }
 
         private bool CheckMaterials() 
@@ -95,6 +104,8 @@ namespace Simulation.Software
             {
                 if (material.Value - currentBuilding.GetSlotContainer().GetContent()[material.Key] != 0) return false;
             }
+            AttributedSoftware.attributedRobot.IterationsPassed = 0;
+
             return true;
         }
         public override void DoAction()
@@ -116,7 +127,13 @@ namespace Simulation.Software
             // Means that no more materials is needed
             requestSent = false;
             Debug.Log("Robot is starting to build");
-            currentBuilding.Build(AttributedSoftware.attributedRobot.MaterialContainer);
+            AttributedSoftware.attributedRobot.IterationsPassed++;
+            if (AttributedSoftware.attributedRobot.IterationsPassed>= AttributedSoftware.attributedRobot.BuildIterations)
+            {
+                currentBuilding.Build(AttributedSoftware.attributedRobot.MaterialContainer);
+                AttributedSoftware.attributedRobot.IterationsPassed=0;
+            }
+           
         }
     }
 }

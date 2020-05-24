@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,9 @@ namespace Simulation.UI
         private IContainer container;
         private bool isChanged;
         private int container_len;
+
+        [SerializeField]
+        private GameObject BarExample;
 
         void Start()
         {
@@ -143,12 +147,23 @@ namespace Simulation.UI
             Vector3 move = transform.right * x + transform.forward * z + transform.up * y;
             this.transform.position = transform.position + move * Time.deltaTime * speed;
         }
-        internal void Activate()
+        public void Activate()
         {
             isActive = true;
             Cursor.lockState = CursorLockMode.Locked;
             xRotation = transform.eulerAngles.x;
             HUDCanvas.SetActive(true);
+
+
+            var bars = FindObjectsOfType<ProgressBard3D>();
+            foreach (var item in bars)
+            {
+                Debug.Log("updating");
+                var bar = Instantiate(BarExample);
+                bar.transform.parent = HUDCanvas.transform;
+                bar.SetActive(true);
+                item.SetBar(bar.GetComponent<Slider>());
+            }
 
         }
     }
