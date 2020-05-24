@@ -33,6 +33,15 @@ namespace Simulation.Software
                 currentState.Receive(frame);
             }
         }
+        public virtual void ReceiveFrame(Frame frame, out bool received)
+        {
+            if (receiveCondition(frame))
+            {
+                BeforeReceive(frame);
+                currentState.Receive(frame, out received);
+            }
+            else received = false;
+        }
         public T CreateAppBasedOnFrame<T>(Frame frame, Dictionary<int, T> registrator) where T : Application
            => CreateAppBasedOnFrame<T>(frame.srcMac, registrator);
 

@@ -1,6 +1,5 @@
 ﻿using Simulation.Common;
 using Simulation.Utils;
-using System.Security.Cryptography;
 using UnityEngine;
 namespace Simulation.Software
 {
@@ -23,7 +22,7 @@ namespace Simulation.Software
         {
             var dist = Vector2.Distance(new Vector2(AttributedSoftware.Position.x, AttributedSoftware.Position.z),
                                  new Vector2(Dest.x, Dest.z));
-            if (dist < 0.8)
+            if (dist < 1)
             {
                 (Application as MaterialTransfering).StartWaitingForOrder();
             }

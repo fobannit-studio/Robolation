@@ -41,11 +41,12 @@ namespace Simulation.Software
             {
                 AssignBuilderToBuilding(frame.srcMac);
             }
-            else if(frame.message is Message.BringMaterials || frame.message is Message.isFree)
+            else if(frame.message is Message.BringMaterials || frame.message is Message.isFree || frame.message is Message.StartTransporting)
             {
                 foreach(var thread in builderTrackingThreads) 
                 {
-                    thread.ReceiveFrame(frame);
+                    thread.ReceiveFrame(frame, out bool received);
+                    if (received) break;
                 }
             }
         }

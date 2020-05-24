@@ -27,8 +27,9 @@ namespace Simulation.Software
         }
         public void StartWaitingForOrder()
         {
+            UseScheduler = true;
             currentState = waitingForOrder;
-            UseScheduler = false;
+            
         }
         public void StartWaitingForMaterialInfo()
         {
@@ -44,7 +45,9 @@ namespace Simulation.Software
 
         protected override bool receiveCondition(Frame frame)
         {
-            return frame.message is Message.isFree || frame.message is Message.BringMaterials;
+            return frame.message is Message.isFree 
+                   || frame.message is Message.BringMaterials 
+                   || frame.message is Message.StartTransporting;
         }
         public Vector3 FindWarehouse()
         {

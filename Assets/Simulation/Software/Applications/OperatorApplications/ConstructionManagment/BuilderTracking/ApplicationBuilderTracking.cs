@@ -41,7 +41,7 @@ namespace Simulation.Software
         
         public void GetControl(Frame frame) 
         {
-            //if (frame.srcMac != AdministratedBuilderMac) return;
+            if (frame.srcMac != AdministratedBuilderMac) return;
             UseScheduler = false;
             (float x, float y, float z) = frame.payload;
             AdministratedBuilderPosition = new Vector3(x, y, z);

@@ -39,7 +39,8 @@ namespace Simulation.Utils
         BuildNewBuilding,
         BringMaterials,
         isFree,
-        FindFreeBuilders
+        FindFreeBuilders,
+        StartTransporting
     }
     public enum BuildingStatus
     {
