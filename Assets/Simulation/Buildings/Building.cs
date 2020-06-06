@@ -27,7 +27,7 @@ namespace Simulation.World
         private int frame_iterator;
         private SlotContainer container;
         public string Name;
-
+        public bool IsFinished { get; set; } = false;
         public void Init(string Name, SlotContainer materials,List<Mesh> frames)
         {
 

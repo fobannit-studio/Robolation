@@ -47,7 +47,10 @@ namespace Simulation.Software
         {
             var stack = BuildingsWithoutBuilders ?? new Stack<Building>();
             var canTake = MaxAdministratedBuildingNumber - stack.Count;
-            List<Building> buildingsToAdministrate = buildings.Where(IsInMyRange).Take(canTake).ToList();
+            List<Building> buildingsToAdministrate = buildings
+                                                    .Where(x => IsInMyRange(x) && !x.IsFinished)
+                                                    .Take(canTake)
+                                                    .ToList();
             foreach (var building in buildingsToAdministrate)
                 stack.Push(building);
             buildings = buildings.Except(buildingsToAdministrate).ToList();
@@ -88,6 +91,8 @@ namespace Simulation.Software
         {
             if (BuildingsWithoutBuilders.Count > 0)
                 currentState.Send();
+            else
+                FindBuildings(ref Simulation.NotAdministratedBuildings);
             IdentifySubsribers();
         }
     }
