@@ -19,5 +19,9 @@ namespace Simulation.World
         {
             return meshCollider.bounds.ClosestPoint(pos);
         }
+        public void FillWithMaterials()
+        {
+            container = new SlotContainer(container.GetMax(), true);
+        }
     }
 }

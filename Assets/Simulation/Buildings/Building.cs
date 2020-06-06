@@ -27,6 +27,7 @@ namespace Simulation.World
         private int frame_iterator;
         private SlotContainer container;
         public string Name;
+        public bool isFinished { get; private set; }
 
         public void Init(string Name, SlotContainer materials,List<Mesh> frames)
         {
@@ -47,6 +48,11 @@ namespace Simulation.World
                 cnt += item.Value;
             }
             return cnt;
+        }
+        public void ClearMaterials()
+        {
+            SetContainer(new SlotContainer(this.container.GetMax()));
+
         }
 
         public  Building(string Name, SlotContainer materials, List<Mesh> frames)
@@ -130,7 +136,17 @@ namespace Simulation.World
             int have = RecalculateMaterial(this.container.GetContent());
             int need =RecalculateMaterial(this.container.GetMax());
             SetFrame((have  * (frames.Count - 1)/ need));
+
+            if (have == need)
+            {
+                isFinished = true;
+                FindObjectOfType<Simulation>().BuildingFinished();
+                
+            }
+                
+
         }
+     
         public void SetFrame(int frame)
         {
             frame_iterator = frame;

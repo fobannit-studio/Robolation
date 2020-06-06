@@ -153,17 +153,22 @@ namespace Simulation.UI
             Cursor.lockState = CursorLockMode.Locked;
             xRotation = transform.eulerAngles.x;
             HUDCanvas.SetActive(true);
-
-
             var bars = FindObjectsOfType<ProgressBard3D>();
             foreach (var item in bars)
             {
-                Debug.Log("updating");
+
                 var bar = Instantiate(BarExample);
                 bar.transform.parent = HUDCanvas.transform;
                 bar.SetActive(true);
                 item.SetBar(bar.GetComponent<Slider>());
             }
+
+        }
+        public void Deactivate()
+        {
+            isActive = false;
+            Cursor.lockState = CursorLockMode.None;
+            HUDCanvas.SetActive(false);
 
         }
     }
