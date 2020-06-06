@@ -7,27 +7,33 @@ using Simulation.Software;
 using System;
 using UnityEngine.Rendering;
 using System.Data;
+using System.Linq;
+using Simulation.UI;
 
 namespace Simulation
 {
+    public struct SimulationParameters
+    {
+        public List<(Type soft, Robot robot)> robots;
+        public List<Building> buildings;
+        public List<Warehouse> warehouses;
+    }
     public class Simulation : MonoBehaviour
 
 
     {
 
-
+        public float PassedTime { get; private set; }
         [SerializeField]
         private Light DirectionalLight;
         [SerializeField]
         private LightingPreset preset;
-
         [SerializeField, Range(0, 24)]
         private float TimeOfDay;
         [SerializeField]
         private Light NightLight;
-
-
-
+        [SerializeField]
+        private Summary summary;
 
         public static List<Robot> Robots { get; private set; } = new List<Robot>();
         public static List<Building> Buildings { get; private set; } = new List<Building>();
@@ -35,14 +41,19 @@ namespace Simulation
         public static List<Warehouse> Warehouses { get; private set; } = new List<Warehouse>();
         public bool CycleActive { get; private set; }
 
-        public void Init(List<(Type soft, Robot robot)> robots, List<Building> buildings, List<Warehouse> warehouses)
+
+
+        public void Init(SimulationParameters parameters)
         {
             Medium ether = new Medium();
-            Buildings = buildings;
-            NotAdministratedBuildings = buildings; 
-            Warehouses = warehouses;
+            PassedTime = 0;
+            TimeOfDay = 0;
+
+            Buildings = parameters.buildings;
+            NotAdministratedBuildings = parameters.buildings; 
+            Warehouses = parameters.warehouses;
             Vector3 offset = new Vector3();
-            foreach (var item in robots)
+            foreach (var item in parameters.robots)
             {
                 item.robot.Init(1000, ether);
                 var soft = Activator.CreateInstance(item.soft) as RobotOperatingSystem;
@@ -57,18 +68,23 @@ namespace Simulation
                 }
             }
 
-            foreach (var warehouse in warehouses)
+            foreach (var warehouse in parameters.warehouses)
             {
                 warehouse.SetPreview(false);
+                warehouse.FillWithMaterials();
+
             }
-            foreach (var building in buildings)
+            foreach (var building in parameters.buildings)
             {
+                building.ClearMaterials();
                 building.SetFrame(0);
                 building.SetActual();
             }
             CycleActive = true;
 
-        
+
+
+
         }
         private void Update()
         {  if (!CycleActive) return;
@@ -78,10 +94,13 @@ namespace Simulation
             TimeOfDay += Time.deltaTime/10;
             TimeOfDay %= 24;
             UpdateLighting(TimeOfDay / 24f);
-
-          
-
+            PassedTime += Time.deltaTime;
         }
+
+
+
+
+
         void UpdateLighting(float timePercent)
         {
             RenderSettings.ambientLight = preset.AmbientColor.Evaluate(timePercent);
@@ -113,14 +132,21 @@ namespace Simulation
                     {
                         DirectionalLight = light;
                         return;
-                    }
-                      
-
-                    
+                    }    
                 }
-            }
-              
+            }     
+        }
+        public void BuildingFinished()
+        {
+            Debug.Log("Fiinished");
+            Debug.Log($"Buildins built {Buildings.Where(x => x.isFinished).Count()}");
+            Debug.Log($"Total count {Buildings.Count}");
 
+            if (Buildings.Where(x=>x.isFinished).Count()==Buildings.Count)
+            {
+                CycleActive = false;
+                summary.Finished(this);
+            }
         }
     }
 }

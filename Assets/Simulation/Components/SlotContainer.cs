@@ -15,7 +15,6 @@ public class SlotContainer : IContainer
     {
         MaxMaterials = Max;
         currentMaterials = new ConcurrentDictionary<BuildingMaterial, int>();
-
         foreach (var item in MaxMaterials.Keys)
         {
             currentMaterials.TryAdd(item, 0);
