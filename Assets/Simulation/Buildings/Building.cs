@@ -27,11 +27,12 @@ namespace Simulation.World
         private int frame_iterator;
         private SlotContainer container;
         public string Name;
-        public bool isFinished { get; private set; }
+
+        public bool isFinished { get; private set; } =false;
 
         public void Init(string Name, SlotContainer materials,List<Mesh> frames)
         {
-
+            isFinished=false;
             container = materials;   
             this.frames = frames;
             stage = 0;
@@ -143,6 +144,8 @@ namespace Simulation.World
                 FindObjectOfType<Simulation>().BuildingFinished();
                 
             }
+            else
+                isFinished=false;
                 
 
         }
