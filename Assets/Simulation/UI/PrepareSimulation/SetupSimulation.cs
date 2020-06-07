@@ -71,6 +71,7 @@ namespace Simulation.UI
             }  
 
         }
+       
         public void StartSimulation()
         {
 
@@ -80,8 +81,8 @@ namespace Simulation.UI
            var warehouses = WarehousePlacerCanvas.GetComponent<WareHousePlacer>().GetWarehouses();
            var buildings = PlacementCanvas.GetComponent<BuildingPlacer>().GetBuildings();
            hud.Activate();
-
-           simulation.Init(robots, buildings, warehouses);
+            SimulationParameters par = new SimulationParameters { buildings = buildings, warehouses = warehouses, robots = robots };
+           simulation.Init(par);
            
         }
     }
