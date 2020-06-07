@@ -48,7 +48,7 @@ namespace Simulation.Software
             var stack = BuildingsWithoutBuilders ?? new Stack<Building>();
             var canTake = MaxAdministratedBuildingNumber - stack.Count;
             List<Building> buildingsToAdministrate = buildings
-                                                    .Where(x => IsInMyRange(x) && !x.IsFinished)
+                                                    .Where(x => IsInMyRange(x) && !x.isFinished)
                                                     .Take(canTake)
                                                     .ToList();
             foreach (var building in buildingsToAdministrate)
