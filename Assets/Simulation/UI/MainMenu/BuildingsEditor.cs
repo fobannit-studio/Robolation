@@ -74,6 +74,9 @@ namespace Simulation.UI
             this.gameObject.SetActive(true);
             FileManager.ReadMaterials();
             buildings = FileManager.ReadBuildings();
+            if (building_buttons && material_dropdowns)
+                Refresh();
+        
             building_buttons = new ScrollViewManager<BuildingButton>();
             material_dropdowns = new ScrollViewManager<MaterialDropDown>();
             this.testGameObject.SetActive(true);

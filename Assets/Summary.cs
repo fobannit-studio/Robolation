@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -31,7 +33,7 @@ namespace Simulation.UI
             }
             foreach (var name in used_robots.Distinct())
             {
-                builder.AppendLine($"{name}: {used_robots.Where(x => x == name).Count()}x");
+                builder.AppendLine($"{name}: {used_robots.Where(x => x == name).Count()}");
             }
             builder.AppendLine("Buildings built");
             List<string> buildings = new List<string>();
@@ -41,14 +43,14 @@ namespace Simulation.UI
             }
             foreach (var name in buildings.Distinct())
             {
-                builder.AppendLine($"{name}: {buildings.Where(x => x == name).Count()}x");
+                builder.AppendLine($"{name}: {buildings.Where(x => x == name).Count()}");
             }
             text.text = builder.ToString();
 
         }
         public void SaveSummary()
         {
-
+            File.WriteAllText($"{DateTime.Now.DayOfYear}:{DateTime.Now.Hour}:{DateTime.Now.Minute}",text.text);
         }
         public void Repeat()
         {

@@ -48,7 +48,7 @@ namespace Simulation
             Medium ether = new Medium();
             PassedTime = 0;
             TimeOfDay = 0;
-
+    
             Buildings = parameters.buildings;
             NotAdministratedBuildings = parameters.buildings; 
             Warehouses = parameters.warehouses;
