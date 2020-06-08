@@ -19,6 +19,7 @@ namespace Simulation.Software
             waitingForMaterialInfo = new WaitingForMaterialInformation(this);
             waitingForOrder = new WaitingForTransportOrders(this);
             returningToPosition = new ReturningToPosition(this);
+            Frequence = 0.5F;
             StartWaitingForOrder();
         }
         public void StartTransportingMaterial(string material, int amount) {
