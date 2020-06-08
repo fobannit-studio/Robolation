@@ -38,6 +38,7 @@ namespace Simulation.Robots
 
 
         public abstract int BuildIterations { get; }
+        [HideInInspector]
         public int IterationsPassed;
 
 

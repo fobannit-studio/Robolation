@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37e52b2e228fbd44a65346700550da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickupRange: 0
+  PickupRange: 5
   agent: {fileID: 6955606268430504723}
   IterationsPassed: 0
   Rotors:

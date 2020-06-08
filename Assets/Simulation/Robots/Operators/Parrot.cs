@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Simulation.Robots
 {
-    class Bzhmil : Robot
+    class Parrot : Robot
     {
 
 
