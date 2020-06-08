@@ -47,8 +47,13 @@ namespace Simulation.Software
                             destMac: frame.srcMac);
                 Application.AttributedSoftware.Radio.SendFrame(response);
             }
-            
-           
+            else if (frame.messageType is MessageType.NACK && frame.message is Message.FindFreeBuilders)
+            {
+                /// If builder was already found
+                isWorking = false;
+                Application.WaitForTask();
+            }
+
 
         }
 
@@ -114,7 +119,7 @@ namespace Simulation.Software
             if (IsBuildingBuilt()) 
             {
                 isWorking = false;
-                (Application as BuildingApplication).WaitForTask();
+                Application.WaitForTask();
                 return;
             }
 

@@ -1,6 +1,7 @@
 ﻿using Simulation.Common;
 using Simulation.Robots;
 using Simulation.Utils;
+using System.Linq;
 using UnityEngine;
 namespace Simulation.Software
 {
@@ -43,10 +44,17 @@ namespace Simulation.Software
                 (Application as MaterialTransfering).ReturnToWarehouse(warehousePosition);
             }
         }
+        private Robot FindBuilder()
+        {
+            var robot = Simulation.Robots
+                       .Where(x => x.radio.macAddress == (Application as MaterialTransfering).TargetBuilder)
+                       .FirstOrDefault();
+            return robot;
+        }
         private void GiveMaterialToBuilder() 
         {
             Debug.Log("Giving material to builder");
-            var builder = AttributedSoftware.attributedRobot.NearestToPickup<Robot>();
+            var builder = FindBuilder();
             if (builder)
             {
                 var to_give = AttributedSoftware.attributedRobot.MaterialContainer.GetContent();

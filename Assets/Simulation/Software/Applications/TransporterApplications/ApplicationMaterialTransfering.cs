@@ -12,6 +12,7 @@ namespace Simulation.Software
         private WaitingForTransportOrders waitingForOrder;
         private WaitingForMaterialInformation waitingForMaterialInfo;
         private ReturningToPosition returningToPosition; 
+        public int TargetBuilder { get; set; }
         public override void initStates()
         {
             transportingMaterial = new TransportingMaterial(this);

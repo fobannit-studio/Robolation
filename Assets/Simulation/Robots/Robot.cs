@@ -68,7 +68,7 @@ namespace Simulation.Robots
         }
 
 
-        public T NearestToPickup<T>() where T:MonoBehaviour
+        public T NearestToPickup<T>() where T : MonoBehaviour
         {
             Debug.Log(this.transform.position);
             var colliders = FindObjectsOfType<T>();

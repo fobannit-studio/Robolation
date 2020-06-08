@@ -37,9 +37,19 @@ namespace Simulation.Software
         /// <param name="frame"></param>
         public override void Receive(Frame frame)
         {
-            if( frame.messageType is MessageType.ACK && frame.message is Message.FindFreeBuilders && Application.BuildingsWithoutBuilders.Count > 0) 
+            if( frame.messageType is MessageType.ACK && frame.message is Message.FindFreeBuilders && Application.BuildingsWithoutBuilders.Count > 0 ) 
             {
                 AssignBuilderToBuilding(frame.srcMac);
+            }
+            else if (frame.messageType is MessageType.ACK && frame.message is Message.FindFreeBuilders && Application.BuildingsWithoutBuilders.Count == 0)
+            {
+                var response = new Frame(
+                    TransmissionType.Unicast,
+                    DestinationRole.Builder,
+                    MessageType.NACK,
+                    Message.FindFreeBuilders,
+                    destMac: frame.srcMac);
+                AttributedSoftware.Radio.SendFrame(response);
             }
             else if(frame.message is Message.BringMaterials || frame.message is Message.isFree || frame.message is Message.StartTransporting)
             {
@@ -57,7 +67,9 @@ namespace Simulation.Software
             BuilderTracking ControlThread = Application.CreateAppBasedOnFrame(builderMac, Application.BuilderTrackingApplications);
             ControlThread.ManagingApp = Application;
             ControlThread.AdministratedBuilderMac = builderMac;
-            var buildingPosition = Application.BuildingsWithoutBuilders.Pop().ClosestPoint(AttributedSoftware.Position);
+            var building = Application.BuildingsWithoutBuilders[Application.BuildingsWithoutBuilders.Count - 1];
+            Application.BuildingsWithoutBuilders.Remove(building);
+            var buildingPosition = building.ClosestPoint(AttributedSoftware.Position);
             builderTrackingThreads.Add(ControlThread);
             (AttributedSoftware as OperatorSoftware).MoveOrder.MoveToPosition(buildingPosition.x, buildingPosition.y, buildingPosition.z, ControlThread.GetControl, builderMac);
         }

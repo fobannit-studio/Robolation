@@ -27,6 +27,7 @@ namespace Simulation.Software
             }
             else if (frame.message is Message.StartTransporting && frame.messageType is MessageType.Request && isWaitingForConfirm) 
             {
+                (Application as MaterialTransfering).TargetBuilder = (int)frame.payload.floatPayload[0];
                 var confirmStart = new Frame(
                     TransmissionType.Unicast,
                     DestinationRole.Operator,

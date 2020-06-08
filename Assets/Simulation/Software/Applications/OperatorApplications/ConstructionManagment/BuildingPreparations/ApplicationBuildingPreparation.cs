@@ -6,7 +6,7 @@ namespace Simulation.Software
 {
     class BuildingPreparation : Application
     {
-
+        private bool allBuildingsAssigned = false;
         private List<Vector3> patrolPoints = new List<Vector3>();
         private int currentPoint;
         /// <summary>
@@ -17,7 +17,7 @@ namespace Simulation.Software
         /// <summary>
         /// Contains buildings, for which this operator should assign builders
         /// </summary>
-        public Stack<Building> BuildingsWithoutBuilders { get; private set; }
+        public List<Building> BuildingsWithoutBuilders { get; private set; }
         /// <summary>
         /// Dictionary with buildings of builder tracking threads, to redirect received frames to appropriate threa.
         /// Key - mac of tracked builder
@@ -48,14 +48,15 @@ namespace Simulation.Software
         /// <param name="buildings">List of buildings</param>
         private void FindBuildings(ref List<Building> buildings)
         {
-            var stack = BuildingsWithoutBuilders ?? new Stack<Building>();
-            var canTake = MaxAdministratedBuildingNumber - stack.Count;
+            var list = BuildingsWithoutBuilders ?? new List<Building>();
+            var canTake = MaxAdministratedBuildingNumber - list.Count;
             List<Building> buildingsToAdministrate = buildings
                                                     .Where(x => IsInMyRange(x) && !x.isFinished)
                                                     .Take(canTake)
                                                     .ToList();
             foreach (var building in buildingsToAdministrate)
-                stack.Push(building);
+                list.Add(building);
+            allBuildingsAssigned = list.Count == 0;
             buildings = buildings.Except(buildingsToAdministrate).ToList();
         }
         /// <summary>
@@ -86,7 +87,7 @@ namespace Simulation.Software
             assigningBuilders = new AssigningBuilders(this);
             currentState = assigningBuilders;
             UseScheduler = true;
-            BuildingsWithoutBuilders = new Stack<Building>();
+            BuildingsWithoutBuilders = new List<Building>();
             FindBuildings(ref Simulation.NotAdministratedBuildings);
             FindWarehouses();
         }
@@ -119,10 +120,27 @@ namespace Simulation.Software
                 if (patrolPoints.Count != 0)
                     AttributedSoftware.attributedRobot.MoveOrder(patrolPoints[0]);
             }
-            else if (Vector3.Distance(AttributedSoftware.Position, patrolPoints[currentPoint]) < 0.1)
+            else if (Vector3.Distance(AttributedSoftware.Position, patrolPoints[currentPoint]) < 0.4)
             {
                 currentPoint += 1;
+                CheckBuilding();
                 AttributedSoftware.attributedRobot.MoveOrder(patrolPoints[currentPoint]);
+            }
+        }
+
+        private void CheckBuilding() 
+        { 
+            if (allBuildingsAssigned) 
+            {
+                Building building = Simulation.Buildings
+                                    .Where(x => Vector3.Distance(x.ClosestPoint(AttributedSoftware.Position),
+                                                                 AttributedSoftware.Position) <= 0.5)
+                                    .FirstOrDefault();
+                if (building == null) return;
+                if (!BuildingsWithoutBuilders.Contains(building) && !building.isFinished)
+                    BuildingsWithoutBuilders.Add(building);
+                else if (building.isFinished)
+                    BuildingsWithoutBuilders.Remove(building);
             }
         }
     }

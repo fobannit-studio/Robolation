@@ -24,7 +24,8 @@ namespace Simulation.Software
                     DestinationRole.Transporter,
                     MessageType.Request,
                     Message.StartTransporting,
-                    destMac: frame.srcMac);
+                    destMac: frame.srcMac,
+                    payload: new Payload((Application as BuilderTracking).AdministratedBuilderMac));
                 waitingForConfirmFromMac = frame.srcMac;
                 AttributedSoftware.Radio.SendFrame(orderStart);
             }
