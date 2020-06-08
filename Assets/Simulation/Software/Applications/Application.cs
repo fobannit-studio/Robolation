@@ -7,6 +7,7 @@ namespace Simulation.Software
 {
     public abstract class Application : MonoBehaviour
     {
+        protected float Frequence { get; set; } = 2.0F;
         private IEnumerator scheduler;
         protected CommunicationBasedApplicationState currentState;
         public RobotOperatingSystem AttributedSoftware;
@@ -58,7 +59,7 @@ namespace Simulation.Software
         {
             this.AttributedSoftware = system;
             Radio = system.attributedRobot.radio;
-            scheduler = Scheduler(2.0f);
+            scheduler = Scheduler(Frequence);
             initStates();
         }
         private IEnumerator Scheduler(float waitTime)

@@ -8,7 +8,7 @@ namespace Simulation.Software
         protected override DestinationRole IReceive => DestinationRole.Operator;
         protected override void LoadSoft()
         {
-            attributedRobot.radio.maxListenersNumber = 15;
+            attributedRobot.radio.maxListenersNumber = 100;
             requiredSoft = new List<Application>
             {
                attributedRobot.gameObject.AddComponent<Subscriber>(),

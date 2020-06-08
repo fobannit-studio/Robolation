@@ -29,7 +29,9 @@ namespace Simulation.Software
         public void StartTransporting(string material, int amount)
         {
             Debug.Log($"Start trasnporting {material} in amount {amount}");
-            warehousePosition = (Application as MaterialTransfering).FindWarehouse();
+            warehousePosition = (Application as MaterialTransfering).FindWarehouse() + new Vector3(Random.Range(0, 1),
+                                                                                                   0,
+                                                                                                   Random.Range(0, 1));
 
             Send();
 
