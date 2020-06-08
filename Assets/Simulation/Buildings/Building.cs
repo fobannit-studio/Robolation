@@ -53,6 +53,8 @@ namespace Simulation.World
         public void ClearMaterials()
         {
             SetContainer(new SlotContainer(this.container.GetMax()));
+            isFinished = false;
+            SetFrame(0);
 
         }
 

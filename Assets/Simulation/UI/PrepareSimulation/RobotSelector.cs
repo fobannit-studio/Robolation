@@ -18,7 +18,13 @@ namespace Simulation.UI
 
         private void Start()
         {
-            
+
+            Init();
+
+
+        }
+        private void Init()
+        {
             robots_dict = new Dictionary<string, Robot>();
             robots_names = new List<string>();
             foreach (var item in FileManager.Robots)
@@ -30,8 +36,10 @@ namespace Simulation.UI
             listings[0].Init(typeof(BuilderSoftware), robots_names, robots_dict);
             listings[1].Init(typeof(OperatorSoftware), robots_names, robots_dict);
             listings[2].Init(typeof(TransporterSoftware), robots_names, robots_dict);
-
-
+        }
+        private void OnEnable()
+        {
+            Init();
         }
         public Dictionary<Type,List<(Robot robot,int amount)>> GetSelectedRobots()
         {

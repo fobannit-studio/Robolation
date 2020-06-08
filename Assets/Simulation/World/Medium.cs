@@ -23,6 +23,10 @@ namespace Simulation.World
                 Broadcast(message, senderPosition, senderRange);
             }
         }
+        public Medium()
+        {
+            freeMac = 0;
+        }
 
         private void Broadcast(Frame message, Vector3 senderPosition, float senderRange)
         {

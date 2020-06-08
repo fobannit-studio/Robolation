@@ -56,7 +56,7 @@ namespace Simulation.UI
         {
             foreach (var item in Simulation.Robots)
             {
-              
+                
                 Destroy(item.gameObject);
             }
             Simulation.Robots.Clear();
