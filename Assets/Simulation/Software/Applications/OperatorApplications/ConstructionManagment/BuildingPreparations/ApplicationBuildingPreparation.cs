@@ -6,6 +6,9 @@ namespace Simulation.Software
 {
     class BuildingPreparation : Application
     {
+
+        private List<Vector3> patrolPoints = new List<Vector3>();
+        private int currentPoint;
         /// <summary>
         /// Builders, this operator control
         /// </summary>
@@ -94,6 +97,33 @@ namespace Simulation.Software
             else
                 FindBuildings(ref Simulation.NotAdministratedBuildings);
             IdentifySubsribers();
+            Patrol();
+        }
+        private void UpdatePatrolPoints()
+        {
+            foreach( var building in BuildingsWithoutBuilders) 
+            {
+                var point = (building.ClosestPoint(AttributedSoftware.Position) + new Vector3(0.1F, 0, 0.1F));
+                if (!patrolPoints.Contains(point)) 
+                {
+                    patrolPoints.Add(point);
+                }
+            }
+            currentPoint = 0;
+        }
+        private void Patrol()
+        {
+            if (currentPoint >= patrolPoints.Count - 1)
+            {
+                UpdatePatrolPoints();
+                if (patrolPoints.Count != 0)
+                    AttributedSoftware.attributedRobot.MoveOrder(patrolPoints[0]);
+            }
+            else if (Vector3.Distance(AttributedSoftware.Position, patrolPoints[currentPoint]) < 0.1)
+            {
+                currentPoint += 1;
+                AttributedSoftware.attributedRobot.MoveOrder(patrolPoints[currentPoint]);
+            }
         }
     }
 }
